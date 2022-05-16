@@ -16,7 +16,7 @@ const packageJson = JSON.parse(
 // TODO handle light / dark mode for colors
 // eslint-disable-next-line no-console
 console.log(
-  chalkTemplate`{rgb(236,255,0).bold ${figlet.textSync('kickstartDS', {
+  chalkTemplate`{#ecff00.bold ${figlet.textSync('kickstartDS', {
     font: 'Standard',
     horizontalLayout: 'default',
     verticalLayout: 'default'
