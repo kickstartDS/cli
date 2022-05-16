@@ -1,0 +1,12 @@
+diff --git a/node_modules/@influxdata/influxdb-client/package.json b/node_modules/@influxdata/influxdb-client/package.json
+index eb46d4e..1918d79 100644
+--- a/node_modules/@influxdata/influxdb-client/package.json
++++ b/node_modules/@influxdata/influxdb-client/package.json
+@@ -30,6 +30,7 @@
+       "import": "./dist/index.mjs",
+       "require": "./dist/index.js",
+       "deno": "./dist/index.browser.mjs",
++      "types": "./dist/all.d.ts",
+       "browser": {
+         "import": "./dist/index.browser.mjs",
+         "require": "./dist/index.browser.js",

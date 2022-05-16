@@ -1,0 +1,15 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "target": "es2017",
+    "module": "NodeNext",
+    "declaration": true,
+    "outDir": "dist"
+  },
+  "include": ["index.ts", "src/**/*", "types/**/*.d.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

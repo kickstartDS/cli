@@ -1,0 +1,108 @@
+{
+  "name": "kickstartds",
+  "version": "0.0.1-beta.1",
+  "description": "kickstartDS CLI utility",
+  "keywords": [],
+  "author": "Jonas Ulrich | ruhmesmeile GmbH",
+  "license": "UNLICENSED",
+  "bin": {
+    "kickstartDS": "bin/index.js",
+    "ksDS": "bin/index.js"
+  },
+  "main": "bin/index.js",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "node": ">=18.1",
+  "type": "module",
+  "scripts": {
+    "copy-env-file": "[ ! -f .env ] && cp .env-example .env || true",
+    "eslint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
+    "find-licenses": "node ./scripts/license.js",
+    "format": "prettier --write .",
+    "git-config": "git config --local include.path ../.gitconfig",
+    "husky-commit-msg": "commitlint -E GIT_PARAMS",
+    "husky-pre-commit": "lint-staged",
+    "lint": "run-p eslint",
+    "patch-package": "patch-package",
+    "postinstall": "run-p patch-package git-config copy-env-file",
+    "prepare": "husky install",
+    "staged": "git diff --name-only --cached | grep 'kickstartds' | cut -d / -f 3 | awk '!seen[$0]++'",
+    "start": "tsc && node dist/index.js"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,md,json,scss}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    },
+    "unsafe-perm": true
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.25.0",
+    "@influxdata/influxdb-client-apis": "^1.25.0",
+    "byline": "^5.0.0",
+    "chalk": "^5.0.1",
+    "chalk-template": "^0.4.0",
+    "change-case": "^4.1.2",
+    "commander": "^9.2.0",
+    "cosmiconfig": "^7.0.1",
+    "dockerode": "^3.3.1",
+    "dotenv": "^16.0.1",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.4",
+    "json-schema": "^0.4.0",
+    "json-schema-traverse": "^1.0.0",
+    "npm-run-all": "^4.1.5",
+    "nunjucks": "^3.2.3",
+    "omelette": "^0.4.17",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "pretty-ms": "^7.0.1",
+    "progress": "^2.0.3",
+    "rxjs": "^7.5.5",
+    "shelljs": "^0.8.5",
+    "simple-git": "^3.7.1",
+    "ts-deepmerge": "^2.0.1",
+    "typescript": "^4.8.0-dev.20220512",
+    "uuid": "^8.3.2",
+    "winston": "^3.7.2",
+    "winston-transport": "^4.5.0",
+    "yarn": "^1.22.18"
+  },
+  "devDependencies": {
+    "@auto-it/all-contributors": "^10.36.5",
+    "@auto-it/first-time-contributor": "^10.36.5",
+    "@auto-it/npm": "^10.36.5",
+    "@auto-it/released": "^10.36.5",
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@kickstartds/eslint-config": "^1.0.2",
+    "@types/byline": "^4.2.33",
+    "@types/dockerode": "^3.3.9",
+    "@types/figlet": "^1.5.4",
+    "@types/inquirer": "^8.2.1",
+    "@types/nunjucks": "^3.2.1",
+    "@types/omelette": "^0.4.1",
+    "@types/progress": "^2.0.5",
+    "@types/shelljs": "^0.8.11",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/parser": "^5.23.0",
+    "auto": "^10.36.5",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.6.2"
+  }
+}

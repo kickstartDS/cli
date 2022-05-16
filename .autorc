@@ -1,0 +1,22 @@
+{
+  "author": "Jonas Ulrich <jonas.ulrich@kickstartds.com>",
+  "baseBranch": "master",
+  "prereleaseBranches": [
+    "next",
+    "beta"
+  ],
+  "plugins": [
+    "npm",
+    [
+      "all-contributors",
+      {
+        "exclude": [
+          "dependabot",
+          "dependabot[bot]"
+        ]
+      }
+    ],
+    "first-time-contributor",
+    "released"
+  ]
+}
