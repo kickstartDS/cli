@@ -1,7 +1,8 @@
-import inquirer, { DistinctQuestion, Answers, QuestionAnswer } from 'inquirer';
 import winston from 'winston';
 import traverse from 'json-schema-traverse';
 import chalkTemplate from 'chalk-template';
+import inquirer, { DistinctQuestion, Answers, QuestionAnswer } from 'inquirer';
+import checkboxPlus from 'inquirer-checkbox-plus-prompt';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { CosmiconfigResult } from 'cosmiconfig/dist/types.js';
 import { Observable, Subscriber } from 'rxjs';
@@ -44,6 +45,9 @@ const makePrompt = (
   property: JSONSchema7 & {
     question: string;
     rcConfig: CosmiconfigResult;
+    items?: {
+      enum: string[];
+    };
   }
 ): DistinctQuestion => {
   // TODO handle empty string
@@ -56,15 +60,35 @@ const makePrompt = (
 
   const rcDefaultValue = preloadRc ? getRcValue(property) : '';
 
-  return {
-    type: 'input',
-    name,
-    message: `${property.question}?`,
-    default: rcDefaultValue || property.default,
-    validate: (input: string) =>
-      new RegExp(property.pattern || '').test(input) ||
-      chalkTemplate`Invalid value for {bold ${name}}!`
-  };
+  switch (property.type) {
+    case 'boolean':
+      return {
+        type: 'confirm',
+        name,
+        message: `${property.question}?`,
+        default: rcDefaultValue || property.default
+      };
+
+    case 'array':
+      return {
+        type: 'checkbox-plus',
+        name,
+        message: `${property.question}?`,
+        choices: property.items ? property.items.enum : ['error'],
+        default: rcDefaultValue || property.default
+      };
+
+    default:
+      return {
+        type: 'input',
+        name,
+        message: `${property.question}?`,
+        default: rcDefaultValue || property.default,
+        validate: (input: string) =>
+          new RegExp(property.pattern || '').test(input) ||
+          chalkTemplate`Invalid value for {bold ${name}}!`
+      };
+  }
 };
 
 const makePrompts = (schema: JSONSchema7) => {
@@ -74,11 +98,7 @@ const makePrompts = (schema: JSONSchema7) => {
         Object.keys(subSchema.properties).forEach((property) => {
           const propertySchema = subSchema.properties[property];
 
-          if (
-            propertySchema.type !== 'object' &&
-            propertySchema.type !== 'array' &&
-            propertySchema.question
-          ) {
+          if (propertySchema.type !== 'object' && propertySchema.question) {
             loadedPrompts.push(makePrompt(propertySchema));
           }
         });
@@ -174,6 +194,8 @@ const prompt = async (
   rcSchema = JSON.parse(
     readFileSync(`${process.cwd()}/.${promptName}rc.schema.json`).toString()
   );
+
+  inquirer.registerPrompt('checkbox-plus', checkboxPlus);
 
   return new Promise((resolve) => {
     inquirer.prompt(prompts).ui.process.subscribe(onAnswer, onError, () => {

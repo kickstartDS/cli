@@ -232,3 +232,5 @@ interface TaskUtil {
     template: TemplateUtil;
   };
 }
+
+declare module 'inquirer-checkbox-plus-prompt';

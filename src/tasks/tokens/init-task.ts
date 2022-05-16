@@ -2,24 +2,20 @@ import winston from 'winston';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 
-const moduleName = 'example'; // name of module; example: 'system', 'tokens', 'components'
-const command = 'demo'; // name of command; example: 'create', 'convert', 'build'
+const moduleName = 'tokens';
+const command = 'init';
 
 // add const variables needed for task
 // const demoVariable = 'demoValue';
 
-// add required commands (those are executables on the local shell $PATH)
-// example: `const requiredCommands = ['git', 'jq']`
 const requiredCommands: string[] = [];
 
-// require task.js, which is our own cli task runner, import methods and utilities
 const {
   init: taskInit,
   start: taskStart,
   util: taskUtil
 } = createTask(moduleName, command);
 
-// get all needed utility helpers
 const {
   // git: taskUtilGit,
   // template: taskUtilTemplate,
@@ -28,14 +24,12 @@ const {
   getLogger
 } = taskUtil;
 
-// get templating helpers
 // const {
 //   helper: {
 //     templateFiles,
 //   },
 // } = taskUtilTemplate;
 
-// get JSON helpers
 // const {
 //   helper: {
 //     getValue: jsonGetValue,
@@ -46,7 +40,6 @@ const {
 //   },
 // } = taskUtilJson;
 
-// get git helpers
 // const {
 //   backupSuffix,
 //   helper: {
@@ -67,11 +60,10 @@ const {
 //   },
 // } = taskUtilGit;
 
-// get shell helpers
 const {
   helper: {
-    requireCommands: shellRequireCommands
-    // fileExistsInCwd: shellFileExistsInCwd,
+    requireCommands: shellRequireCommands,
+    fileExistsInCwd: shellFileExistsInCwd
     // dirExistsInCwd: shellDirExistsInCwd,
     // backupDirInCwd: shellBackupDirInCwd,
     // restoreDirInCwd: shellRestoreDirInCwd,
@@ -79,7 +71,6 @@ const {
   }
 } = taskUtilShell;
 
-// entrypoint for task, this will be called from your command
 const run = async (
   rcOnly: boolean,
   isRevert: boolean,
@@ -92,55 +83,50 @@ const run = async (
   // includes variables that you need from reading the prompt, or importing rc
   // configuration:
 
-  // check to require all defined required commands (requiredCommands)
   const check = async (logger: winston.Logger): Promise<boolean> => {
     logger.info('checking prerequesites before starting');
 
     shellRequireCommands(requiredCommands);
+    shellFileExistsInCwd('token-primitives.json');
 
     logger.info('prerequesites met, starting');
     return true;
   };
 
-  // demo subtask
-  const demo = async (logger: winston.Logger): Promise<boolean> => {
-    logger.info(chalkTemplate`running the {bold demo} subtask`);
+  const init = async (logger: winston.Logger): Promise<boolean> => {
+    logger.info(chalkTemplate`running the {bold init} subtask`);
 
     // TODO implement subtask
 
     logger.info(
-      chalkTemplate`finished running the {bold demo} subtask successfully`
+      chalkTemplate`finished running the {bold init} subtask successfully`
     );
     return true;
   };
 
-  // revert demo subtask
-  const demoRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const initRevert = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold demo} subtask`
+      chalkTemplate`{bold reverting} running the {bold init} subtask`
     );
 
     // TODO implement revert subtask
 
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold demo} subtask finished successfully`
+      chalkTemplate`{bold reverting} running the {bold init} subtask finished successfully`
     );
     return true;
   };
 
-  // add all checks that should run here
   const checks: StepFunction[] = [check];
 
-  // add all tasks and reverts that should run here
   const tasks: {
     run: StepFunction[];
     revert: StepFunction[];
   } = {
-    run: [demo],
-    revert: [demoRevert]
+    run: [init],
+    revert: [initRevert]
   };
 
-  // get configuration by initializing task
   config = await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
 
   // destructure configuration to get to your values (see let declaration block above)
@@ -150,37 +136,34 @@ const run = async (
   //     key: demoVariable,
   //   },
   // } = config);
-  const demoVariable = 'example-task';
+  const initVariable = 'init-task';
 
   // define filename for configuration that will be written as a result of running this command.
   // the variable part should be some kind of identifier (e.g. 'rm-news' if that is the extension
   // being migrated).
   const configFileName = `.${moduleName}-${command}rc.json`;
 
-  // add logging around your sub-commands 1/2
   const cmdLogger = getLogger(moduleName, 'info', true, true, command).child({
     command
   });
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`starting: {bold reverting] demo command with demo variable {bold ${demoVariable}}`
+      chalkTemplate`starting: {bold reverting} init command with init variable {bold ${initVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`starting: demo command with demo variable {bold ${demoVariable}}`
+      chalkTemplate`starting: init command with init variable {bold ${initVariable}}`
     );
 
-  // start the task
-  await taskStart(demoVariable, checks, tasks.run, tasks.revert);
+  await taskStart(initVariable, checks, tasks.run, tasks.revert);
 
-  // add logging around your sub-commands 2/2
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`finished: {bold reverting] demo command with demo variable {bold ${demoVariable}}`
+      chalkTemplate`finished: {bold reverting} init command with init variable {bold ${initVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`finished: demo command with demo variable {bold ${demoVariable}}`
+      chalkTemplate`finished: init command with init variable {bold ${initVariable}}`
     );
 };
 

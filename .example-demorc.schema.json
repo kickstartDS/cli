@@ -1,32 +1,23 @@
 {
   "definitions": {},
-  "$schema": "http://json-schema.org/draft-06/schema#",
-  "$id": "https://kickstartds.com/example.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kickstartds.com/example-demo.schema.json",
   "type": "object",
   "title": "kickstartDS Example task",
-  "required": [
-    "demo"
-  ],
+  "required": ["demo"],
   "properties": {
     "demo": {
       "$id": "#/properties/demo",
       "type": "object",
       "title": "The Demo Schema",
-      "required": [
-        "key"
-      ],
+      "required": ["key"],
       "properties": {
         "key": {
           "$id": "#/properties/demo/properties/key",
           "type": "string",
           "title": "Demo key",
           "default": "KSDS",
-          "examples": [
-            "T3",
-            "S25",
-            "KAL",
-            "AMK"
-          ],
+          "examples": ["T3", "S25", "KAL", "AMK"],
           "pattern": "^(.+)$",
           "description": "The demo key",
           "question": "Enter demo key for migrated extension"

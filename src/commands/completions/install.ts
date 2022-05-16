@@ -1,12 +1,14 @@
 import { Command } from 'commander';
+import chalkTemplate from 'chalk-template';
 import { getLogger } from '../../logging.js';
 import completion from '../../completion.js';
 
 const logger = getLogger('completions').child({ command: 'install' });
-const install = new Command('install');
 
 const installShellCompletions = () => {
-  logger.info('installing kickstartDS CLI completions in local shell');
+  logger.info(
+    chalkTemplate`installing {#ecff00.bold kickstartDS} {bold CLI} completions in local shell`
+  );
 
   try {
     completion.setupShellInitFile();
@@ -15,8 +17,10 @@ const installShellCompletions = () => {
   }
 };
 
-install
-  .description('install kickstartDS CLI completions in local shell')
+const install = new Command('install')
+  .description(
+    chalkTemplate`install {#ecff00.bold kickstartDS} {bold CLI} completions in local shell`
+  )
   .action(installShellCompletions);
 
 export default install;

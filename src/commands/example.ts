@@ -6,7 +6,4 @@ const logger = getLogger('example');
 
 logger.debug('executing a command of example');
 
-// TODO re-add completion
-// require('../../src/completion');
-
 program.addCommand(demo).parse(process.argv);
