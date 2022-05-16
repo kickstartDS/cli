@@ -1,0 +1,58 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: cimg/node:18.1.0
+  working_directory: /mnt/ramdisk
+  resource_class: medium+
+
+aliases:
+  - &save-cache-yarn
+    key: yarn-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+    paths:
+      - .yarn-cache
+  - &restore-cache-yarn
+    keys:
+      - yarn-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      - yarn-{{ checksum "yarn.lock" }}
+      - yarn-
+  - &save-cache-node
+    key: node-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+    paths:
+      - node_modules
+  - &restore-cache-node
+    keys:
+      - node-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      - node-{{ checksum "yarn.lock" }}
+      - node-
+
+jobs:
+  release:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-yarn
+      - restore_cache: *restore-cache-node
+      - run:
+          name: Set NPM_TOKEN into .npmrc
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /mnt/ramdisk/.npmrc
+      - run:
+          name: Set Yarn Cache Directory
+          command: yarn config set cache-folder /mnt/ramdisk/.yarn-cache
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder /mnt/ramdisk/.yarn-cache
+      - run:
+          name: Remove .npmrc before releasing
+          command: rm /mnt/ramdisk/.npmrc
+      - save_cache: *save-cache-yarn
+      - save_cache: *save-cache-node
+      - run:
+          name: Create Release
+          command: yarn auto shipit
+
+workflows:
+  release:
+    jobs:
+      - release:
+          context: kickstartDS
