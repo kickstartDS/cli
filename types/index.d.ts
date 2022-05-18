@@ -58,6 +58,10 @@ interface FileUtil {
   };
 }
 
+declare const StyleDictionaryObject: {
+  [key: string]: string | StyleDictionaryObject;
+};
+
 interface GitUtil {
   backupSuffix: string;
   helper: {
@@ -202,6 +206,30 @@ interface TemplateUtil {
     ) => Promise<boolean>;
   };
 }
+
+interface TokensUtil {
+  helper: {
+    generateFromJson: (
+      tokenJson: Record<string, unknown>,
+      targetDir: string
+    ) => Promise<void>;
+    generateFromPath: (
+      primitivesPath: string,
+      targetDir: string
+    ) => Promise<void>;
+    generateFromSpecifyJson: (
+      specifyRawTokens: TokenInterface[],
+      targetDir: string
+    ) => Promise<void>;
+    generateFromSpecifyPath: (
+      primitivesPath: string,
+      targetDir: string
+    ) => Promise<void>;
+    compileTokens: (styleDictionary: StyleDictionary.Core) => void;
+    getStyleDictionary: () => StyleDictionary.Core;
+  };
+}
+
 interface TaskUtil {
   init: (
     initConfig: Record<string, unknown> | null,
@@ -233,4 +261,4 @@ interface TaskUtil {
   };
 }
 
-declare module 'inquirer-checkbox-plus-prompt';
+declare module '@kickstartds/core/design-tokens/index.js';

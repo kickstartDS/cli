@@ -2,6 +2,7 @@
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
 import shell from 'shelljs';
+import stripAnsi from 'strip-ansi';
 import ProgressBarTransport from './progressbar-transport.js';
 
 const { ls } = shell;
@@ -14,8 +15,8 @@ const fileTransports: Record<string, winston.transports.FileTransportInstance> =
   {};
 const progressBarTransports: Record<string, ProgressBarTransport> = {};
 
-// TODO fix logging to files, seems to be broken
 // TODO parse out `-step` in step-loggings
+// TODO check that errors actually land in generated log files, too
 
 const { format: winstonFormat } = winston;
 const {
@@ -27,8 +28,10 @@ const {
 } = winstonFormat;
 
 const cliStringConsole = chalkTemplate`{bold.keyword('orange') kickstartDS}`;
+
 const labelStringConsole = (label: string) =>
   chalkTemplate`{keyword('fuchsia') ${label}}`;
+
 const commandStringConsole = (command: string, subcommand = '') => {
   if (!command) return '';
   if (subcommand)
@@ -40,7 +43,9 @@ const commandStringConsole = (command: string, subcommand = '') => {
     subcommand ? `-${subcommand}` : ''
   }}`;
 };
+
 const errorStringConsole = (error: ErrorLogEntry) => error.message;
+
 const errorsStringConsole = (errorsArray: ErrorLogEntry[]) => {
   if (errorsArray && errorsArray.length) {
     return chalkTemplate` {keyword('grey') ${errorsArray.reduce(
@@ -53,13 +58,16 @@ const errorsStringConsole = (errorsArray: ErrorLogEntry[]) => {
 };
 
 const cliStringFile = 'kickstartDS';
+
 const commandStringFile = (command: string, subcommand = '') => {
   if (!command) return '';
   if (subcommand) return `${command}${subcommand ? `: ${subcommand}` : ''}`;
 
   return chalkTemplate`${command}${subcommand ? `-${subcommand}` : ''}`;
 };
+
 const errorStringFile = (error: ErrorLogEntry) => error.message;
+
 const errorsStringFile = (errorsArray: ErrorLogEntry[]) => {
   if (errorsArray && errorsArray.length) {
     return chalkTemplate` ${errorsArray.reduce(
@@ -110,10 +118,12 @@ const kickstartdsFormatConsole = winstonPrintf(
 
 const rmFormatFile = winstonPrintf(
   ({ level, message, label, timestamp, command, subcommand, errors }) =>
-    `${timestamp} [${cliStringFile}: ${label}/${commandStringFile(
-      command,
-      subcommand
-    )}] ${level}: ${message}${errorsStringFile(errors)}`
+    stripAnsi(
+      `${timestamp} [${cliStringFile}: ${label}/${commandStringFile(
+        command,
+        subcommand
+      )}] ${level}: ${message}${errorsStringFile(errors)}`
+    )
 );
 
 let logIndex = 0;

@@ -1,4 +1,5 @@
 import winston from 'winston';
+import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 
@@ -87,7 +88,12 @@ const run = async (
     logger.info('checking prerequesites before starting');
 
     shellRequireCommands(requiredCommands);
-    shellFileExistsInCwd('token-primitives.json');
+    if (!shellFileExistsInCwd('token-primitives.json')) {
+      logger.error(
+        chalkTemplate`no {bold token-primitives.json} found in current directory`
+      );
+      shell.exit(1);
+    }
 
     logger.info('prerequesites met, starting');
     return true;

@@ -2,7 +2,6 @@ import winston from 'winston';
 import traverse from 'json-schema-traverse';
 import chalkTemplate from 'chalk-template';
 import inquirer, { DistinctQuestion, Answers, QuestionAnswer } from 'inquirer';
-import checkboxPlus from 'inquirer-checkbox-plus-prompt';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { CosmiconfigResult } from 'cosmiconfig/dist/types.js';
 import { Observable, Subscriber } from 'rxjs';
@@ -71,7 +70,7 @@ const makePrompt = (
 
     case 'array':
       return {
-        type: 'checkbox-plus',
+        type: 'checkbox',
         name,
         message: `${property.question}?`,
         choices: property.items ? property.items.enum : ['error'],
@@ -194,8 +193,6 @@ const prompt = async (
   rcSchema = JSON.parse(
     readFileSync(`${process.cwd()}/.${promptName}rc.schema.json`).toString()
   );
-
-  inquirer.registerPrompt('checkbox-plus', checkboxPlus);
 
   return new Promise((resolve) => {
     inquirer.prompt(prompts).ui.process.subscribe(onAnswer, onError, () => {
