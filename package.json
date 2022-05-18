@@ -14,8 +14,8 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    ".*.rc.json",
-    ".*.rc.schema.json"
+    ".*rc.json",
+    ".*rc.schema.json"
   ],
   "node": ">=18.1",
   "type": "module",
