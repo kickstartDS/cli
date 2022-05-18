@@ -113,11 +113,10 @@ let emitter: Subscriber<DistinctQuestion<Answers>>;
 
 const prompts = new Observable<DistinctQuestion<Answers>>((e) => {
   emitter = e;
-  // need to start with at least one question here
   emitter.next({
     type: 'confirm',
     name: 'loadconfig',
-    message: `Pre-load .${promptName}rc values for extension migration?`,
+    message: `Pre-load .${promptName}rc values?`,
     default: true
   });
 });
