@@ -24,6 +24,10 @@ interface VaultItem {
   };
 }
 
+declare const StyleDictionaryObject: {
+  [key: string]: string | StyleDictionaryObject;
+};
+
 interface AnalyticsUtil {
   helper: {
     init: (
@@ -125,6 +129,7 @@ interface JsonUtil {
     ) => void;
     deleteKey: (selector: string, file: string) => void;
     writeToFile: (json: Record<string, unknown>, file: string) => Promise<void>;
+    prettyPrintJson: (json: Record<string, unknown>) => string;
   };
 }
 
@@ -202,6 +207,30 @@ interface TemplateUtil {
     ) => Promise<boolean>;
   };
 }
+
+interface TokensUtil {
+  helper: {
+    generateFromJson: (
+      tokenJson: Record<string, unknown>,
+      targetDir?: string
+    ) => Promise<void>;
+    generateFromPath: (
+      primitivesPath: string,
+      targetDir?: string
+    ) => Promise<void>;
+    generateFromSpecifyJson: (
+      specifyRawTokens: TokenInterface[],
+      targetDir?: string
+    ) => Promise<void>;
+    generateFromSpecifyPath: (
+      primitivesPath: string,
+      targetDir?: string
+    ) => Promise<void>;
+    compileTokens: (styleDictionary: StyleDictionary.Core) => void;
+    getStyleDictionary: () => StyleDictionary.Core;
+  };
+}
+
 interface TaskUtil {
   init: (
     initConfig: Record<string, unknown> | null,
@@ -217,6 +246,7 @@ interface TaskUtil {
     asyncReverts: StepFunction[]
   ) => Promise<void>;
   getTmpDir: () => string;
+  getCliDir: () => string;
   util: {
     sh;
     getLogger: winston.Logger;
@@ -230,5 +260,8 @@ interface TaskUtil {
     promise: PromiseUtil;
     shell: ShellUtil;
     template: TemplateUtil;
+    tokens: TokensUtil;
   };
 }
+
+declare module '@kickstartds/core/design-tokens/index.js';

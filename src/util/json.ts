@@ -1,5 +1,5 @@
 import winston from 'winston';
-import shell from 'shelljs';
+import shell, { ShellString } from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
@@ -66,6 +66,20 @@ export default (logger: winston.Logger): JsonUtil => {
     shell.exec(`jq --raw-output '.' ${file}`).to(file);
   };
 
+  // TODO not working quite right, yet. Original goal was to get jq
+  // colored output in the terminal, but that is still lost unfortunately
+  const prettyPrintJson = (json: Record<string, unknown>): string => {
+    const silentStatus = shell.config.silent;
+    shell.config.silent = true;
+
+    const output = new ShellString(JSON.stringify(json, null, 2)).exec(
+      'jq .'
+    ).stdout;
+    shell.config.silent = silentStatus;
+
+    return output;
+  };
+
   return {
     helper: {
       copyValue,
@@ -73,7 +87,8 @@ export default (logger: winston.Logger): JsonUtil => {
       setValue,
       addValueToArray,
       deleteKey,
-      writeToFile
+      writeToFile,
+      prettyPrintJson
     }
   };
 };

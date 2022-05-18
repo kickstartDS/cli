@@ -13,7 +13,9 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    ".*rc.json",
+    ".*rc.schema.json"
   ],
   "node": ">=18.1",
   "type": "module",
@@ -49,6 +51,8 @@
   "dependencies": {
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
+    "@kickstartds/core": "2.0.0-canary.922.4323.0",
+    "@specifyapp/parsers": "ssh://git@github.com:julrich/parsers.git",
     "byline": "^5.0.0",
     "chalk": "^5.0.1",
     "chalk-template": "^0.4.0",
@@ -71,6 +75,8 @@
     "rxjs": "^7.5.5",
     "shelljs": "^0.8.5",
     "simple-git": "^3.7.1",
+    "strip-ansi": "^7.0.1",
+    "style-dictionary": "^3.7.0",
     "ts-deepmerge": "^2.0.1",
     "typescript": "^4.8.0-dev.20220512",
     "uuid": "^8.3.2",

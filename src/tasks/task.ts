@@ -4,6 +4,8 @@ import shell from 'shelljs';
 import merge from 'ts-deepmerge';
 import chalkTemplate from 'chalk-template';
 import { cosmiconfig } from 'cosmiconfig';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import analyticsHelper from '../util/analytics.js';
 import dockerHelper from '../util/docker.js';
@@ -15,6 +17,7 @@ import onepasswordHelper from '../util/onepassword.js';
 import promiseHelper from '../util/promise.js';
 import shellHelper from '../util/shell.js';
 import templateHelper from '../util/template.js';
+import tokensHelper from '../util/tokens.js';
 
 import prompt from '../prompting.js';
 import {
@@ -37,7 +40,12 @@ export default (moduleName: string, commandName: string): TaskUtil => {
     command
   });
   const getTmpDir = () => tmpDir || '';
+  const getCliDir = () => dirname(dirname(fileURLToPath(import.meta.url)));
 
+  // TODO check if shell does, indeed, need to be injected here (as
+  // it was before). Seems like the `shell.pwd()` gets re-initialized
+  // to process.cwd() on import in a new file (like tokens.ts >
+  // generateTokens)
   const analyticsUtil = analyticsHelper(logger);
   const dockerUtil = dockerHelper(logger);
   const fileUtil = fileHelper(logger);
@@ -48,6 +56,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   const promiseUtil = promiseHelper(logger);
   const shellUtil = shellHelper(logger);
   const templateUtil = templateHelper(logger);
+  const tokensUtil = tokensHelper(logger);
 
   const {
     helper: {
@@ -117,7 +126,9 @@ export default (moduleName: string, commandName: string): TaskUtil => {
         chalkTemplate`cleaning up temp dir {bold ${tmpDir}} before starting command`
       );
 
-      rm('-rf', [`${tmpDir}/*`, `${tmpDir}/.*`]);
+      if (tmpDir && tmpDir && tmpDir.length > 5 && tmpDir.startsWith('/tmp')) {
+        rm('-rf', [`${tmpDir}/*`, `${tmpDir}/.*`]);
+      }
       mkdir('-p', tmpDir);
 
       cmdLogger.info(
@@ -237,6 +248,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
     init,
     start,
     getTmpDir,
+    getCliDir,
     util: {
       sh: shell,
       getLogger,
@@ -249,7 +261,8 @@ export default (moduleName: string, commandName: string): TaskUtil => {
       onepassword: onepasswordUtil,
       promise: promiseUtil,
       shell: shellUtil,
-      template: templateUtil
+      template: templateUtil,
+      tokens: tokensUtil
     }
   };
 };

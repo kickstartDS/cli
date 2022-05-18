@@ -1,12 +1,14 @@
 import { Command } from 'commander';
+import chalkTemplate from 'chalk-template';
 import { getLogger } from '../../logging.js';
 import completion from '../../completion.js';
 
 const logger = getLogger('completions').child({ command: 'remove' });
-const remove = new Command('remove');
 
 const removeShellCompletions = () => {
-  logger.info('removing kickstartDS CLI completions from local shell');
+  logger.info(
+    chalkTemplate`removing {#ecff00.bold kickstartDS} {bold CLI} completions from local shell`
+  );
 
   try {
     completion.cleanupShellInitFile();
@@ -15,8 +17,10 @@ const removeShellCompletions = () => {
   }
 };
 
-remove
-  .description('remove kickstartDS CLI completions from local shell')
+const remove = new Command('remove')
+  .description(
+    chalkTemplate`remove {#ecff00.bold kickstartDS} {bold CLI} completions from local shell`
+  )
   .action(removeShellCompletions);
 
 export default remove;

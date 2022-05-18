@@ -20,8 +20,9 @@ pids
 # Dependency directories
 node_modules/
 
-# Optional npm cache directory
+# Optional npm / yarn cache directory
 .npm
+.yarn-cache
 
 # Optional eslint cache
 .eslintcache

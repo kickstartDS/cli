@@ -1,14 +1,17 @@
-import inquirer, { DistinctQuestion, Answers, QuestionAnswer } from 'inquirer';
 import winston from 'winston';
 import traverse from 'json-schema-traverse';
 import chalkTemplate from 'chalk-template';
-import { cosmiconfigSync } from 'cosmiconfig';
+import inquirer, { DistinctQuestion, Answers, QuestionAnswer } from 'inquirer';
 import { CosmiconfigResult } from 'cosmiconfig/dist/types.js';
 import { Observable, Subscriber } from 'rxjs';
 import { JSONSchema7 } from 'json-schema';
+import { cosmiconfigSync } from 'cosmiconfig';
 import { readFileSync } from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { getLogger } from './logging.js';
 
+const schemaRcRoot = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const loadedPrompts: DistinctQuestion[] = [];
 const answers: Record<string, string> = {};
 
@@ -44,6 +47,9 @@ const makePrompt = (
   property: JSONSchema7 & {
     question: string;
     rcConfig: CosmiconfigResult;
+    items?: {
+      enum: string[];
+    };
   }
 ): DistinctQuestion => {
   // TODO handle empty string
@@ -56,15 +62,35 @@ const makePrompt = (
 
   const rcDefaultValue = preloadRc ? getRcValue(property) : '';
 
-  return {
-    type: 'input',
-    name,
-    message: `${property.question}?`,
-    default: rcDefaultValue || property.default,
-    validate: (input: string) =>
-      new RegExp(property.pattern || '').test(input) ||
-      chalkTemplate`Invalid value for {bold ${name}}!`
-  };
+  switch (property.type) {
+    case 'boolean':
+      return {
+        type: 'confirm',
+        name,
+        message: `${property.question}?`,
+        default: rcDefaultValue || property.default
+      };
+
+    case 'array':
+      return {
+        type: 'checkbox',
+        name,
+        message: `${property.question}?`,
+        choices: property.items ? property.items.enum : ['error'],
+        default: rcDefaultValue || property.default
+      };
+
+    default:
+      return {
+        type: 'input',
+        name,
+        message: `${property.question}?`,
+        default: rcDefaultValue || property.default,
+        validate: (input: string) =>
+          new RegExp(property.pattern || '').test(input) ||
+          chalkTemplate`Invalid value for {bold ${name}}!`
+      };
+  }
 };
 
 const makePrompts = (schema: JSONSchema7) => {
@@ -74,11 +100,7 @@ const makePrompts = (schema: JSONSchema7) => {
         Object.keys(subSchema.properties).forEach((property) => {
           const propertySchema = subSchema.properties[property];
 
-          if (
-            propertySchema.type !== 'object' &&
-            propertySchema.type !== 'array' &&
-            propertySchema.question
-          ) {
+          if (propertySchema.type !== 'object' && propertySchema.question) {
             loadedPrompts.push(makePrompt(propertySchema));
           }
         });
@@ -91,11 +113,10 @@ let emitter: Subscriber<DistinctQuestion<Answers>>;
 
 const prompts = new Observable<DistinctQuestion<Answers>>((e) => {
   emitter = e;
-  // need to start with at least one question here
   emitter.next({
     type: 'confirm',
     name: 'loadconfig',
-    message: `Pre-load .${promptName}rc values for extension migration?`,
+    message: `Pre-load .${promptName}rc values?`,
     default: true
   });
 });
@@ -172,7 +193,7 @@ const prompt = async (
 
   promptName = `${moduleName}-${commandName}`;
   rcSchema = JSON.parse(
-    readFileSync(`${process.cwd()}/.${promptName}rc.schema.json`).toString()
+    readFileSync(`${schemaRcRoot}/.${promptName}rc.schema.json`).toString()
   );
 
   return new Promise((resolve) => {

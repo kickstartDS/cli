@@ -1,5 +1,7 @@
 import figlet from 'figlet';
 import chalkTemplate from 'chalk-template';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
 import { getLogger } from './src/logging.js';
@@ -9,8 +11,9 @@ import { getLogger } from './src/logging.js';
 
 import './src/completion.js';
 
+const cliRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const packageJson = JSON.parse(
-  readFileSync(`${process.cwd()}/package.json`).toString()
+  readFileSync(`${cliRoot}/package.json`).toString()
 );
 
 // TODO handle light / dark mode for colors
@@ -40,14 +43,14 @@ program
   .option('-d, --debug', 'show debug info');
 
 // TODO completions are not working, yet
+program.command('tokens', 'initialize, build and convert your design tokens', {
+  executableFile: `${cliRoot}/dist/src/commands/tokens.js`
+});
 program.command('completion', 'kickstartDS CLI shell autocompletion', {
-  executableFile: 'src/commands/completion.js'
+  executableFile: `${cliRoot}/dist/src/commands/completion.js`
 });
 program.command('example', 'example commands as orientation', {
-  executableFile: 'src/commands/example.js'
-});
-program.command('tokens', 'initialize, build and convert your design tokens', {
-  executableFile: 'src/commands/tokens.js'
+  executableFile: `${cliRoot}/dist/src/commands/example.js`
 });
 
 // TODO currently not working?!
