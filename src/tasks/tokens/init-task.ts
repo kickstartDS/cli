@@ -5,10 +5,6 @@ import createTask from '../task.js';
 
 const moduleName = 'tokens';
 const command = 'init';
-
-// add const variables needed for task
-// const demoVariable = 'demoValue';
-
 const requiredCommands: string[] = ['jq'];
 
 const {
@@ -95,19 +91,7 @@ const run = async (
     revert: [initRevert]
   };
 
-  // destructure configuration to get to your values (see let declaration block above)
-  // TODO re-add this, but with correct structure and typings
-  // ({
-  //   demo: {
-  //     key: demoVariable,
-  //   },
-  // } = config);
   const initVariable = 'init-task';
-
-  // define filename for configuration that will be written as a result of running this command.
-  // the variable part should be some kind of identifier (e.g. 'rm-news' if that is the extension
-  // being migrated).
-  const configFileName = `.${moduleName}-${command}rc.json`;
 
   const cmdLogger = getLogger(moduleName, 'info', true, true, command).child({
     command
