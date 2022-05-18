@@ -27,7 +27,7 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { generateFromPath: tokensGenerateFromPath }
+  helper: { generateFromPrimitivesPath: tokensGenerateFromPrimitivesPath }
 } = taskUtilTokens;
 
 const run = async (
@@ -60,7 +60,7 @@ const run = async (
     logger.info(chalkTemplate`running the {bold init} subtask`);
 
     shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
-    await tokensGenerateFromPath(
+    await tokensGenerateFromPrimitivesPath(
       `${shell.pwd()}/token-primitives.json`,
       `${shell.pwd()}/tokens`
     );

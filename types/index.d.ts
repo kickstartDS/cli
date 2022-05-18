@@ -210,11 +210,11 @@ interface TemplateUtil {
 
 interface TokensUtil {
   helper: {
-    generateFromJson: (
+    generateFromPrimitivesJson: (
       tokenJson: Record<string, unknown>,
       targetDir?: string
     ) => Promise<void>;
-    generateFromPath: (
+    generateFromPrimitivesPath: (
       primitivesPath: string,
       targetDir?: string
     ) => Promise<void>;
