@@ -32,22 +32,21 @@ const run = async (
   shouldCleanup: boolean,
   debugActive: boolean
 ): Promise<void> => {
-  let config = {};
-
-  // add your own local variables, needed for the execution of your subcommands.
-  // includes variables that you need from reading the prompt, or importing rc
-  // configuration:
+  const callingPath: string = process.cwd();
 
   const check = async (logger: winston.Logger): Promise<boolean> => {
     logger.info('checking prerequesites before starting');
 
     shellRequireCommands(requiredCommands);
+
+    shell.pushd(`${callingPath}`);
     if (!shellFileExistsInCwd('token-primitives.json')) {
       logger.error(
         chalkTemplate`no {bold token-primitives.json} found in current directory`
       );
       shell.exit(1);
     }
+    shell.popd();
 
     logger.info('prerequesites met, starting');
     return true;
@@ -87,8 +86,6 @@ const run = async (
     revert: [initRevert]
   };
 
-  config = await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
-
   // destructure configuration to get to your values (see let declaration block above)
   // TODO re-add this, but with correct structure and typings
   // ({
@@ -115,6 +112,7 @@ const run = async (
       chalkTemplate`starting: init command with init variable {bold ${initVariable}}`
     );
 
+  await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
   await taskStart(initVariable, checks, tasks.run, tasks.revert);
 
   if (isRevert)
