@@ -1,3 +1,15 @@
+# v0.1.1 (Wed May 18 2022)
+
+#### 🐛 Bug Fix
+
+- fix(tokens): empty token files after init [#4](https://github.com/kickstartDS/kickstartDS-cli/pull/4) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.1.0 (Wed May 18 2022)
 
 #### 🚀 Enhancement
