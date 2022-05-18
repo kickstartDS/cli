@@ -246,6 +246,7 @@ interface TaskUtil {
     asyncReverts: StepFunction[]
   ) => Promise<void>;
   getTmpDir: () => string;
+  getCliDir: () => string;
   util: {
     sh;
     getLogger: winston.Logger;

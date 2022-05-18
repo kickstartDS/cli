@@ -2,13 +2,16 @@ import winston from 'winston';
 import traverse from 'json-schema-traverse';
 import chalkTemplate from 'chalk-template';
 import inquirer, { DistinctQuestion, Answers, QuestionAnswer } from 'inquirer';
-import { cosmiconfigSync } from 'cosmiconfig';
 import { CosmiconfigResult } from 'cosmiconfig/dist/types.js';
 import { Observable, Subscriber } from 'rxjs';
 import { JSONSchema7 } from 'json-schema';
+import { cosmiconfigSync } from 'cosmiconfig';
 import { readFileSync } from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { getLogger } from './logging.js';
 
+const schemaRcRoot = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const loadedPrompts: DistinctQuestion[] = [];
 const answers: Record<string, string> = {};
 
@@ -191,7 +194,7 @@ const prompt = async (
 
   promptName = `${moduleName}-${commandName}`;
   rcSchema = JSON.parse(
-    readFileSync(`${process.cwd()}/.${promptName}rc.schema.json`).toString()
+    readFileSync(`${schemaRcRoot}/.${promptName}rc.schema.json`).toString()
   );
 
   return new Promise((resolve) => {

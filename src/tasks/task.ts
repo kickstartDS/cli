@@ -4,6 +4,8 @@ import shell from 'shelljs';
 import merge from 'ts-deepmerge';
 import chalkTemplate from 'chalk-template';
 import { cosmiconfig } from 'cosmiconfig';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import analyticsHelper from '../util/analytics.js';
 import dockerHelper from '../util/docker.js';
@@ -38,6 +40,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
     command
   });
   const getTmpDir = () => tmpDir || '';
+  const getCliDir = () => dirname(dirname(fileURLToPath(import.meta.url)));
 
   // TODO check if shell does, indeed, need to be injected here (as
   // it was before). Seems like the `shell.pwd()` gets re-initialized
@@ -245,6 +248,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
     init,
     start,
     getTmpDir,
+    getCliDir,
     util: {
       sh: shell,
       getLogger,
