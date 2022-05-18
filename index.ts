@@ -13,6 +13,8 @@ const packageJson = JSON.parse(
   readFileSync(`${process.cwd()}/package.json`).toString()
 );
 
+console.log(JSON.stringify(packageJson, null, 2));
+
 // TODO handle light / dark mode for colors
 // eslint-disable-next-line no-console
 console.log(
