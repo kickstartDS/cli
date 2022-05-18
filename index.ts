@@ -1,5 +1,7 @@
 import figlet from 'figlet';
 import chalkTemplate from 'chalk-template';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
 import { getLogger } from './src/logging.js';
@@ -9,9 +11,10 @@ import { getLogger } from './src/logging.js';
 
 import './src/completion.js';
 
-// TODO wrong context when not called locally, points execution
-// dir package.json
-const packageJson = JSON.parse(readFileSync(`./package.json`).toString());
+const cliRoot = dirname(dirname(fileURLToPath(import.meta.url)));
+const packageJson = JSON.parse(
+  readFileSync(`${cliRoot}/package.json`).toString()
+);
 
 // TODO handle light / dark mode for colors
 // eslint-disable-next-line no-console
