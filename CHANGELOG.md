@@ -1,3 +1,15 @@
+# v0.2.0 (Wed May 18 2022)
+
+#### 🚀 Enhancement
+
+- feat(tokens): add option to init from specify json [#7](https://github.com/kickstartDS/kickstartDS-cli/pull/7) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.1.2 (Wed May 18 2022)
 
 #### 🐛 Bug Fix
