@@ -227,7 +227,10 @@ interface TokensUtil {
       targetDir?: string
     ) => Promise<void>;
     compileTokens: (styleDictionary: StyleDictionary.Core) => void;
-    getStyleDictionary: () => StyleDictionary.Core;
+    getStyleDictionary: (
+      callingPath: string,
+      sourceDir: string
+    ) => StyleDictionary.Core;
   };
 }
 

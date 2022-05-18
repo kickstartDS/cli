@@ -595,15 +595,18 @@ export default (logger: winston.Logger): TokensUtil => {
       .buildPlatform('storybook');
   };
 
-  const getStyleDictionary = (): StyleDictionary.Core =>
+  const getStyleDictionary = (
+    callingPath: string,
+    sourceDir: string
+  ): StyleDictionary.Core =>
     StyleDictionary.extend(config).extend({
       source: [
-        'tokens/*.json',
+        `${sourceDir}/*.json`,
         path.join(
-          __dirname,
-          '../node_modules/@kickstartds/core/source/design-tokens/icons/*.svg'
+          callingPath,
+          'node_modules/@kickstartds/core/source/design-tokens/icons/*.svg'
         ),
-        path.join(__dirname, '../static/icons/*.svg')
+        path.join(callingPath, 'static/icons/*.svg')
       ],
       platforms: {
         jsx: {

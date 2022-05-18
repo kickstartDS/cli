@@ -49,6 +49,7 @@
     }
   },
   "dependencies": {
+    "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
     "@kickstartds/core": "2.0.0-canary.922.4323.0",
