@@ -24,6 +24,10 @@ interface VaultItem {
   };
 }
 
+declare const StyleDictionaryObject: {
+  [key: string]: string | StyleDictionaryObject;
+};
+
 interface AnalyticsUtil {
   helper: {
     init: (
@@ -57,10 +61,6 @@ interface FileUtil {
     removeRepeatedEmptyLines: (filePath: string) => Promise<void>;
   };
 }
-
-declare const StyleDictionaryObject: {
-  [key: string]: string | StyleDictionaryObject;
-};
 
 interface GitUtil {
   backupSuffix: string;
@@ -129,6 +129,7 @@ interface JsonUtil {
     ) => void;
     deleteKey: (selector: string, file: string) => void;
     writeToFile: (json: Record<string, unknown>, file: string) => Promise<void>;
+    prettyPrintJson: (json: Record<string, unknown>) => string;
   };
 }
 

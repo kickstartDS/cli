@@ -20,63 +20,16 @@ const {
 } = createTask(moduleName, command);
 
 // get all needed utility helpers
-const {
-  // git: taskUtilGit,
-  // template: taskUtilTemplate,
-  // json: taskUtilJson,
-  shell: taskUtilShell,
-  getLogger
-} = taskUtil;
-
-// get templating helpers
-// const {
-//   helper: {
-//     templateFiles,
-//   },
-// } = taskUtilTemplate;
+const { json: taskUtilJson, shell: taskUtilShell, getLogger } = taskUtil;
 
 // get JSON helpers
-// const {
-//   helper: {
-//     getValue: jsonGetValue,
-//     copyValue: jsonCopyValue,
-//     setValue: jsonSetValue,
-//     deleteKey: jsonDeleteKey,
-//     writeToFile: jsonWriteToFile,
-//   },
-// } = taskUtilJson;
-
-// get git helpers
-// const {
-//   backupSuffix,
-//   helper: {
-//     checkoutRepo: gitCheckoutRepo,
-//     checkoutBranch: gitCheckoutBranch,
-//     checkoutNewBranch: gitCheckoutNewBranch,
-//     mergeBranch: gitMergeBranch,
-//     addBitbucketRemote: gitAddBitbucketRemote,
-//     removeRemote: gitRemoveRemote,
-//     addCommitPushPath: gitAddCommitPushPath,
-//     addCommitPushPaths: gitAddCommitPushPaths,
-//     hasRemoteBranch: gitHasRemoteBranch,
-//     fetchTags: gitFetchTags,
-//     pushTags: gitPushTags,
-//     pushBranch: gitPushBranch,
-//     pushNewBranch: gitPushNewBranch,
-//     mergeUnrelatedHistoriesBranch: gitMergeUnrelatedHistoriesBranch,
-//   },
-// } = taskUtilGit;
+const {
+  helper: { prettyPrintJson: jsonPrettyPrintJson }
+} = taskUtilJson;
 
 // get shell helpers
 const {
-  helper: {
-    requireCommands: shellRequireCommands
-    // fileExistsInCwd: shellFileExistsInCwd,
-    // dirExistsInCwd: shellDirExistsInCwd,
-    // backupDirInCwd: shellBackupDirInCwd,
-    // restoreDirInCwd: shellRestoreDirInCwd,
-    // hasBackedUpDirInCwd: shellHasBackedUpDirInCwd,
-  }
+  helper: { requireCommands: shellRequireCommands }
 } = taskUtilShell;
 
 // entrypoint for task, this will be called from your command
@@ -161,6 +114,14 @@ const run = async (
   const cmdLogger = getLogger(moduleName, 'info', true, true, command).child({
     command
   });
+
+  // log values to console in demo task
+  cmdLogger.info(
+    chalkTemplate`input for this task ({bold ${configFileName}}):\n${jsonPrettyPrintJson(
+      config
+    )}`.trim()
+  );
+
   if (isRevert)
     cmdLogger.info(
       chalkTemplate`starting: {bold reverting] demo command with demo variable {bold ${demoVariable}}`

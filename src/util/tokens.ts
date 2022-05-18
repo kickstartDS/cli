@@ -466,21 +466,18 @@ export default (logger: winston.Logger): TokensUtil => {
             break;
           }
           case 'duration': {
-            // const [, durationName] = token.name.split('-');
+            const [, durationName] = token.name.split('-');
 
-            // // TODO solve this by naming convention, to get to the basic scale more intelligently
-            // const durationBaseScale = [
-            //   "immediate",
-            //   "fast",
-            //   "medium",
-            //   "slow",
-            // ];
-            // if (durationBaseScale.includes(durationName)) {
-            //   map['transition']['duration'] = map['transition']['duration'] || {};
-            //   map['transition']['duration'][durationName] = {
-            //     value: `${(token.value as DurationValue).duration}${(token.value as DurationValue).unit}`
-            //   };
-            // }
+            // TODO solve this by naming convention, to get to the basic scale more intelligently
+            const durationBaseScale = ['immediate', 'fast', 'medium', 'slow'];
+            if (durationBaseScale.includes(durationName)) {
+              map.transition.duration = map.transition.duration || {};
+              map.transition.duration[durationName] = {
+                value: `${(token.value as DurationValue).duration}${
+                  (token.value as DurationValue).unit
+                }`
+              };
+            }
             break;
           }
           case 'textStyle':
@@ -495,7 +492,7 @@ export default (logger: winston.Logger): TokensUtil => {
     );
 
     forEach(Object.keys(output), async (category) => {
-      const fileJson: Record<string, any> = { ks: {} };
+      const fileJson: typeof StyleDictionaryObject = { ks: {} };
 
       if (category === 'border') {
         fileJson.ks = output[category];

@@ -9,7 +9,7 @@ const command = 'init';
 // add const variables needed for task
 // const demoVariable = 'demoValue';
 
-const requiredCommands: string[] = [];
+const requiredCommands: string[] = ['jq'];
 
 const {
   init: taskInit,
@@ -17,58 +17,12 @@ const {
   util: taskUtil
 } = createTask(moduleName, command);
 
-const {
-  // git: taskUtilGit,
-  // template: taskUtilTemplate,
-  // json: taskUtilJson,
-  shell: taskUtilShell,
-  getLogger
-} = taskUtil;
-
-// const {
-//   helper: {
-//     templateFiles,
-//   },
-// } = taskUtilTemplate;
-
-// const {
-//   helper: {
-//     getValue: jsonGetValue,
-//     copyValue: jsonCopyValue,
-//     setValue: jsonSetValue,
-//     deleteKey: jsonDeleteKey,
-//     writeToFile: jsonWriteToFile,
-//   },
-// } = taskUtilJson;
-
-// const {
-//   backupSuffix,
-//   helper: {
-//     checkoutRepo: gitCheckoutRepo,
-//     checkoutBranch: gitCheckoutBranch,
-//     checkoutNewBranch: gitCheckoutNewBranch,
-//     mergeBranch: gitMergeBranch,
-//     addBitbucketRemote: gitAddBitbucketRemote,
-//     removeRemote: gitRemoveRemote,
-//     addCommitPushPath: gitAddCommitPushPath,
-//     addCommitPushPaths: gitAddCommitPushPaths,
-//     hasRemoteBranch: gitHasRemoteBranch,
-//     fetchTags: gitFetchTags,
-//     pushTags: gitPushTags,
-//     pushBranch: gitPushBranch,
-//     pushNewBranch: gitPushNewBranch,
-//     mergeUnrelatedHistoriesBranch: gitMergeUnrelatedHistoriesBranch,
-//   },
-// } = taskUtilGit;
+const { shell: taskUtilShell, getLogger } = taskUtil;
 
 const {
   helper: {
     requireCommands: shellRequireCommands,
     fileExistsInCwd: shellFileExistsInCwd
-    // dirExistsInCwd: shellDirExistsInCwd,
-    // backupDirInCwd: shellBackupDirInCwd,
-    // restoreDirInCwd: shellRestoreDirInCwd,
-    // hasBackedUpDirInCwd: shellHasBackedUpDirInCwd,
   }
 } = taskUtilShell;
 
