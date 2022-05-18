@@ -9,11 +9,9 @@ import { getLogger } from './src/logging.js';
 
 import './src/completion.js';
 
-const packageJson = JSON.parse(
-  readFileSync(`${process.cwd()}/package.json`).toString()
-);
-
-console.log(JSON.stringify(packageJson, null, 2));
+// TODO wrong context when not called locally, points execution
+// dir package.json
+const packageJson = JSON.parse(readFileSync(`./package.json`).toString());
 
 // TODO handle light / dark mode for colors
 // eslint-disable-next-line no-console
