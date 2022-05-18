@@ -44,13 +44,13 @@ program
 
 // TODO completions are not working, yet
 program.command('tokens', 'initialize, build and convert your design tokens', {
-  executableFile: 'src/commands/tokens.js'
+  executableFile: `${cliRoot}/dist/src/commands/tokens.js`
 });
 program.command('completion', 'kickstartDS CLI shell autocompletion', {
-  executableFile: 'src/commands/completion.js'
+  executableFile: `${cliRoot}/dist/src/commands/completion.js`
 });
 program.command('example', 'example commands as orientation', {
-  executableFile: 'src/commands/example.js'
+  executableFile: `${cliRoot}/dist/src/commands/example.js`
 });
 
 // TODO currently not working?!
