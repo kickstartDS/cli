@@ -223,7 +223,7 @@ interface TokensUtil {
       targetDir?: string
     ) => Promise<void>;
     generateFromSpecifyPath: (
-      primitivesPath: string,
+      specifyTokensPath: string,
       targetDir?: string
     ) => Promise<void>;
     compileTokens: (styleDictionary: StyleDictionary.Core) => void;

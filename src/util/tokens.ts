@@ -129,6 +129,8 @@ export default (logger: winston.Logger): TokensUtil => {
     specifyRawTokens: TokenInterface[],
     targetDir: string
   ): Promise<void> => {
+    shell.mkdir('-p', targetDir);
+
     const output = specifyRawTokens.reduce<typeof StyleDictionaryObject>(
       (map, token) => {
         switch (token.type as TokensType) {
@@ -485,7 +487,7 @@ export default (logger: winston.Logger): TokensUtil => {
       ksDSTokenTemplate
     );
 
-    forEach(Object.keys(output), async (category) => {
+    await forEach(Object.keys(output), async (category) => {
       const fileJson: typeof StyleDictionaryObject = { ks: {} };
 
       if (category === 'border') {
@@ -518,11 +520,13 @@ export default (logger: winston.Logger): TokensUtil => {
       chalkTemplate`generating your token set from passed {bold Specify} values`
     );
 
-    generateFromSpecify(specifyRawTokens, targetDir);
+    const result = generateFromSpecify(specifyRawTokens, targetDir);
 
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
     );
+
+    return result;
   };
 
   const generateFromSpecifyPath = async (
@@ -536,11 +540,13 @@ export default (logger: winston.Logger): TokensUtil => {
     const tokensJson = JSON.parse(
       await fsReadFilePromise(specifyTokensPath, 'utf8')
     );
-    generateFromSpecify(tokensJson, targetDir);
+    const result = generateFromSpecify(tokensJson, targetDir);
 
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
     );
+
+    return result;
   };
 
   const generateTokens = async (

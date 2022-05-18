@@ -23,14 +23,18 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { generateFromPrimitivesPath: tokensGenerateFromPrimitivesPath }
+  helper: {
+    generateFromPrimitivesPath: tokensGenerateFromPrimitivesPath,
+    generateFromSpecifyPath: tokensGenerateFromSpecifyPath
+  }
 } = taskUtilTokens;
 
 const run = async (
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
-  debugActive: boolean
+  debugActive: boolean,
+  fromSpecify: boolean
 ): Promise<void> => {
   const callingPath: string = process.cwd();
 
@@ -40,7 +44,12 @@ const run = async (
     shellRequireCommands(requiredCommands);
 
     shell.pushd(`${callingPath}`);
-    if (!shellFileExistsInCwd('token-primitives.json')) {
+    if (fromSpecify && !shellFileExistsInCwd('specify-tokens.json')) {
+      logger.error(
+        chalkTemplate`no {bold specify-tokens.json} found in current directory`
+      );
+      shell.exit(1);
+    } else if (!shellFileExistsInCwd('token-primitives.json')) {
       logger.error(
         chalkTemplate`no {bold token-primitives.json} found in current directory`
       );
@@ -55,12 +64,21 @@ const run = async (
   const init = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold init} subtask`);
 
-    shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
-    await tokensGenerateFromPrimitivesPath(
-      `${shell.pwd()}/token-primitives.json`,
-      `${shell.pwd()}/tokens`
-    );
-    shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+    if (fromSpecify) {
+      shell.cp(`${callingPath}/specify-tokens.json`, shell.pwd());
+      await tokensGenerateFromSpecifyPath(
+        `${shell.pwd()}/specify-tokens.json`,
+        `${shell.pwd()}/tokens`
+      );
+      shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+    } else {
+      shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
+      await tokensGenerateFromPrimitivesPath(
+        `${shell.pwd()}/token-primitives.json`,
+        `${shell.pwd()}/tokens`
+      );
+      shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+    }
 
     logger.info(
       chalkTemplate`finished running the {bold init} subtask successfully`
