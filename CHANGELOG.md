@@ -1,3 +1,15 @@
+# v0.1.2 (Wed May 18 2022)
+
+#### 🐛 Bug Fix
+
+- feature(tokens): add command to compile tokens [#5](https://github.com/kickstartDS/kickstartDS-cli/pull/5) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.1.1 (Wed May 18 2022)
 
 #### 🐛 Bug Fix
