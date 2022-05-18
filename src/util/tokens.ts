@@ -543,15 +543,15 @@ export default (logger: winston.Logger): TokensUtil => {
     );
   };
 
-  const generateTokens = (
+  const generateTokens = async (
     tokensJson: Record<string, unknown>,
     targetDir: string
-  ): void => {
+  ): Promise<void> => {
     shell.mkdir('-p', targetDir);
-    writeTokens(tokensJson, targetDir);
+    return writeTokens(tokensJson, targetDir);
   };
 
-  const generateFromJson = async (
+  const generateFromPrimitivesJson = async (
     tokensJson: Record<string, unknown>,
     targetDir = 'tokens'
   ): Promise<void> => {
@@ -559,14 +559,16 @@ export default (logger: winston.Logger): TokensUtil => {
       chalkTemplate`generating your token set from passed values`
     );
 
-    generateTokens(tokensJson, targetDir);
+    const result = generateTokens(tokensJson, targetDir);
 
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
     );
+
+    return result;
   };
 
-  const generateFromPath = async (
+  const generateFromPrimitivesPath = async (
     primitivesPath: string,
     targetDir = 'tokens'
   ): Promise<void> => {
@@ -577,11 +579,13 @@ export default (logger: winston.Logger): TokensUtil => {
     const tokensJson = JSON.parse(
       await fsReadFilePromise(primitivesPath, 'utf8')
     );
-    generateTokens(tokensJson, targetDir);
+    const result = generateTokens(tokensJson, targetDir);
 
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
     );
+
+    return result;
   };
 
   const compileTokens = (styleDictionary: StyleDictionary.Core): void => {
@@ -613,8 +617,8 @@ export default (logger: winston.Logger): TokensUtil => {
 
   return {
     helper: {
-      generateFromJson,
-      generateFromPath,
+      generateFromPrimitivesJson,
+      generateFromPrimitivesPath,
       generateFromSpecifyJson,
       generateFromSpecifyPath,
       compileTokens,
