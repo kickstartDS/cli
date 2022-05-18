@@ -117,7 +117,9 @@ export default (moduleName: string, commandName: string): TaskUtil => {
         chalkTemplate`cleaning up temp dir {bold ${tmpDir}} before starting command`
       );
 
-      rm('-rf', [`${tmpDir}/*`, `${tmpDir}/.*`]);
+      if (tmpDir && tmpDir && tmpDir.length > 5 && tmpDir.startsWith('/tmp')) {
+        rm('-rf', [`${tmpDir}/*`, `${tmpDir}/.*`]);
+      }
       mkdir('-p', tmpDir);
 
       cmdLogger.info(
