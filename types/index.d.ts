@@ -212,19 +212,19 @@ interface TokensUtil {
   helper: {
     generateFromJson: (
       tokenJson: Record<string, unknown>,
-      targetDir: string
+      targetDir?: string
     ) => Promise<void>;
     generateFromPath: (
       primitivesPath: string,
-      targetDir: string
+      targetDir?: string
     ) => Promise<void>;
     generateFromSpecifyJson: (
       specifyRawTokens: TokenInterface[],
-      targetDir: string
+      targetDir?: string
     ) => Promise<void>;
     generateFromSpecifyPath: (
       primitivesPath: string,
-      targetDir: string
+      targetDir?: string
     ) => Promise<void>;
     compileTokens: (styleDictionary: StyleDictionary.Core) => void;
     getStyleDictionary: () => StyleDictionary.Core;
@@ -259,6 +259,7 @@ interface TaskUtil {
     promise: PromiseUtil;
     shell: ShellUtil;
     template: TemplateUtil;
+    tokens: TokensUtil;
   };
 }
 

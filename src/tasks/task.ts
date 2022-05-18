@@ -15,6 +15,7 @@ import onepasswordHelper from '../util/onepassword.js';
 import promiseHelper from '../util/promise.js';
 import shellHelper from '../util/shell.js';
 import templateHelper from '../util/template.js';
+import tokensHelper from '../util/tokens.js';
 
 import prompt from '../prompting.js';
 import {
@@ -38,6 +39,10 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   });
   const getTmpDir = () => tmpDir || '';
 
+  // TODO check if shell does, indeed, need to be injected here (as
+  // it was before). Seems like the `shell.pwd()` gets re-initialized
+  // to process.cwd() on import in a new file (like tokens.ts >
+  // generateTokens)
   const analyticsUtil = analyticsHelper(logger);
   const dockerUtil = dockerHelper(logger);
   const fileUtil = fileHelper(logger);
@@ -48,6 +53,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   const promiseUtil = promiseHelper(logger);
   const shellUtil = shellHelper(logger);
   const templateUtil = templateHelper(logger);
+  const tokensUtil = tokensHelper(logger);
 
   const {
     helper: {
@@ -251,7 +257,8 @@ export default (moduleName: string, commandName: string): TaskUtil => {
       onepassword: onepasswordUtil,
       promise: promiseUtil,
       shell: shellUtil,
-      template: templateUtil
+      template: templateUtil,
+      tokens: tokensUtil
     }
   };
 };

@@ -1,6 +1,7 @@
 import winston from 'winston';
 import StyleDictionary from 'style-dictionary';
 import path from 'path';
+import shell from 'shelljs';
 import tokens from '@kickstartds/core/design-tokens/index.js';
 import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
@@ -27,13 +28,6 @@ export default (logger: winston.Logger): TokensUtil => {
   const {
     helper: { forEach }
   } = promiseHelper(logger);
-
-  const generateTokens = (
-    tokensJson: Record<string, unknown>,
-    targetDir: string
-  ): void => {
-    writeTokens(tokensJson, targetDir);
-  };
 
   const ksDSTokenTemplate = {
     'background-color': {},
@@ -547,6 +541,14 @@ export default (logger: winston.Logger): TokensUtil => {
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
     );
+  };
+
+  const generateTokens = (
+    tokensJson: Record<string, unknown>,
+    targetDir: string
+  ): void => {
+    shell.mkdir('-p', targetDir);
+    writeTokens(tokensJson, targetDir);
   };
 
   const generateFromJson = async (

@@ -17,7 +17,7 @@ const {
   util: taskUtil
 } = createTask(moduleName, command);
 
-const { shell: taskUtilShell, getLogger } = taskUtil;
+const { shell: taskUtilShell, tokens: taskUtilTokens, getLogger } = taskUtil;
 
 const {
   helper: {
@@ -25,6 +25,10 @@ const {
     fileExistsInCwd: shellFileExistsInCwd
   }
 } = taskUtilShell;
+
+const {
+  helper: { generateFromPath: tokensGenerateFromPath }
+} = taskUtilTokens;
 
 const run = async (
   rcOnly: boolean,
@@ -55,7 +59,12 @@ const run = async (
   const init = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold init} subtask`);
 
-    // TODO implement subtask
+    shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
+    await tokensGenerateFromPath(
+      `${shell.pwd()}/token-primitives.json`,
+      `${shell.pwd()}/tokens`
+    );
+    shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
 
     logger.info(
       chalkTemplate`finished running the {bold init} subtask successfully`
