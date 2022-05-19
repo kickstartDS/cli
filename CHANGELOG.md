@@ -1,3 +1,15 @@
+# v0.2.3 (Thu May 19 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): cut removed deprecated tokens from boilerplate ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.2 (Thu May 19 2022)
 
 #### ⚠️ Pushed to `main`
