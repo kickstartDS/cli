@@ -303,20 +303,6 @@ export default (logger: winston.Logger): TokensUtil => {
             deprecated: true
           }
         }
-      },
-      g: {
-        'header-height': {
-          value: '0px',
-          attributes: {
-            deprecated: true
-          }
-        },
-        'scroll-offset': {
-          value: '{g.header-height.value}',
-          attributes: {
-            deprecated: true
-          }
-        }
       }
     }
   };
