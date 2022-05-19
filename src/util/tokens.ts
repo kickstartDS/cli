@@ -122,6 +122,202 @@ export default (logger: winston.Logger): TokensUtil => {
         value: '75em',
         private: true
       }
+    },
+    deprecated: {
+      color: {
+        black: {
+          _: {
+            value: {
+              r: 78,
+              g: 83,
+              b: 86,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          },
+          alpha: {
+            '1': {
+              value: {
+                r: 78,
+                g: 83,
+                b: 86,
+                a: 0.1
+              },
+              attributes: {
+                category: 'color',
+                deprecated: true
+              }
+            },
+            '2': {
+              value: {
+                r: 78,
+                g: 83,
+                b: 86,
+                a: 0.2
+              },
+              attributes: {
+                category: 'color',
+                deprecated: true
+              }
+            },
+            '3': {
+              value: {
+                r: 78,
+                g: 83,
+                b: 86,
+                a: 0.3
+              },
+              attributes: {
+                category: 'color',
+                deprecated: true
+              }
+            },
+            '5': {
+              value: {
+                r: 78,
+                g: 83,
+                b: 86,
+                a: 0.5
+              },
+              attributes: {
+                category: 'color',
+                deprecated: true
+              }
+            },
+            '7': {
+              value: {
+                r: 78,
+                g: 83,
+                b: 86,
+                a: 0.7
+              },
+              attributes: {
+                category: 'color',
+                deprecated: true
+              }
+            }
+          }
+        },
+        white: {
+          _: {
+            value: {
+              r: 255,
+              g: 255,
+              b: 255,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          },
+          alpha: {
+            '1': {
+              value: {
+                r: 255,
+                g: 255,
+                b: 255,
+                a: 0.1
+              },
+              attributes: {
+                category: 'color',
+                deprecated: true
+              }
+            }
+          }
+        },
+        grey: {
+          '1': {
+            value: {
+              r: 237,
+              g: 238,
+              b: 238,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          },
+          '2': {
+            value: {
+              r: 220,
+              g: 221,
+              b: 221,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          },
+          '3': {
+            value: {
+              r: 202,
+              g: 203,
+              b: 204,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          },
+          '7': {
+            value: {
+              r: 131,
+              g: 135,
+              b: 137,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          },
+          '9': {
+            value: {
+              r: 96,
+              g: 100,
+              b: 103,
+              a: 1
+            },
+            attributes: {
+              category: 'color',
+              deprecated: true
+            }
+          }
+        },
+        error: {
+          value: {
+            r: 230,
+            g: 2,
+            b: 1,
+            a: 1
+          },
+          attributes: {
+            category: 'color',
+            deprecated: true
+          }
+        }
+      },
+      g: {
+        'header-height': {
+          value: '0px',
+          attributes: {
+            deprecated: true
+          }
+        },
+        'scroll-offset': {
+          value: '{g.header-height.value}',
+          attributes: {
+            deprecated: true
+          }
+        }
+      }
     }
   };
 
@@ -498,6 +694,12 @@ export default (logger: winston.Logger): TokensUtil => {
         );
       } else if (category === 'transition') {
         fileJson.ks.duration = output[category];
+        await fsWriteFilePromise(
+          `${targetDir}/${category}.json`,
+          JSON.stringify(fileJson, null, 2)
+        );
+      } else if (category === 'breakpoint') {
+        fileJson.ks.breakpoints = output[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
