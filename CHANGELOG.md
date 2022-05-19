@@ -1,3 +1,16 @@
+# v0.2.4 (Thu May 19 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(tokens): use correct breakpoints key and filename ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.3 (Thu May 19 2022)
 
 #### ⚠️ Pushed to `main`
