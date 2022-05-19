@@ -685,9 +685,9 @@ export default (logger: winston.Logger): TokensUtil => {
           JSON.stringify(fileJson, null, 2)
         );
       } else if (category === 'breakpoint') {
-        fileJson.ks.breakpoints = output[category];
+        fileJson.ks.breakpoint = output[category];
         await fsWriteFilePromise(
-          `${targetDir}/${category}.json`,
+          `${targetDir}/${category}s.json`,
           JSON.stringify(fileJson, null, 2)
         );
       } else {
