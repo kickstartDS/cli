@@ -304,6 +304,475 @@ export default (logger: winston.Logger): TokensUtil => {
           }
         }
       }
+    },
+    typo: {
+      'font-family': {
+        display: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        },
+        copy: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        },
+        ui: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        },
+        mono: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        }
+      },
+      'font-weight': {
+        light: {
+          value: 300,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        },
+        regular: {
+          value: 400,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        },
+        'semi-bold': {
+          value: 600,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        },
+        bold: {
+          value: 700,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        }
+      },
+      'font-size': {
+        display: {
+          'bp-factor': {
+            phone: {
+              value: 1.167
+            },
+            tablet: {
+              value: 1.375
+            }
+          },
+          'xxs-base': {
+            value: '0.4064rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'xs-base': {
+            value: '0.5487rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          's-base': {
+            value: '0.7407rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '1rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.35rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.8225rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '2.4604rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          }
+        },
+        copy: {
+          'bp-factor': {
+            tablet: {
+              value: 1.125
+            }
+          },
+          'xxs-base': {
+            value: '0.476rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'xs-base': {
+            value: '0.5831rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          's-base': {
+            value: '0.7143rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '0.875rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.0719rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.313rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '1.6085rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          }
+        },
+        ui: {
+          'bp-factor': {
+            tablet: {
+              value: 1.125
+            }
+          },
+          'xxs-base': {
+            value: '0.544rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'xs-base': {
+            value: '0.6664rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          's-base': {
+            value: '0.8163rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '1rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.225rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.5006rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '1.8383rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          }
+        },
+        mono: {
+          'bp-factor': {
+            tablet: {
+              value: 1.125
+            }
+          },
+          'xxs-base': {
+            value: '0.544rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'xs-base': {
+            value: '0.6664rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          's-base': {
+            value: '0.8163rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '1rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.225rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.5006rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '1.8383rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          }
+        }
+      },
+      'line-height': {
+        display: {
+          xxs: {
+            value: 1.5
+          },
+          xs: {
+            value: 1.5
+          },
+          s: {
+            value: 1.5
+          },
+          m: {
+            value: 1.5
+          },
+          l: {
+            value: 1.5
+          },
+          xl: {
+            value: 1.5
+          },
+          xxl: {
+            value: 1.5
+          }
+        },
+        copy: {
+          xxs: {
+            value: 1.75
+          },
+          xs: {
+            value: 1.75
+          },
+          s: {
+            value: 1.75
+          },
+          m: {
+            value: 1.75
+          },
+          l: {
+            value: 1.75
+          },
+          xl: {
+            value: 1.75
+          },
+          xxl: {
+            value: 1.75
+          }
+        },
+        ui: {
+          xxs: {
+            value: 1.75
+          },
+          xs: {
+            value: 1.75
+          },
+          s: {
+            value: 1.75
+          },
+          m: {
+            value: 1.75
+          },
+          l: {
+            value: 1.75
+          },
+          xl: {
+            value: 1.75
+          },
+          xxl: {
+            value: 1.75
+          }
+        },
+        mono: {
+          xxs: {
+            value: 1.75
+          },
+          xs: {
+            value: 1.75
+          },
+          s: {
+            value: 1.75
+          },
+          m: {
+            value: 1.75
+          },
+          l: {
+            value: 1.75
+          },
+          xl: {
+            value: 1.75
+          },
+          xxl: {
+            value: 1.75
+          }
+        }
+      }
     }
   };
 
@@ -532,54 +1001,74 @@ export default (logger: winston.Logger): TokensUtil => {
             break;
           }
           case 'measurement': {
-            const splitName = token.name.split('-');
-            const measurementName =
-              splitName.length === 4
-                ? `${splitName[1]}-${splitName[2]}`
-                : splitName[1];
-            const measurementVariant =
-              splitName.length === 4 ? splitName[3] : splitName[2];
+            const splitName = token.name
+              .replace('stetch', 'stretch')
+              .split('-');
+            if (splitName.length !== 4) {
+              const measurementName =
+                splitName.length === 5
+                  ? `${splitName[1]}-${splitName[2]}`
+                  : splitName[1];
+              const measurementVariant =
+                splitName.length === 5
+                  ? `${splitName[3]}-${splitName[4]}`
+                  : splitName[2];
 
-            if (measurementVariant === 'base') {
-              map.spacing[measurementName] = {
-                _: {
-                  value: `{ks.spacing.${measurementName}.base}`,
-                  token: {
-                    category: 'Spacing',
-                    presenter: 'Spacing'
-                  }
-                },
-                base: {
-                  value: (
-                    (token.value as MeasurementValue).measure / 16
-                  ).toString(),
-                  attributes: {
-                    category: 'size'
-                  }
-                },
-                'bp-factor': {
-                  phone: {
-                    value: '1.25'
+              if (measurementVariant === 'base') {
+                map.spacing[measurementName] = {
+                  _: {
+                    value: `{ks.spacing.${measurementName}.base}`,
+                    token: {
+                      category: 'Spacing',
+                      presenter: 'Spacing'
+                    }
                   },
-                  tablet: {
-                    value: '1.5625'
+                  base: {
+                    value: (
+                      (token.value as MeasurementValue).measure / 16
+                    ).toString(),
+                    attributes: {
+                      category: 'size'
+                    }
                   },
-                  laptop: {
-                    value: '1.9531'
-                  },
-                  desktop: {
-                    value: '2.4414'
+                  'bp-factor': {
+                    phone: {
+                      value: '1.25'
+                    },
+                    tablet: {
+                      value: '1.5625'
+                    },
+                    laptop: {
+                      value: '1.9531'
+                    },
+                    desktop: {
+                      value: '2.4414'
+                    }
                   }
-                }
-              };
-            } else {
-              // TODO don't short-circuit this, need to read value from token, and match from base scale for reference
-              // now just stupidly chooses `measurementVariant` statically, which means those values are not actually adjustable
-              // map['spacing'][measurementName] = map['spacing'][measurementName] || {};
-              // map['spacing'][measurementName][measurementVariant] = map['spacing'][measurementName][measurementVariant] || {};
-              // map['spacing'][measurementName][measurementVariant] = measurementVariant.includes('-')
-              //   ? { value: `{ks.spacing.${measurementVariant}._}` }
-              //   : { value: `{ks.spacing.${measurementVariant}._} {ks.spacing.${measurementVariant}._}` };
+                };
+              } else {
+                // TODO don't short-circuit this, need to read value from token, and match from base scale for reference
+                // now just stupidly chooses `measurementVariant` statically, which means those values are not actually adjustable
+                const cleanedMeasurementVariant = measurementVariant.includes(
+                  '-'
+                )
+                  ? (measurementVariant.split('-').shift() as string)
+                  : measurementVariant;
+                map.spacing[measurementName] =
+                  map.spacing[measurementName] || {};
+                map.spacing[measurementName][cleanedMeasurementVariant] =
+                  map.spacing[measurementName][cleanedMeasurementVariant] || {};
+                map.spacing[measurementName][cleanedMeasurementVariant] =
+                  measurementVariant.includes('-')
+                    ? {
+                        value: `{ks.spacing.${cleanedMeasurementVariant
+                          .split('-')
+                          .shift()}._} {ks.spacing.${cleanedMeasurementVariant
+                          .split('-')
+                          .shift()}._}`
+                      }
+                    : { value: `{ks.spacing.${measurementVariant}._}` };
+              }
             }
             break;
           }
