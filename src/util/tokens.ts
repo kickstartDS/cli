@@ -306,472 +306,470 @@ export default (logger: winston.Logger): TokensUtil => {
       }
     },
     typo: {
-      typo: {
-        'font-family': {
-          display: {
-            value: 'brando-sans',
-            token: {
-              category: 'Font Families',
-              presenter: 'FontFamily'
+      'font-family': {
+        display: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        },
+        copy: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        },
+        ui: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        },
+        mono: {
+          value: 'brando-sans',
+          token: {
+            category: 'Font Families',
+            presenter: 'FontFamily'
+          }
+        }
+      },
+      'font-weight': {
+        light: {
+          value: 300,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        },
+        regular: {
+          value: 400,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        },
+        'semi-bold': {
+          value: 600,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        },
+        bold: {
+          value: 700,
+          token: {
+            category: 'Font Weights',
+            presenter: 'FontWeight'
+          }
+        }
+      },
+      'font-size': {
+        display: {
+          'bp-factor': {
+            phone: {
+              value: 1.167
+            },
+            tablet: {
+              value: 1.375
             }
           },
-          copy: {
-            value: 'brando-sans',
+          'xxs-base': {
+            value: '0.4064rem',
+            attributes: {
+              category: 'size'
+            },
             token: {
-              category: 'Font Families',
-              presenter: 'FontFamily'
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
             }
           },
-          ui: {
-            value: 'brando-sans',
+          'xs-base': {
+            value: '0.5487rem',
+            attributes: {
+              category: 'size'
+            },
             token: {
-              category: 'Font Families',
-              presenter: 'FontFamily'
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
             }
           },
-          mono: {
-            value: 'brando-sans',
+          's-base': {
+            value: '0.7407rem',
+            attributes: {
+              category: 'size'
+            },
             token: {
-              category: 'Font Families',
-              presenter: 'FontFamily'
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '1rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.35rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.8225rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '2.4604rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: display',
+              presenter: 'FontSize'
             }
           }
         },
-        'font-weight': {
-          light: {
-            value: 300,
-            token: {
-              category: 'Font Weights',
-              presenter: 'FontWeight'
+        copy: {
+          'bp-factor': {
+            tablet: {
+              value: 1.125
             }
           },
-          regular: {
-            value: 400,
+          'xxs-base': {
+            value: '0.476rem',
+            attributes: {
+              category: 'size'
+            },
             token: {
-              category: 'Font Weights',
-              presenter: 'FontWeight'
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
             }
           },
-          'semi-bold': {
-            value: 600,
+          'xs-base': {
+            value: '0.5831rem',
+            attributes: {
+              category: 'size'
+            },
             token: {
-              category: 'Font Weights',
-              presenter: 'FontWeight'
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
             }
           },
-          bold: {
-            value: 700,
+          's-base': {
+            value: '0.7143rem',
+            attributes: {
+              category: 'size'
+            },
             token: {
-              category: 'Font Weights',
-              presenter: 'FontWeight'
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '0.875rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.0719rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.313rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '1.6085rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: copy',
+              presenter: 'FontSize'
             }
           }
         },
-        'font-size': {
-          display: {
-            'bp-factor': {
-              phone: {
-                value: 1.167
-              },
-              tablet: {
-                value: 1.375
-              }
-            },
-            'xxs-base': {
-              value: '0.4064rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
-            },
-            'xs-base': {
-              value: '0.5487rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
-            },
-            's-base': {
-              value: '0.7407rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
-            },
-            'm-base': {
-              value: '1rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
-            },
-            'l-base': {
-              value: '1.35rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
-            },
-            'xl-base': {
-              value: '1.8225rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
-            },
-            'xxl-base': {
-              value: '2.4604rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: display',
-                presenter: 'FontSize'
-              }
+        ui: {
+          'bp-factor': {
+            tablet: {
+              value: 1.125
             }
           },
-          copy: {
-            'bp-factor': {
-              tablet: {
-                value: 1.125
-              }
+          'xxs-base': {
+            value: '0.544rem',
+            attributes: {
+              category: 'size'
             },
-            'xxs-base': {
-              value: '0.476rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
-            },
-            'xs-base': {
-              value: '0.5831rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
-            },
-            's-base': {
-              value: '0.7143rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
-            },
-            'm-base': {
-              value: '0.875rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
-            },
-            'l-base': {
-              value: '1.0719rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
-            },
-            'xl-base': {
-              value: '1.313rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
-            },
-            'xxl-base': {
-              value: '1.6085rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: copy',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
             }
           },
-          ui: {
-            'bp-factor': {
-              tablet: {
-                value: 1.125
-              }
+          'xs-base': {
+            value: '0.6664rem',
+            attributes: {
+              category: 'size'
             },
-            'xxs-base': {
-              value: '0.544rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
-            },
-            'xs-base': {
-              value: '0.6664rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
-            },
-            's-base': {
-              value: '0.8163rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
-            },
-            'm-base': {
-              value: '1rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
-            },
-            'l-base': {
-              value: '1.225rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
-            },
-            'xl-base': {
-              value: '1.5006rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
-            },
-            'xxl-base': {
-              value: '1.8383rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: ui',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
             }
           },
-          mono: {
-            'bp-factor': {
-              tablet: {
-                value: 1.125
-              }
+          's-base': {
+            value: '0.8163rem',
+            attributes: {
+              category: 'size'
             },
-            'xxs-base': {
-              value: '0.544rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'm-base': {
+            value: '1rem',
+            attributes: {
+              category: 'size'
             },
-            'xs-base': {
-              value: '0.6664rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.225rem',
+            attributes: {
+              category: 'size'
             },
-            's-base': {
-              value: '0.8163rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.5006rem',
+            attributes: {
+              category: 'size'
             },
-            'm-base': {
-              value: '1rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '1.8383rem',
+            attributes: {
+              category: 'size'
             },
-            'l-base': {
-              value: '1.225rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
-            },
-            'xl-base': {
-              value: '1.5006rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
-            },
-            'xxl-base': {
-              value: '1.8383rem',
-              attributes: {
-                category: 'size'
-              },
-              token: {
-                category: 'Font Sizes: mono',
-                presenter: 'FontSize'
-              }
+            token: {
+              category: 'Font Sizes: ui',
+              presenter: 'FontSize'
             }
           }
         },
-        'line-height': {
-          display: {
-            xxs: {
-              value: 1.5
-            },
-            xs: {
-              value: 1.5
-            },
-            s: {
-              value: 1.5
-            },
-            m: {
-              value: 1.5
-            },
-            l: {
-              value: 1.5
-            },
-            xl: {
-              value: 1.5
-            },
-            xxl: {
-              value: 1.5
+        mono: {
+          'bp-factor': {
+            tablet: {
+              value: 1.125
             }
           },
-          copy: {
-            xxs: {
-              value: 1.75
+          'xxs-base': {
+            value: '0.544rem',
+            attributes: {
+              category: 'size'
             },
-            xs: {
-              value: 1.75
-            },
-            s: {
-              value: 1.75
-            },
-            m: {
-              value: 1.75
-            },
-            l: {
-              value: 1.75
-            },
-            xl: {
-              value: 1.75
-            },
-            xxl: {
-              value: 1.75
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
             }
           },
-          ui: {
-            xxs: {
-              value: 1.75
+          'xs-base': {
+            value: '0.6664rem',
+            attributes: {
+              category: 'size'
             },
-            xs: {
-              value: 1.75
-            },
-            s: {
-              value: 1.75
-            },
-            m: {
-              value: 1.75
-            },
-            l: {
-              value: 1.75
-            },
-            xl: {
-              value: 1.75
-            },
-            xxl: {
-              value: 1.75
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
             }
           },
-          mono: {
-            xxs: {
-              value: 1.75
+          's-base': {
+            value: '0.8163rem',
+            attributes: {
+              category: 'size'
             },
-            xs: {
-              value: 1.75
-            },
-            s: {
-              value: 1.75
-            },
-            m: {
-              value: 1.75
-            },
-            l: {
-              value: 1.75
-            },
-            xl: {
-              value: 1.75
-            },
-            xxl: {
-              value: 1.75
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
             }
+          },
+          'm-base': {
+            value: '1rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'l-base': {
+            value: '1.225rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'xl-base': {
+            value: '1.5006rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          },
+          'xxl-base': {
+            value: '1.8383rem',
+            attributes: {
+              category: 'size'
+            },
+            token: {
+              category: 'Font Sizes: mono',
+              presenter: 'FontSize'
+            }
+          }
+        }
+      },
+      'line-height': {
+        display: {
+          xxs: {
+            value: 1.5
+          },
+          xs: {
+            value: 1.5
+          },
+          s: {
+            value: 1.5
+          },
+          m: {
+            value: 1.5
+          },
+          l: {
+            value: 1.5
+          },
+          xl: {
+            value: 1.5
+          },
+          xxl: {
+            value: 1.5
+          }
+        },
+        copy: {
+          xxs: {
+            value: 1.75
+          },
+          xs: {
+            value: 1.75
+          },
+          s: {
+            value: 1.75
+          },
+          m: {
+            value: 1.75
+          },
+          l: {
+            value: 1.75
+          },
+          xl: {
+            value: 1.75
+          },
+          xxl: {
+            value: 1.75
+          }
+        },
+        ui: {
+          xxs: {
+            value: 1.75
+          },
+          xs: {
+            value: 1.75
+          },
+          s: {
+            value: 1.75
+          },
+          m: {
+            value: 1.75
+          },
+          l: {
+            value: 1.75
+          },
+          xl: {
+            value: 1.75
+          },
+          xxl: {
+            value: 1.75
+          }
+        },
+        mono: {
+          xxs: {
+            value: 1.75
+          },
+          xs: {
+            value: 1.75
+          },
+          s: {
+            value: 1.75
+          },
+          m: {
+            value: 1.75
+          },
+          l: {
+            value: 1.75
+          },
+          xl: {
+            value: 1.75
+          },
+          xxl: {
+            value: 1.75
           }
         }
       }
