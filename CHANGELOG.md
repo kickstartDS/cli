@@ -1,3 +1,15 @@
+# v0.2.1 (Thu May 19 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): add deprecated tokens to specify import, too ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.0 (Wed May 18 2022)
 
 #### 🚀 Enhancement
