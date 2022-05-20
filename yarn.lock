@@ -749,10 +749,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kickstartds/core@2.0.0-canary.922.4344.0":
-  version "2.0.0-canary.922.4344.0"
-  resolved "https://registry.npmjs.org/@kickstartds/core/-/core-2.0.0-canary.922.4344.0.tgz#f7e22eca6386cca738ed3f2b8eda73e5bb09cf1a"
-  integrity sha512-BiFOsH3nPYH6ouCk+vZ/bSGh90aNCwTxIvQ6kJnxPG7mpY7fN9RI/w16b7f7JFLrOeFnngc+ejxR434R2vIcnQ==
+"@kickstartds/core@2.0.0-canary.922.4352.0":
+  version "2.0.0-canary.922.4352.0"
+  resolved "https://registry.npmjs.org/@kickstartds/core/-/core-2.0.0-canary.922.4352.0.tgz#17350974ccd2063a09562b9d34b08d54e855a5b1"
+  integrity sha512-78ipVk4eXOc2Ov561JkOTnWYHw1jc4P4DZRPnDD32Ol51mNn5x6OM7orkCLp5PQ0BZRQgokGj7XaMkevMg3yKg==
   dependencies:
     "@babel/core" "^7.17.8"
     "@babel/preset-react" "^7.16.7"

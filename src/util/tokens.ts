@@ -798,7 +798,7 @@ export default (logger: winston.Logger): TokensUtil => {
                 map.color[colorName] = map.color[colorName] || {};
 
                 if (colorVariantBase === 'default') {
-                  map.color[colorName]._ = {
+                  map.color[colorName].base = {
                     value: token.value,
                     attributes: {
                       category: 'color'
@@ -816,21 +816,23 @@ export default (logger: winston.Logger): TokensUtil => {
                   map.color[colorName][colorVariantBase][
                     colorVariantVariation
                   ] = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )} ${capitalCase(colorVariantBase)} Scale`,
-                      presenter: 'Color'
+                    base: {
+                      value: token.value,
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )} ${capitalCase(colorVariantBase)} Scale`,
+                        presenter: 'Color'
+                      }
                     }
                   };
                 } else {
                   map.color[colorName][colorVariantBase] =
                     map.color[colorName][colorVariantBase] || {};
-                  map.color[colorName][colorVariantBase]._ = {
+                  map.color[colorName][colorVariantBase].base = {
                     value: token.value,
                     attributes: {
                       category: 'color'
@@ -884,7 +886,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 if (!colorVariantBase) {
                   map[colorCategory][colorName] = {
-                    _: {
+                    base: {
                       value: token.value,
                       attributes: {
                         category: 'color'
@@ -898,23 +900,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   };
                 } else if (colorVariantBase === 'default') {
-                  // TODO re-check this, not explicitly defined in our SD format right now... so drop it
-                  // map[colorCategory][colorName]['_'] = {
-                  //   value: token.value,
-                  //   attributes: {
-                  //     category: "color"
-                  //   },
-                  //   token: {
-                  //     category: `Colors: Background ${capitalCase(colorName.replace('-', ' '))}`,
-                  //     presenter: "Color"
-                  //   }
-                  // };
-                } else if (colorVariantBase.includes('-')) {
-                  const [base, variation] = colorVariantBase.split('-');
-
-                  map[colorCategory][colorName][base] =
-                    map[colorCategory][colorName][base] || {};
-                  map[colorCategory][colorName][base][variation] = {
+                  map[colorCategory][colorName].base = {
                     value: token.value,
                     attributes: {
                       category: 'color'
@@ -926,10 +912,29 @@ export default (logger: winston.Logger): TokensUtil => {
                       presenter: 'Color'
                     }
                   };
+                } else if (colorVariantBase.includes('-')) {
+                  const [base, variation] = colorVariantBase.split('-');
+
+                  map[colorCategory][colorName][base] =
+                    map[colorCategory][colorName][base] || {};
+                  map[colorCategory][colorName][base][variation] = {
+                    base: {
+                      value: token.value,
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Background ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
+                    }
+                  };
                 } else {
                   map[colorCategory][colorName][colorVariantBase] =
                     map[colorCategory][colorName][colorVariantBase] || {};
-                  map[colorCategory][colorName][colorVariantBase]._ = {
+                  map[colorCategory][colorName][colorVariantBase].base = {
                     value: token.value,
                     attributes: {
                       category: 'color'
@@ -1169,6 +1174,12 @@ export default (logger: winston.Logger): TokensUtil => {
         );
       } else if (category === 'transition') {
         fileJson.ks.duration = output[category];
+        await fsWriteFilePromise(
+          `${targetDir}/${category}.json`,
+          JSON.stringify(fileJson, null, 2)
+        );
+      } else if (category === 'typo') {
+        fileJson.ks = output[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
