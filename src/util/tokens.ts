@@ -7,6 +7,7 @@ import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
 import { promisify } from 'util';
+import { traverse } from 'object-traversal';
 import {
   TokenInterface,
   TokensType,
@@ -125,170 +126,16 @@ export default (logger: winston.Logger): TokensUtil => {
     },
     deprecated: {
       color: {
-        black: {
-          _: {
-            value: {
-              r: 78,
-              g: 83,
-              b: 86,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
-          },
-          alpha: {
-            '1': {
-              value: {
-                r: 78,
-                g: 83,
-                b: 86,
-                a: 0.1
-              },
-              attributes: {
-                category: 'color',
-                deprecated: true
-              }
-            },
-            '2': {
-              value: {
-                r: 78,
-                g: 83,
-                b: 86,
-                a: 0.2
-              },
-              attributes: {
-                category: 'color',
-                deprecated: true
-              }
-            },
-            '3': {
-              value: {
-                r: 78,
-                g: 83,
-                b: 86,
-                a: 0.3
-              },
-              attributes: {
-                category: 'color',
-                deprecated: true
-              }
-            },
-            '5': {
-              value: {
-                r: 78,
-                g: 83,
-                b: 86,
-                a: 0.5
-              },
-              attributes: {
-                category: 'color',
-                deprecated: true
-              }
-            },
-            '7': {
-              value: {
-                r: 78,
-                g: 83,
-                b: 86,
-                a: 0.7
-              },
-              attributes: {
-                category: 'color',
-                deprecated: true
-              }
-            }
-          }
-        },
         white: {
-          _: {
-            value: {
-              r: 255,
-              g: 255,
-              b: 255,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
+          value: {
+            r: 255,
+            g: 255,
+            b: 255,
+            a: 1
           },
-          alpha: {
-            '1': {
-              value: {
-                r: 255,
-                g: 255,
-                b: 255,
-                a: 0.1
-              },
-              attributes: {
-                category: 'color',
-                deprecated: true
-              }
-            }
-          }
-        },
-        grey: {
-          '1': {
-            value: {
-              r: 237,
-              g: 238,
-              b: 238,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
-          },
-          '2': {
-            value: {
-              r: 220,
-              g: 221,
-              b: 221,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
-          },
-          '3': {
-            value: {
-              r: 202,
-              g: 203,
-              b: 204,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
-          },
-          '7': {
-            value: {
-              r: 131,
-              g: 135,
-              b: 137,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
-          },
-          '9': {
-            value: {
-              r: 96,
-              g: 100,
-              b: 103,
-              a: 1
-            },
-            attributes: {
-              category: 'color',
-              deprecated: true
-            }
+          attributes: {
+            category: 'color',
+            deprecated: true
           }
         },
         error: {
@@ -300,6 +147,20 @@ export default (logger: winston.Logger): TokensUtil => {
           },
           attributes: {
             category: 'color',
+            deprecated: true
+          }
+        }
+      },
+      g: {
+        'header-height': {
+          value: '0px',
+          attributes: {
+            deprecated: true
+          }
+        },
+        'scroll-offset': {
+          value: '{g.header-height.value}',
+          attributes: {
             deprecated: true
           }
         }
@@ -776,13 +637,59 @@ export default (logger: winston.Logger): TokensUtil => {
     }
   };
 
+  const generateTokens = async (
+    primitiveTokenJson: Record<string, unknown>,
+    targetDir: string
+  ): Promise<void> => {
+    shell.mkdir('-p', targetDir);
+    return writeTokens(primitiveTokenJson, targetDir);
+  };
+
+  const generateFromPrimitivesJson = async (
+    tokenJson: Record<string, unknown>,
+    targetDir = 'tokens'
+  ): Promise<void> => {
+    subCmdLogger.info(
+      chalkTemplate`generating your token set from passed values`
+    );
+
+    const result = generateTokens(tokenJson, targetDir);
+
+    subCmdLogger.info(
+      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
+    );
+
+    return result;
+  };
+
+  const generateFromPrimitivesPath = async (
+    primitiveTokenPath: string,
+    targetDir = 'tokens'
+  ): Promise<void> => {
+    subCmdLogger.info(
+      chalkTemplate`generating your token set from file {bold ${primitiveTokenPath}}`
+    );
+
+    const primitiveTokenJson = JSON.parse(
+      await fsReadFilePromise(primitiveTokenPath, 'utf8')
+    );
+    const result = generateTokens(primitiveTokenJson, targetDir);
+
+    subCmdLogger.info(
+      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
+    );
+
+    return result;
+  };
+
   const generateFromSpecify = async (
-    specifyRawTokens: TokenInterface[],
+    specifyTokenJson: TokenInterface[],
+    initializedTokenJson: typeof StyleDictionaryObject,
     targetDir: string
   ): Promise<void> => {
     shell.mkdir('-p', targetDir);
 
-    const output = specifyRawTokens.reduce<typeof StyleDictionaryObject>(
+    const baseScales = specifyTokenJson.reduce<typeof StyleDictionaryObject>(
       (map, token) => {
         switch (token.type as TokensType) {
           case 'color': {
@@ -850,7 +757,7 @@ export default (logger: winston.Logger): TokensUtil => {
               }
               case 'shadow': {
                 map['box-shadow'].color = map['box-shadow'].color || {};
-                const shadowTypes = specifyRawTokens
+                const shadowTypes = specifyTokenJson
                   .filter(
                     (shadowToken) =>
                       shadowToken.type === 'shadow' &&
@@ -878,126 +785,6 @@ export default (logger: winston.Logger): TokensUtil => {
                   };
                 });
 
-                break;
-              }
-              case 'background-color': {
-                map[colorCategory][colorName] =
-                  map[colorCategory][colorName] || {};
-
-                if (!colorVariantBase) {
-                  map[colorCategory][colorName] = {
-                    base: {
-                      value: token.value,
-                      attributes: {
-                        category: 'color'
-                      },
-                      token: {
-                        category: `Colors: Background ${capitalCase(
-                          colorName.replace('-', ' ')
-                        )}`,
-                        presenter: 'Color'
-                      }
-                    }
-                  };
-                } else if (colorVariantBase === 'default') {
-                  map[colorCategory][colorName].base = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: Background ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )}`,
-                      presenter: 'Color'
-                    }
-                  };
-                } else if (colorVariantBase.includes('-')) {
-                  const [base, variation] = colorVariantBase.split('-');
-
-                  map[colorCategory][colorName][base] =
-                    map[colorCategory][colorName][base] || {};
-                  map[colorCategory][colorName][base][variation] = {
-                    base: {
-                      value: token.value,
-                      attributes: {
-                        category: 'color'
-                      },
-                      token: {
-                        category: `Colors: Background ${capitalCase(
-                          colorName.replace('-', ' ')
-                        )}`,
-                        presenter: 'Color'
-                      }
-                    }
-                  };
-                } else {
-                  map[colorCategory][colorName][colorVariantBase] =
-                    map[colorCategory][colorName][colorVariantBase] || {};
-                  map[colorCategory][colorName][colorVariantBase].base = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: Background ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )}`,
-                      presenter: 'Color'
-                    }
-                  };
-                }
-
-                break;
-              }
-              case 'text-color': {
-                map[colorCategory][colorName] =
-                  map[colorCategory][colorName] || {};
-
-                if (colorVariantBase === 'default') {
-                  map[colorCategory][colorName]._ = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: 'Colors: Text Default',
-                      presenter: 'Color'
-                    }
-                  };
-                } else if (colorVariantBase.includes('-')) {
-                  const [base, variation] = colorVariantBase.split('-');
-
-                  map[colorCategory][colorName][base] =
-                    map[colorCategory][colorName][base] || {};
-                  map[colorCategory][colorName][base][variation] = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: Text ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )}`,
-                      presenter: 'Color'
-                    }
-                  };
-                } else {
-                  map[colorCategory][colorName][colorVariantBase] =
-                    map[colorCategory][colorName][colorVariantBase] || {};
-                  map[colorCategory][colorName][colorVariantBase]._ = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: Text ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )}`,
-                      presenter: 'Color'
-                    }
-                  };
-                }
                 break;
               }
               default:
@@ -1163,6 +950,346 @@ export default (logger: winston.Logger): TokensUtil => {
       ksDSTokenTemplate
     );
 
+    // console.log(JSON.stringify(baseScales.color, null, 2));
+
+    const output = specifyTokenJson.reduce<typeof StyleDictionaryObject>(
+      (map, token) => {
+        switch (token.type as TokensType) {
+          case 'color': {
+            const [colorCategory, colorName, colorVariantBase] =
+              token.name.split('/');
+
+            switch (colorCategory) {
+              case 'background-color': {
+                map[colorCategory][colorName] =
+                  map[colorCategory][colorName] || {};
+
+                if (!colorVariantBase) {
+                  const splitRef = initializedTokenJson.ks[colorCategory][
+                    colorName
+                  ].base.value
+                    .replace('{', '')
+                    .replace('}', '')
+                    .split('.');
+
+                  const [, , refColorName] = splitRef;
+
+                  const referenceableTokens: string[] = [];
+                  if (refColorName.endsWith('-inverted')) {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  } else {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        !meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  }
+
+                  if (referenceableTokens.length < 2) {
+                    map[colorCategory][colorName] = {
+                      base: {
+                        value:
+                          referenceableTokens.length === 0
+                            ? token.value
+                            : referenceableTokens[0],
+                        attributes: {
+                          category: 'color'
+                        },
+                        token: {
+                          category: `Colors: Background ${capitalCase(
+                            colorName.replace('-', ' ')
+                          )}`,
+                          presenter: 'Color'
+                        }
+                      }
+                    };
+                  } else {
+                    // TODO handle this when it occurs
+                    throw new Error(
+                      'multiple tokens that could be referenced found, should be exactly 1'
+                    );
+                  }
+                } else if (colorVariantBase === 'default') {
+                  const splitRef = initializedTokenJson.ks[colorCategory][
+                    colorName
+                  ].base.value
+                    .replace('{', '')
+                    .replace('}', '')
+                    .split('.');
+
+                  const [, , refColorName] = splitRef;
+
+                  const referenceableTokens: string[] = [];
+                  if (refColorName.endsWith('-inverted')) {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  } else {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        !meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  }
+
+                  if (referenceableTokens.length < 2) {
+                    map[colorCategory][colorName] = {
+                      base: {
+                        value:
+                          referenceableTokens.length === 0
+                            ? token.value
+                            : referenceableTokens[0],
+                        attributes: {
+                          category: 'color'
+                        },
+                        token: {
+                          category: `Colors: Background ${capitalCase(
+                            colorName.replace('-', ' ')
+                          )}`,
+                          presenter: 'Color'
+                        }
+                      }
+                    };
+                  } else {
+                    // TODO handle this when it occurs
+                    throw new Error(
+                      'multiple tokens that could be referenced found, should be exactly 1'
+                    );
+                  }
+                } else if (colorVariantBase.includes('-')) {
+                  const [base, variation] = colorVariantBase.split('-');
+
+                  const splitRef = initializedTokenJson.ks[colorCategory][
+                    colorName
+                  ][base][variation].base.value
+                    .replace('{', '')
+                    .replace('}', '')
+                    .split('.');
+
+                  const [, , refColorName] = splitRef;
+
+                  const referenceableTokens: string[] = [];
+                  if (refColorName.endsWith('-inverted')) {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  } else {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        !meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  }
+
+                  if (referenceableTokens.length < 2) {
+                    map[colorCategory][colorName][base] =
+                      map[colorCategory][colorName][base] || {};
+                    map[colorCategory][colorName][base][variation] = {
+                      base: {
+                        value:
+                          referenceableTokens.length === 0
+                            ? token.value
+                            : referenceableTokens[0],
+                        attributes: {
+                          category: 'color'
+                        },
+                        token: {
+                          category: `Colors: Background ${capitalCase(
+                            colorName.replace('-', ' ')
+                          )}`,
+                          presenter: 'Color'
+                        }
+                      }
+                    };
+                  } else {
+                    // TODO handle this when it occurs
+                    throw new Error(
+                      'multiple tokens that could be referenced found, should be exactly 1'
+                    );
+                  }
+                } else {
+                  const splitRef = initializedTokenJson.ks[colorCategory][
+                    colorName
+                  ][colorVariantBase].base.value
+                    .replace('{', '')
+                    .replace('}', '')
+                    .split('.');
+
+                  const [, , refColorName] = splitRef;
+
+                  const referenceableTokens: string[] = [];
+                  if (refColorName.endsWith('-inverted')) {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  } else {
+                    traverse(map.color, ({ key, value, meta }) => {
+                      if (
+                        key === 'base' &&
+                        value.value.r === (token.value as ColorValue).r &&
+                        value.value.g === (token.value as ColorValue).g &&
+                        value.value.b === (token.value as ColorValue).b &&
+                        value.value.a === (token.value as ColorValue).a &&
+                        !meta.nodePath?.includes('-inverted')
+                      ) {
+                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                      }
+                    });
+                  }
+
+                  if (referenceableTokens.length < 2) {
+                    map[colorCategory][colorName][colorVariantBase] =
+                      map[colorCategory][colorName][colorVariantBase] || {};
+                    map[colorCategory][colorName][colorVariantBase] = {
+                      base: {
+                        value:
+                          referenceableTokens.length === 0
+                            ? token.value
+                            : referenceableTokens[0],
+                        attributes: {
+                          category: 'color'
+                        },
+                        token: {
+                          category: `Colors: Background ${capitalCase(
+                            colorName.replace('-', ' ')
+                          )}`,
+                          presenter: 'Color'
+                        }
+                      }
+                    };
+                  } else {
+                    // TODO handle this when it occurs
+                    throw new Error(
+                      'multiple tokens that could be referenced found, should be exactly 1'
+                    );
+                  }
+                }
+
+                break;
+              }
+              case 'text-color': {
+                map[colorCategory][colorName] =
+                  map[colorCategory][colorName] || {};
+
+                if (colorVariantBase === 'default') {
+                  map[colorCategory][colorName]._ = {
+                    value: token.value,
+                    attributes: {
+                      category: 'color'
+                    },
+                    token: {
+                      category: 'Colors: Text Default',
+                      presenter: 'Color'
+                    }
+                  };
+                } else if (colorVariantBase.includes('-')) {
+                  const [base, variation] = colorVariantBase.split('-');
+
+                  map[colorCategory][colorName][base] =
+                    map[colorCategory][colorName][base] || {};
+                  map[colorCategory][colorName][base][variation] = {
+                    value: token.value,
+                    attributes: {
+                      category: 'color'
+                    },
+                    token: {
+                      category: `Colors: Text ${capitalCase(
+                        colorName.replace('-', ' ')
+                      )}`,
+                      presenter: 'Color'
+                    }
+                  };
+                } else {
+                  map[colorCategory][colorName][colorVariantBase] =
+                    map[colorCategory][colorName][colorVariantBase] || {};
+                  map[colorCategory][colorName][colorVariantBase]._ = {
+                    value: token.value,
+                    attributes: {
+                      category: 'color'
+                    },
+                    token: {
+                      category: `Colors: Text ${capitalCase(
+                        colorName.replace('-', ' ')
+                      )}`,
+                      presenter: 'Color'
+                    }
+                  };
+                }
+                break;
+              }
+              default:
+                break;
+            }
+            break;
+          }
+          default:
+            break;
+        }
+
+        return map;
+      },
+      baseScales
+    );
+
     await forEach(Object.keys(output), async (category) => {
       const fileJson: typeof StyleDictionaryObject = { ks: {} };
 
@@ -1190,6 +1317,15 @@ export default (logger: winston.Logger): TokensUtil => {
           `${targetDir}/${category}s.json`,
           JSON.stringify(fileJson, null, 2)
         );
+      } else if (category === 'deprecated') {
+        delete fileJson.ks;
+        Object.keys(output[category]).forEach((deprecatedCategory) => {
+          fileJson[deprecatedCategory] = output[category][deprecatedCategory];
+        });
+        await fsWriteFilePromise(
+          `${targetDir}/${category}.json`,
+          JSON.stringify(fileJson, null, 2)
+        );
       } else {
         fileJson.ks[category] = output[category];
         await fsWriteFilePromise(
@@ -1201,14 +1337,19 @@ export default (logger: winston.Logger): TokensUtil => {
   };
 
   const generateFromSpecifyJson = async (
-    specifyRawTokens: TokenInterface[],
+    specifyTokenJson: TokenInterface[],
+    initializedTokenJson: typeof StyleDictionaryObject,
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
       chalkTemplate`generating your token set from passed {bold Specify} values`
     );
 
-    const result = generateFromSpecify(specifyRawTokens, targetDir);
+    const result = generateFromSpecify(
+      specifyTokenJson,
+      initializedTokenJson,
+      targetDir
+    );
 
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
@@ -1218,62 +1359,42 @@ export default (logger: winston.Logger): TokensUtil => {
   };
 
   const generateFromSpecifyPath = async (
-    specifyTokensPath: string,
+    specifyTokenPath: string,
+    primitiveTokenPath: string,
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
-      chalkTemplate`generating your token set from file {bold ${specifyTokensPath}}`
+      chalkTemplate`generating your token set from file {bold ${specifyTokenPath}}`
     );
 
-    const tokensJson = JSON.parse(
-      await fsReadFilePromise(specifyTokensPath, 'utf8')
-    );
-    const result = generateFromSpecify(tokensJson, targetDir);
-
-    subCmdLogger.info(
-      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
+    const specifyTokenJson = JSON.parse(
+      await fsReadFilePromise(specifyTokenPath, 'utf8')
     );
 
-    return result;
-  };
+    await generateFromPrimitivesPath(primitiveTokenPath, 'tmp-tokens');
 
-  const generateTokens = async (
-    tokensJson: Record<string, unknown>,
-    targetDir: string
-  ): Promise<void> => {
-    shell.mkdir('-p', targetDir);
-    return writeTokens(tokensJson, targetDir);
-  };
+    const initializedTokenJson: typeof StyleDictionaryObject = { ks: {} };
+    await forEach(Object.keys(ksDSTokenTemplate), async (category) => {
+      const initialCategoryJson = JSON.parse(
+        await fsReadFilePromise(
+          `tmp-tokens/${
+            category === 'breakpoint' ? 'breakpoints' : category
+          }.json`,
+          'utf-8'
+        )
+      );
 
-  const generateFromPrimitivesJson = async (
-    tokensJson: Record<string, unknown>,
-    targetDir = 'tokens'
-  ): Promise<void> => {
-    subCmdLogger.info(
-      chalkTemplate`generating your token set from passed values`
+      if (category === 'deprecated') {
+      } else {
+        initializedTokenJson.ks[category] = initialCategoryJson.ks[category];
+      }
+    });
+
+    const result = generateFromSpecify(
+      specifyTokenJson,
+      initializedTokenJson,
+      targetDir
     );
-
-    const result = generateTokens(tokensJson, targetDir);
-
-    subCmdLogger.info(
-      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
-    );
-
-    return result;
-  };
-
-  const generateFromPrimitivesPath = async (
-    primitivesPath: string,
-    targetDir = 'tokens'
-  ): Promise<void> => {
-    subCmdLogger.info(
-      chalkTemplate`generating your token set from file {bold ${primitivesPath}}`
-    );
-
-    const tokensJson = JSON.parse(
-      await fsReadFilePromise(primitivesPath, 'utf8')
-    );
-    const result = generateTokens(tokensJson, targetDir);
 
     subCmdLogger.info(
       chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`

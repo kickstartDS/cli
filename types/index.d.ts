@@ -211,19 +211,21 @@ interface TemplateUtil {
 interface TokensUtil {
   helper: {
     generateFromPrimitivesJson: (
-      tokenJson: Record<string, unknown>,
+      primitiveTokenJson: Record<string, unknown>,
       targetDir?: string
     ) => Promise<void>;
     generateFromPrimitivesPath: (
-      primitivesPath: string,
+      primitiveTokenPath: string,
       targetDir?: string
     ) => Promise<void>;
     generateFromSpecifyJson: (
-      specifyRawTokens: TokenInterface[],
+      specifyTokenJson: TokenInterface[],
+      initializedTokenJson: typeof StyleDictionaryObject,
       targetDir?: string
     ) => Promise<void>;
     generateFromSpecifyPath: (
-      specifyTokensPath: string,
+      specifyTokenPath: string,
+      primitiveTokenPath: string,
       targetDir?: string
     ) => Promise<void>;
     compileTokens: (styleDictionary: StyleDictionary.Core) => void;

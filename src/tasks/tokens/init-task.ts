@@ -49,6 +49,11 @@ const run = async (
         chalkTemplate`no {bold specify-tokens.json} found in current directory`
       );
       shell.exit(1);
+    } else if (fromSpecify && !shellFileExistsInCwd('token-primitives.json')) {
+      logger.error(
+        chalkTemplate`no {bold token-primitives.json} found in current directory`
+      );
+      shell.exit(1);
     } else if (!shellFileExistsInCwd('token-primitives.json')) {
       logger.error(
         chalkTemplate`no {bold token-primitives.json} found in current directory`
@@ -66,8 +71,10 @@ const run = async (
 
     if (fromSpecify) {
       shell.cp(`${callingPath}/specify-tokens.json`, shell.pwd());
+      shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
       await tokensGenerateFromSpecifyPath(
         `${shell.pwd()}/specify-tokens.json`,
+        `${shell.pwd()}/token-primitives.json`,
         `${shell.pwd()}/tokens`
       );
       shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
