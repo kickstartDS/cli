@@ -650,7 +650,7 @@ export default (logger: winston.Logger): TokensUtil => {
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
-      chalkTemplate`generating your token set from passed values`
+      chalkTemplate`generating your token set from passed {bold primitives} values`
     );
 
     const result = generateTokens(tokenJson, targetDir);
@@ -667,7 +667,7 @@ export default (logger: winston.Logger): TokensUtil => {
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
-      chalkTemplate`generating your token set from file {bold ${primitiveTokenPath}}`
+      chalkTemplate`generating your token set from {bold primitives} file {bold ${primitiveTokenPath}}`
     );
 
     const primitiveTokenJson = JSON.parse(
@@ -950,384 +950,560 @@ export default (logger: winston.Logger): TokensUtil => {
       ksDSTokenTemplate
     );
 
-    // console.log(JSON.stringify(baseScales.color, null, 2));
+    const styleDictionary = specifyTokenJson.reduce<
+      typeof StyleDictionaryObject
+    >((map, token) => {
+      switch (token.type as TokensType) {
+        case 'color': {
+          const [colorCategory, colorName, colorVariantBase] =
+            token.name.split('/');
 
-    const output = specifyTokenJson.reduce<typeof StyleDictionaryObject>(
-      (map, token) => {
-        switch (token.type as TokensType) {
-          case 'color': {
-            const [colorCategory, colorName, colorVariantBase] =
-              token.name.split('/');
+          switch (colorCategory) {
+            case 'background-color': {
+              map[colorCategory][colorName] =
+                map[colorCategory][colorName] || {};
 
-            switch (colorCategory) {
-              case 'background-color': {
-                map[colorCategory][colorName] =
-                  map[colorCategory][colorName] || {};
+              if (!colorVariantBase) {
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
 
-                if (!colorVariantBase) {
-                  const splitRef = initializedTokenJson.ks[colorCategory][
-                    colorName
-                  ].base.value
-                    .replace('{', '')
-                    .replace('}', '')
-                    .split('.');
+                const [, , refColorName] = splitRef;
 
-                  const [, , refColorName] = splitRef;
-
-                  const referenceableTokens: string[] = [];
-                  if (refColorName.endsWith('-inverted')) {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  } else {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        !meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  }
-
-                  if (referenceableTokens.length < 2) {
-                    map[colorCategory][colorName] = {
-                      base: {
-                        value:
-                          referenceableTokens.length === 0
-                            ? token.value
-                            : referenceableTokens[0],
-                        attributes: {
-                          category: 'color'
-                        },
-                        token: {
-                          category: `Colors: Background ${capitalCase(
-                            colorName.replace('-', ' ')
-                          )}`,
-                          presenter: 'Color'
-                        }
-                      }
-                    };
-                  } else {
-                    // TODO handle this when it occurs
-                    throw new Error(
-                      'multiple tokens that could be referenced found, should be exactly 1'
-                    );
-                  }
-                } else if (colorVariantBase === 'default') {
-                  const splitRef = initializedTokenJson.ks[colorCategory][
-                    colorName
-                  ].base.value
-                    .replace('{', '')
-                    .replace('}', '')
-                    .split('.');
-
-                  const [, , refColorName] = splitRef;
-
-                  const referenceableTokens: string[] = [];
-                  if (refColorName.endsWith('-inverted')) {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  } else {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        !meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  }
-
-                  if (referenceableTokens.length < 2) {
-                    map[colorCategory][colorName] = {
-                      base: {
-                        value:
-                          referenceableTokens.length === 0
-                            ? token.value
-                            : referenceableTokens[0],
-                        attributes: {
-                          category: 'color'
-                        },
-                        token: {
-                          category: `Colors: Background ${capitalCase(
-                            colorName.replace('-', ' ')
-                          )}`,
-                          presenter: 'Color'
-                        }
-                      }
-                    };
-                  } else {
-                    // TODO handle this when it occurs
-                    throw new Error(
-                      'multiple tokens that could be referenced found, should be exactly 1'
-                    );
-                  }
-                } else if (colorVariantBase.includes('-')) {
-                  const [base, variation] = colorVariantBase.split('-');
-
-                  const splitRef = initializedTokenJson.ks[colorCategory][
-                    colorName
-                  ][base][variation].base.value
-                    .replace('{', '')
-                    .replace('}', '')
-                    .split('.');
-
-                  const [, , refColorName] = splitRef;
-
-                  const referenceableTokens: string[] = [];
-                  if (refColorName.endsWith('-inverted')) {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  } else {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        !meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  }
-
-                  if (referenceableTokens.length < 2) {
-                    map[colorCategory][colorName][base] =
-                      map[colorCategory][colorName][base] || {};
-                    map[colorCategory][colorName][base][variation] = {
-                      base: {
-                        value:
-                          referenceableTokens.length === 0
-                            ? token.value
-                            : referenceableTokens[0],
-                        attributes: {
-                          category: 'color'
-                        },
-                        token: {
-                          category: `Colors: Background ${capitalCase(
-                            colorName.replace('-', ' ')
-                          )}`,
-                          presenter: 'Color'
-                        }
-                      }
-                    };
-                  } else {
-                    // TODO handle this when it occurs
-                    throw new Error(
-                      'multiple tokens that could be referenced found, should be exactly 1'
-                    );
-                  }
+                const referenceableTokens: string[] = [];
+                if (refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
                 } else {
-                  const splitRef = initializedTokenJson.ks[colorCategory][
-                    colorName
-                  ][colorVariantBase].base.value
-                    .replace('{', '')
-                    .replace('}', '')
-                    .split('.');
-
-                  const [, , refColorName] = splitRef;
-
-                  const referenceableTokens: string[] = [];
-                  if (refColorName.endsWith('-inverted')) {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  } else {
-                    traverse(map.color, ({ key, value, meta }) => {
-                      if (
-                        key === 'base' &&
-                        value.value.r === (token.value as ColorValue).r &&
-                        value.value.g === (token.value as ColorValue).g &&
-                        value.value.b === (token.value as ColorValue).b &&
-                        value.value.a === (token.value as ColorValue).a &&
-                        !meta.nodePath?.includes('-inverted')
-                      ) {
-                        referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
-                      }
-                    });
-                  }
-
-                  if (referenceableTokens.length < 2) {
-                    map[colorCategory][colorName][colorVariantBase] =
-                      map[colorCategory][colorName][colorVariantBase] || {};
-                    map[colorCategory][colorName][colorVariantBase] = {
-                      base: {
-                        value:
-                          referenceableTokens.length === 0
-                            ? token.value
-                            : referenceableTokens[0],
-                        attributes: {
-                          category: 'color'
-                        },
-                        token: {
-                          category: `Colors: Background ${capitalCase(
-                            colorName.replace('-', ' ')
-                          )}`,
-                          presenter: 'Color'
-                        }
-                      }
-                    };
-                  } else {
-                    // TODO handle this when it occurs
-                    throw new Error(
-                      'multiple tokens that could be referenced found, should be exactly 1'
-                    );
-                  }
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
                 }
 
-                break;
-              }
-              case 'text-color': {
-                map[colorCategory][colorName] =
-                  map[colorCategory][colorName] || {};
-
-                if (colorVariantBase === 'default') {
-                  map[colorCategory][colorName]._ = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: 'Colors: Text Default',
-                      presenter: 'Color'
+                if (referenceableTokens.length < 2) {
+                  map[colorCategory][colorName] = {
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Background ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
                     }
                   };
-                } else if (colorVariantBase.includes('-')) {
-                  const [base, variation] = colorVariantBase.split('-');
+                } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
+                }
+              } else if (colorVariantBase === 'default') {
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
 
+                const [, , refColorName] = splitRef;
+
+                const referenceableTokens: string[] = [];
+                if (refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                } else {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                }
+
+                if (referenceableTokens.length < 2) {
+                  map[colorCategory][colorName] = {
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Background ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
+                    }
+                  };
+                } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
+                }
+              } else if (colorVariantBase.includes('-')) {
+                const [base, variation] = colorVariantBase.split('-');
+
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ][base][variation].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
+
+                const [, , refColorName] = splitRef;
+
+                const referenceableTokens: string[] = [];
+                if (refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                } else {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                }
+
+                if (referenceableTokens.length < 2) {
                   map[colorCategory][colorName][base] =
                     map[colorCategory][colorName][base] || {};
                   map[colorCategory][colorName][base][variation] = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: Text ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )}`,
-                      presenter: 'Color'
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Background ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
                     }
                   };
                 } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
+                }
+              } else {
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ][colorVariantBase].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
+
+                const [, , refColorName] = splitRef;
+
+                const referenceableTokens: string[] = [];
+                if (refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                } else {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                }
+
+                if (referenceableTokens.length < 2) {
                   map[colorCategory][colorName][colorVariantBase] =
                     map[colorCategory][colorName][colorVariantBase] || {};
-                  map[colorCategory][colorName][colorVariantBase]._ = {
-                    value: token.value,
-                    attributes: {
-                      category: 'color'
-                    },
-                    token: {
-                      category: `Colors: Text ${capitalCase(
-                        colorName.replace('-', ' ')
-                      )}`,
-                      presenter: 'Color'
+                  map[colorCategory][colorName][colorVariantBase] = {
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Background ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
                     }
                   };
+                } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
                 }
-                break;
               }
-              default:
-                break;
+
+              break;
             }
-            break;
+            case 'text-color': {
+              console.log('text-color', colorName, colorVariantBase);
+              map[colorCategory][colorName] =
+                map[colorCategory][colorName] || {};
+
+              if (colorVariantBase === 'default') {
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
+
+                const [, , refColorName] = splitRef;
+
+                const referenceableTokens: string[] = [];
+                if (refColorName && refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                } else if (refColorName) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                }
+
+                if (referenceableTokens.length < 2) {
+                  map[colorCategory][colorName] = {
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: 'Colors: Text Default',
+                        presenter: 'Color'
+                      }
+                    }
+                  };
+                } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
+                }
+              } else if (colorVariantBase.includes('-')) {
+                const [base, variation] = colorVariantBase.split('-');
+                console.log('variation', base, variation);
+
+                // console.log(
+                //   initializedTokenJson.ks[colorCategory][colorName][base][
+                //     variation
+                //   ],
+                //   initializedTokenJson.ks[colorCategory][colorName],
+                //   colorVariantBase,
+                //   base,
+                //   variation
+                // );
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ][base][variation].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
+
+                const [, , refColorName] = splitRef;
+
+                const referenceableTokens: string[] = [];
+                if (refColorName && refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                } else if (refColorName) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                }
+
+                if (referenceableTokens.length < 2) {
+                  map[colorCategory][colorName][base] =
+                    map[colorCategory][colorName][base] || {};
+                  map[colorCategory][colorName][base][variation] = {
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Text ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
+                    }
+                  };
+                } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
+                }
+              } else {
+                // console.log(
+                //   'error',
+                //   colorCategory,
+                //   colorName,
+                //   colorVariantBase,
+                //   initializedTokenJson.ks[colorCategory][colorName]
+                // );
+                console.log('token', token.name);
+                if (
+                  !initializedTokenJson.ks[colorCategory][colorName][
+                    colorVariantBase
+                  ]
+                ) {
+                  console.log(
+                    initializedTokenJson.ks[colorCategory][colorName]
+                  );
+                }
+                const splitRef = initializedTokenJson.ks[colorCategory][
+                  colorName
+                ][colorVariantBase].base.value
+                  .replace('{', '')
+                  .replace('}', '')
+                  .split('.');
+
+                const [, , refColorName] = splitRef;
+
+                const referenceableTokens: string[] = [];
+                if (refColorName && refColorName.endsWith('-inverted')) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                } else if (refColorName) {
+                  traverse(map.color, ({ key, value, meta }) => {
+                    if (
+                      key === 'base' &&
+                      value.value.r === (token.value as ColorValue).r &&
+                      value.value.g === (token.value as ColorValue).g &&
+                      value.value.b === (token.value as ColorValue).b &&
+                      value.value.a === (token.value as ColorValue).a &&
+                      !meta.nodePath?.includes('-inverted')
+                    ) {
+                      referenceableTokens.push(`{ks.color.${meta.nodePath}}`);
+                    }
+                  });
+                }
+
+                if (referenceableTokens.length < 2) {
+                  map[colorCategory][colorName][colorVariantBase] =
+                    map[colorCategory][colorName][colorVariantBase] || {};
+                  map[colorCategory][colorName][colorVariantBase] = {
+                    base: {
+                      value:
+                        referenceableTokens.length === 0
+                          ? token.value
+                          : referenceableTokens[0],
+                      attributes: {
+                        category: 'color'
+                      },
+                      token: {
+                        category: `Colors: Text ${capitalCase(
+                          colorName.replace('-', ' ')
+                        )}`,
+                        presenter: 'Color'
+                      }
+                    }
+                  };
+                } else {
+                  // TODO handle this when it occurs
+                  throw new Error(
+                    'multiple tokens that could be referenced found, should be exactly 1'
+                  );
+                }
+              }
+              break;
+            }
+            default:
+              break;
           }
-          default:
-            break;
+          break;
         }
+        default:
+          break;
+      }
 
-        return map;
-      },
-      baseScales
-    );
+      return map;
+    }, baseScales);
 
-    await forEach(Object.keys(output), async (category) => {
+    await forEach(Object.keys(styleDictionary), async (category) => {
       const fileJson: typeof StyleDictionaryObject = { ks: {} };
 
       if (category === 'border') {
-        fileJson.ks = output[category];
+        fileJson.ks = styleDictionary[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
         );
       } else if (category === 'transition') {
-        fileJson.ks.duration = output[category];
+        fileJson.ks.duration = styleDictionary[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
         );
       } else if (category === 'typo') {
-        fileJson.ks = output[category];
+        fileJson.ks = styleDictionary[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
         );
       } else if (category === 'breakpoint') {
-        fileJson.ks.breakpoint = output[category];
+        fileJson.ks.breakpoint = styleDictionary[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}s.json`,
           JSON.stringify(fileJson, null, 2)
         );
       } else if (category === 'deprecated') {
         delete fileJson.ks;
-        Object.keys(output[category]).forEach((deprecatedCategory) => {
-          fileJson[deprecatedCategory] = output[category][deprecatedCategory];
+        Object.keys(styleDictionary[category]).forEach((deprecatedCategory) => {
+          fileJson[deprecatedCategory] =
+            styleDictionary[category][deprecatedCategory];
         });
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
         );
       } else {
-        fileJson.ks[category] = output[category];
+        fileJson.ks[category] = styleDictionary[category];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
@@ -1364,20 +1540,20 @@ export default (logger: winston.Logger): TokensUtil => {
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
-      chalkTemplate`generating your token set from file {bold ${specifyTokenPath}}`
+      chalkTemplate`generating your token set from {bold Specify} tokens file {bold ${specifyTokenPath}}`
     );
 
     const specifyTokenJson = JSON.parse(
       await fsReadFilePromise(specifyTokenPath, 'utf8')
     );
 
-    await generateFromPrimitivesPath(primitiveTokenPath, 'tmp-tokens');
+    await generateFromPrimitivesPath(primitiveTokenPath, `${targetDir}-tmp`);
 
     const initializedTokenJson: typeof StyleDictionaryObject = { ks: {} };
     await forEach(Object.keys(ksDSTokenTemplate), async (category) => {
       const initialCategoryJson = JSON.parse(
         await fsReadFilePromise(
-          `tmp-tokens/${
+          `${targetDir}-tmp/${
             category === 'breakpoint' ? 'breakpoints' : category
           }.json`,
           'utf-8'
