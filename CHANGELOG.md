@@ -1,3 +1,16 @@
+# v0.2.15 (Sun May 22 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- feat(tokens): add typo tokens to specify convert ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.14 (Sun May 22 2022)
 
 #### ⚠️ Pushed to `main`
