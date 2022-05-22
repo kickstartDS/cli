@@ -793,74 +793,46 @@ export default (logger: winston.Logger): TokensUtil => {
             break;
           }
           case 'measurement': {
-            const splitName = token.name
-              .replace('stetch', 'stretch')
-              .split('-');
-            if (splitName.length !== 4) {
-              const measurementName =
-                splitName.length === 5
-                  ? `${splitName[1]}-${splitName[2]}`
-                  : splitName[1];
-              const measurementVariant =
-                splitName.length === 5
-                  ? `${splitName[3]}-${splitName[4]}`
-                  : splitName[2];
+            // TODO ideally this wouldn't be needed, but Specify
+            // passes all rectangles... and we use one as a divider
+            if (token.name === 'Rectangle') {
+              break;
+            }
 
-              if (measurementVariant === 'base') {
-                map.spacing[measurementName] = {
-                  _: {
-                    value: `{ks.spacing.${measurementName}.base}`,
-                    token: {
-                      category: 'Spacing',
-                      presenter: 'Spacing'
-                    }
-                  },
-                  base: {
-                    value: (
-                      (token.value as MeasurementValue).measure / 16
-                    ).toString(),
-                    attributes: {
-                      category: 'size'
-                    }
-                  },
-                  'bp-factor': {
-                    phone: {
-                      value: '1.25'
-                    },
-                    tablet: {
-                      value: '1.5625'
-                    },
-                    laptop: {
-                      value: '1.9531'
-                    },
-                    desktop: {
-                      value: '2.4414'
-                    }
+            if (token.name.endsWith('-base')) {
+              const splitName = token.name.split('-');
+              const measurementName = splitName[1];
+              map.spacing[measurementName] = {
+                _: {
+                  value: `{ks.spacing.${measurementName}.base}`,
+                  token: {
+                    category: 'Spacing',
+                    presenter: 'Spacing'
                   }
-                };
-              } else {
-                // TODO don't short-circuit this, need to read value from token, and match from base scale for reference
-                // now just stupidly chooses `measurementVariant` statically, which means those values are not actually adjustable
-                const cleanedMeasurementVariant = measurementVariant.includes(
-                  '-'
-                )
-                  ? (measurementVariant.split('-').shift() as string)
-                  : measurementVariant;
-                map.spacing[measurementName] =
-                  map.spacing[measurementName] || {};
-                map.spacing[measurementName][cleanedMeasurementVariant] =
-                  map.spacing[measurementName][cleanedMeasurementVariant] || {};
-                map.spacing[measurementName][cleanedMeasurementVariant] =
-                  measurementVariant.includes('-')
-                    ? {
-                        value: `{ks.spacing.${cleanedMeasurementVariant
-                          .split('-')
-                          .shift()}._} {ks.spacing.${cleanedMeasurementVariant
-                          .split('-')
-                          .shift()}._}`
-                      }
-                    : { value: `{ks.spacing.${measurementVariant}._}` };
-              }
+                },
+                base: {
+                  value: (
+                    (token.value as MeasurementValue).measure / 16
+                  ).toString(),
+                  attributes: {
+                    category: 'size'
+                  }
+                },
+                'bp-factor': {
+                  phone: {
+                    value: '1.414'
+                  },
+                  tablet: {
+                    value: '1.9994'
+                  },
+                  laptop: {
+                    value: '2.8271'
+                  },
+                  desktop: {
+                    value: '3.9976'
+                  }
+                }
+              };
             }
             break;
           }
@@ -1427,6 +1399,111 @@ export default (logger: winston.Logger): TokensUtil => {
             }
             default:
               break;
+          }
+          break;
+        }
+        case 'measurement': {
+          // TODO ideally this wouldn't be needed, but Specify
+          // passes all rectangles... and we use one as a divider
+          if (token.name === 'Rectangle') {
+            break;
+          }
+
+          const splitName = token.name.split('-');
+          if (splitName.length !== 4 && !token.name.endsWith('-base')) {
+            const measurementName =
+              splitName.length === 5
+                ? `${splitName[1]}-${splitName[2]}`
+                : splitName[1];
+            const measurementVariant =
+              splitName.length === 5
+                ? `${splitName[3]}-${splitName[4]}`
+                : splitName[2];
+
+            if (measurementVariant.includes('-')) {
+              const [base, orientation] = measurementVariant.split('-');
+
+              const referenceableTokens: string[] = [];
+              traverse(map.spacing, ({ key, value, meta }) => {
+                if (
+                  key === 'base' &&
+                  value.value ===
+                    ((token.value as MeasurementValue).measure / 16).toString()
+                ) {
+                  referenceableTokens.push(`{ks.spacing.${meta.nodePath}}`);
+                }
+              });
+
+              if (referenceableTokens.length < 2) {
+                map.spacing[measurementName] =
+                  map.spacing[measurementName] || {};
+                map.spacing[measurementName][base] = map.spacing[
+                  measurementName
+                ][base] || {
+                  value: `{ks.spacing.horizontal._} {ks.spacing.vertical._}`
+                };
+                const value =
+                  referenceableTokens.length === 0
+                    ? (
+                        (token.value as MeasurementValue).measure / 16
+                      ).toString()
+                    : referenceableTokens[0].split('.')[2];
+
+                if (orientation === 'h') {
+                  const search =
+                    referenceableTokens.length === 0
+                      ? '{ks.spacing.horizontal._}'
+                      : 'horizontal';
+
+                  map.spacing[measurementName][base].value = map.spacing[
+                    measurementName
+                  ][base].value.replace(search, value);
+                } else {
+                  const search =
+                    referenceableTokens.length === 0
+                      ? '{ks.spacing.vertical._}'
+                      : 'vertical';
+
+                  map.spacing[measurementName][base].value = map.spacing[
+                    measurementName
+                  ][base].value.replace(search, value);
+                }
+              } else {
+                // TODO handle this when it occurs
+                throw new Error(
+                  'multiple tokens that could be referenced found, should be exactly 1'
+                );
+              }
+            } else {
+              const referenceableTokens: string[] = [];
+              traverse(map.spacing, ({ key, value, meta }) => {
+                if (
+                  key === 'base' &&
+                  value.value ===
+                    ((token.value as MeasurementValue).measure / 16).toString()
+                ) {
+                  referenceableTokens.push(`{ks.spacing.${meta.nodePath}}`);
+                }
+              });
+
+              if (referenceableTokens.length < 2) {
+                map.spacing[measurementName] =
+                  map.spacing[measurementName] || {};
+                map.spacing[measurementName][measurementVariant] =
+                  map.spacing[measurementName][measurementVariant] || {};
+                map.spacing[measurementName][measurementVariant] = {
+                  value:
+                    referenceableTokens.length === 0
+                      ? token.value
+                      : referenceableTokens[0]
+                };
+              } else {
+                // TODO handle this when it occurs
+                throw new Error(
+                  'multiple tokens that could be referenced found, should be exactly 1'
+                );
+              }
+            }
           }
           break;
         }
