@@ -650,13 +650,13 @@ export default (logger: winston.Logger): TokensUtil => {
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
-      chalkTemplate`generating your token set from passed {bold primitives} values`
+      chalkTemplate`generating your token set from passed {bold primitives} tokens values`
     );
 
     const result = generateTokens(tokenJson, targetDir);
 
     subCmdLogger.info(
-      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
+      chalkTemplate`successfully generated {bold primitives} tokens and wrote them to folder {bold ${targetDir}}`
     );
 
     return result;
@@ -667,7 +667,7 @@ export default (logger: winston.Logger): TokensUtil => {
     targetDir = 'tokens'
   ): Promise<void> => {
     subCmdLogger.info(
-      chalkTemplate`generating your token set from {bold primitives} file {bold ${primitiveTokenPath}}`
+      chalkTemplate`generating your token set from {bold primitives} tokens file {bold ${primitiveTokenPath}}`
     );
 
     const primitiveTokenJson = JSON.parse(
@@ -676,7 +676,7 @@ export default (logger: winston.Logger): TokensUtil => {
     const result = generateTokens(primitiveTokenJson, targetDir);
 
     subCmdLogger.info(
-      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
+      chalkTemplate`successfully generated {bold Specify} tokens and wrote them to folder {bold ${targetDir}}`
     );
 
     return result;
@@ -1226,7 +1226,6 @@ export default (logger: winston.Logger): TokensUtil => {
               break;
             }
             case 'text-color': {
-              console.log('text-color', colorName, colorVariantBase);
               map[colorCategory][colorName] =
                 map[colorCategory][colorName] || {};
 
@@ -1293,17 +1292,7 @@ export default (logger: winston.Logger): TokensUtil => {
                 }
               } else if (colorVariantBase.includes('-')) {
                 const [base, variation] = colorVariantBase.split('-');
-                console.log('variation', base, variation);
 
-                // console.log(
-                //   initializedTokenJson.ks[colorCategory][colorName][base][
-                //     variation
-                //   ],
-                //   initializedTokenJson.ks[colorCategory][colorName],
-                //   colorVariantBase,
-                //   base,
-                //   variation
-                // );
                 const splitRef = initializedTokenJson.ks[colorCategory][
                   colorName
                 ][base][variation].base.value
@@ -1369,23 +1358,6 @@ export default (logger: winston.Logger): TokensUtil => {
                   );
                 }
               } else {
-                // console.log(
-                //   'error',
-                //   colorCategory,
-                //   colorName,
-                //   colorVariantBase,
-                //   initializedTokenJson.ks[colorCategory][colorName]
-                // );
-                console.log('token', token.name);
-                if (
-                  !initializedTokenJson.ks[colorCategory][colorName][
-                    colorVariantBase
-                  ]
-                ) {
-                  console.log(
-                    initializedTokenJson.ks[colorCategory][colorName]
-                  );
-                }
                 const splitRef = initializedTokenJson.ks[colorCategory][
                   colorName
                 ][colorVariantBase].base.value
@@ -1528,7 +1500,7 @@ export default (logger: winston.Logger): TokensUtil => {
     );
 
     subCmdLogger.info(
-      chalkTemplate`successfully generated tokens and wrote them to folder {bold ${targetDir}}`
+      chalkTemplate`successfully generated {bold primitives} tokens and wrote them to folder {bold ${targetDir}}`
     );
 
     return result;
