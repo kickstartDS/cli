@@ -16,7 +16,9 @@ import {
   OpacityValue,
   ColorValue,
   DurationValue,
-  ShadowValue
+  ShadowValue,
+  FontToken,
+  TextStyleValue
 } from '@specifyapp/parsers/types';
 import promiseHelper from './promise.js';
 
@@ -168,36 +170,7 @@ export default (logger: winston.Logger): TokensUtil => {
       }
     },
     typo: {
-      'font-family': {
-        display: {
-          value: 'brando-sans',
-          token: {
-            category: 'Font Families',
-            presenter: 'FontFamily'
-          }
-        },
-        copy: {
-          value: 'brando-sans',
-          token: {
-            category: 'Font Families',
-            presenter: 'FontFamily'
-          }
-        },
-        ui: {
-          value: 'brando-sans',
-          token: {
-            category: 'Font Families',
-            presenter: 'FontFamily'
-          }
-        },
-        mono: {
-          value: 'brando-sans',
-          token: {
-            category: 'Font Families',
-            presenter: 'FontFamily'
-          }
-        }
-      },
+      'font-family': {},
       'font-weight': {
         light: {
           value: 300,
@@ -235,77 +208,7 @@ export default (logger: winston.Logger): TokensUtil => {
               value: 1.167
             },
             tablet: {
-              value: 1.375
-            }
-          },
-          'xxs-base': {
-            value: '0.4064rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
-            }
-          },
-          'xs-base': {
-            value: '0.5487rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
-            }
-          },
-          's-base': {
-            value: '0.7407rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
-            }
-          },
-          'm-base': {
-            value: '1rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
-            }
-          },
-          'l-base': {
-            value: '1.35rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
-            }
-          },
-          'xl-base': {
-            value: '1.8225rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
-            }
-          },
-          'xxl-base': {
-            value: '2.4604rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: display',
-              presenter: 'FontSize'
+              value: 1.333
             }
           }
         },
@@ -314,76 +217,6 @@ export default (logger: winston.Logger): TokensUtil => {
             tablet: {
               value: 1.125
             }
-          },
-          'xxs-base': {
-            value: '0.476rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
-          },
-          'xs-base': {
-            value: '0.5831rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
-          },
-          's-base': {
-            value: '0.7143rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
-          },
-          'm-base': {
-            value: '0.875rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
-          },
-          'l-base': {
-            value: '1.0719rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
-          },
-          'xl-base': {
-            value: '1.313rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
-          },
-          'xxl-base': {
-            value: '1.6085rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: copy',
-              presenter: 'FontSize'
-            }
           }
         },
         ui: {
@@ -391,250 +224,17 @@ export default (logger: winston.Logger): TokensUtil => {
             tablet: {
               value: 1.125
             }
-          },
-          'xxs-base': {
-            value: '0.544rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
-          },
-          'xs-base': {
-            value: '0.6664rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
-          },
-          's-base': {
-            value: '0.8163rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
-          },
-          'm-base': {
-            value: '1rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
-          },
-          'l-base': {
-            value: '1.225rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
-          },
-          'xl-base': {
-            value: '1.5006rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
-          },
-          'xxl-base': {
-            value: '1.8383rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: ui',
-              presenter: 'FontSize'
-            }
           }
         },
         mono: {
           'bp-factor': {
             tablet: {
               value: 1.125
-            }
-          },
-          'xxs-base': {
-            value: '0.544rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
-            }
-          },
-          'xs-base': {
-            value: '0.6664rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
-            }
-          },
-          's-base': {
-            value: '0.8163rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
-            }
-          },
-          'm-base': {
-            value: '1rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
-            }
-          },
-          'l-base': {
-            value: '1.225rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
-            }
-          },
-          'xl-base': {
-            value: '1.5006rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
-            }
-          },
-          'xxl-base': {
-            value: '1.8383rem',
-            attributes: {
-              category: 'size'
-            },
-            token: {
-              category: 'Font Sizes: mono',
-              presenter: 'FontSize'
             }
           }
         }
       },
-      'line-height': {
-        display: {
-          xxs: {
-            value: 1.5
-          },
-          xs: {
-            value: 1.5
-          },
-          s: {
-            value: 1.5
-          },
-          m: {
-            value: 1.5
-          },
-          l: {
-            value: 1.5
-          },
-          xl: {
-            value: 1.5
-          },
-          xxl: {
-            value: 1.5
-          }
-        },
-        copy: {
-          xxs: {
-            value: 1.75
-          },
-          xs: {
-            value: 1.75
-          },
-          s: {
-            value: 1.75
-          },
-          m: {
-            value: 1.75
-          },
-          l: {
-            value: 1.75
-          },
-          xl: {
-            value: 1.75
-          },
-          xxl: {
-            value: 1.75
-          }
-        },
-        ui: {
-          xxs: {
-            value: 1.75
-          },
-          xs: {
-            value: 1.75
-          },
-          s: {
-            value: 1.75
-          },
-          m: {
-            value: 1.75
-          },
-          l: {
-            value: 1.75
-          },
-          xl: {
-            value: 1.75
-          },
-          xxl: {
-            value: 1.75
-          }
-        },
-        mono: {
-          xxs: {
-            value: 1.75
-          },
-          xs: {
-            value: 1.75
-          },
-          s: {
-            value: 1.75
-          },
-          m: {
-            value: 1.75
-          },
-          l: {
-            value: 1.75
-          },
-          xl: {
-            value: 1.75
-          },
-          xxl: {
-            value: 1.75
-          }
-        }
-      }
+      'line-height': {}
     }
   };
 
@@ -926,8 +526,78 @@ export default (logger: winston.Logger): TokensUtil => {
             }
             break;
           }
-          case 'textStyle':
+          case 'textStyle': {
+            const [, textStyleName, textStyleVariant] = token.name.split('/');
+
+            map.typo['font-family'][textStyleName] =
+              map.typo['font-family'][textStyleName] || {};
+            map.typo['font-family'][textStyleName] = {
+              value: ((token.value as TextStyleValue).font as FontToken).value
+                .fontFamily,
+              token: {
+                category: 'Font Families',
+                presenter: 'FontFamily'
+              }
+            };
+
+            // TODO these need to still be done, not added in Figma, yet
+            // map.typo['font-weight'][textStyleName] =
+            //   map.typo['font-weight'][textStyleName] || {};
+            // map.typo['font-weight'][textStyleName][textStyleVariant] =
+            //   map.typo['font-weight'][textStyleName][textStyleVariant] || {};
+            // map.typo['font-weight'][textStyleName][textStyleVariant] = {
+            //   value: ((token.value as TextStyleValue).font as FontToken).value
+            //     .fontWeight,
+            //   token: {
+            //     category: 'Font Weights',
+            //     presenter: 'FontWeight'
+            //   }
+            // };
+
+            map.typo['font-size'][textStyleName] =
+              map.typo['font-size'][textStyleName] || {};
+            map.typo['font-size'][textStyleName][`${textStyleVariant}-base`] =
+              map.typo['font-size'][textStyleName][
+                `${textStyleVariant}-base`
+              ] || {};
+            map.typo['font-size'][textStyleName][`${textStyleVariant}-base`] = {
+              value: `${
+                (token.value as TextStyleValue).fontSize.value.measure / 16
+              }rem`,
+              attributes: {
+                category: 'size'
+              },
+              token: {
+                category: `Font Sizes: ${textStyleName}`,
+                presenter: 'FontSize'
+              }
+            };
+
+            map.typo['line-height'][textStyleName] =
+              map.typo['line-height'][textStyleName] || {};
+            map.typo['line-height'][textStyleName][textStyleVariant] =
+              map.typo['line-height'][textStyleName][textStyleVariant] || {};
+            map.typo['line-height'][textStyleName][textStyleVariant] = {
+              value:
+                (token.value as TextStyleValue).lineHeight.value.measure / 16
+            };
+
+            // console.log(textStyleName, textStyleVariant);
+            // console.log(
+            //   token.name,
+            //   ((token.value as TextStyleValue).font as FontToken).value
+            //     .fontFamily
+            // );
+            // console.log(
+            //   token.name,
+            //   ((token.value as TextStyleValue).font as FontToken).value
+            //     .fontWeight
+            // );
+            // console.log(token.name, (token.value as TextStyleValue).fontSize);
+            // console.log(token.name, (token.value as TextStyleValue).lineHeight);
+            // console.log('-------');
             break;
+          }
           default:
             break;
         }
