@@ -77,34 +77,34 @@ export default (logger: winston.Logger): TokensUtil => {
     },
     'box-shadow': {},
     transition: {
-      // 'timing-function': {
-      //   bounce: {
-      //     value: "cubic-bezier(0.17,1,0.5,1.5)"
-      //   },
-      //   'ease-out': {
-      //     value: "ease-out"
-      //   },
-      //   'ease-in': {
-      //     value: "ease-in"
-      //   },
-      //   'ease-in-out': {
-      //     value: "ease-in-out"
-      //   },
-      //   linear: {
-      //     value: "linear"
-      //   }
-      // },
-      // transition: {
-      //   collapse: {
-      //     value: "{ks.duration.slow} {ks.timing-function.ease-out}"
-      //   },
-      //   hover: {
-      //     value: "{ks.duration.fast} {ks.timing-function.ease-in-out}"
-      //   },
-      //   fade: {
-      //     value: "{ks.duration.slow} {ks.timing-function.ease-out}"
-      //   }
-      // }
+      'timing-function': {
+        bounce: {
+          value: 'cubic-bezier(0.17,1,0.5,1.5)'
+        },
+        'ease-out': {
+          value: 'ease-out'
+        },
+        'ease-in': {
+          value: 'ease-in'
+        },
+        'ease-in-out': {
+          value: 'ease-in-out'
+        },
+        linear: {
+          value: 'linear'
+        }
+      },
+      transition: {
+        collapse: {
+          value: 'duration {ks.timing-function.ease-out}'
+        },
+        hover: {
+          value: 'duration {ks.timing-function.ease-in-out}'
+        },
+        fade: {
+          value: 'duration {ks.timing-function.ease-out}'
+        }
+      }
     },
     breakpoint: {
       phone: {
@@ -897,11 +897,9 @@ export default (logger: winston.Logger): TokensUtil => {
             break;
           }
           case 'duration': {
-            const [, durationName] = token.name.split('-');
+            if (token.name.startsWith('duration-base')) {
+              const [, , durationName] = token.name.split('-');
 
-            // TODO solve this by naming convention, to get to the basic scale more intelligently
-            const durationBaseScale = ['immediate', 'fast', 'medium', 'slow'];
-            if (durationBaseScale.includes(durationName)) {
               map.transition.duration = map.transition.duration || {};
               map.transition.duration[durationName] = {
                 value: `${(token.value as DurationValue).duration}${
@@ -1507,6 +1505,45 @@ export default (logger: winston.Logger): TokensUtil => {
           }
           break;
         }
+        case 'duration': {
+          if (!token.name.startsWith('duration-base')) {
+            const splitName = token.name.split('-');
+            const [, durationName] = splitName;
+
+            const referenceableTokens: string[] = [];
+            traverse(map.transition.duration, ({ key, value, meta }) => {
+              if (
+                key === 'value' &&
+                value ===
+                  `${(token.value as DurationValue).duration}${
+                    (token.value as DurationValue).unit
+                  }`
+              ) {
+                referenceableTokens.push(
+                  `{ks.duration.${meta.nodePath?.split('.').shift()}}`
+                );
+              }
+            });
+
+            if (referenceableTokens.length < 2) {
+              map.transition.transition[durationName].value =
+                map.transition.transition[durationName].value.replace(
+                  'duration',
+                  referenceableTokens.length === 0
+                    ? `${(token.value as DurationValue).duration}${
+                        (token.value as DurationValue).unit
+                      }`
+                    : referenceableTokens[0]
+                );
+            } else {
+              // TODO handle this when it occurs
+              throw new Error(
+                'multiple tokens that could be referenced found, should be exactly 1'
+              );
+            }
+          }
+          break;
+        }
         default:
           break;
       }
@@ -1524,7 +1561,10 @@ export default (logger: winston.Logger): TokensUtil => {
           JSON.stringify(fileJson, null, 2)
         );
       } else if (category === 'transition') {
-        fileJson.ks.duration = styleDictionary[category];
+        fileJson.ks.duration = styleDictionary[category].duration;
+        fileJson.ks.transition = styleDictionary[category].transition;
+        fileJson.ks['timing-function'] =
+          styleDictionary[category]['timing-function'];
         await fsWriteFilePromise(
           `${targetDir}/${category}.json`,
           JSON.stringify(fileJson, null, 2)
@@ -1609,8 +1649,7 @@ export default (logger: winston.Logger): TokensUtil => {
         )
       );
 
-      if (category === 'deprecated') {
-      } else {
+      if (category !== 'deprecated') {
         initializedTokenJson.ks[category] = initialCategoryJson.ks[category];
       }
     });
