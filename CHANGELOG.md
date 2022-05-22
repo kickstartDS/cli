@@ -1,3 +1,16 @@
+# v0.2.13 (Sun May 22 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(tokens): use correct durations, referenced ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.12 (Sun May 22 2022)
 
 #### ⚠️ Pushed to `main`
