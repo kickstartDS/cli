@@ -1,3 +1,15 @@
+# v0.2.12 (Sun May 22 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): create referenced measurements ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.11 (Sun May 22 2022)
 
 #### ⚠️ Pushed to `main`
