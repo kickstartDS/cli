@@ -15,7 +15,8 @@ import {
   BorderValue,
   OpacityValue,
   ColorValue,
-  DurationValue
+  DurationValue,
+  ShadowValue
 } from '@specifyapp/parsers/types';
 import promiseHelper from './promise.js';
 
@@ -861,11 +862,27 @@ export default (logger: winston.Logger): TokensUtil => {
 
               if (shadowVariant) {
                 map['box-shadow'][shadowName][shadowVariant] = {
-                  value: `0 1px 2.75px {ks.box-shadow.color.${shadowName}.${shadowVariant}}`
+                  value: `${
+                    (token.value as ShadowValue)[0].offsetX.value.measure
+                  }${(token.value as ShadowValue)[0].offsetX.value.unit} ${
+                    (token.value as ShadowValue)[0].offsetY.value.measure
+                  }${(token.value as ShadowValue)[0].offsetY.value.unit} ${
+                    (token.value as ShadowValue)[0].blur.value.measure
+                  }${
+                    (token.value as ShadowValue)[0].blur.value.unit
+                  } {ks.box-shadow.color.${shadowName}.${shadowVariant}}`
                 };
               } else {
                 map['box-shadow'][shadowName]._ = {
-                  value: `0 1px 5.5px {ks.box-shadow.color.${shadowName}._}`,
+                  value: `${
+                    (token.value as ShadowValue)[0].offsetX.value.measure
+                  }${(token.value as ShadowValue)[0].offsetX.value.unit} ${
+                    (token.value as ShadowValue)[0].offsetY.value.measure
+                  }${(token.value as ShadowValue)[0].offsetY.value.unit} ${
+                    (token.value as ShadowValue)[0].blur.value.measure
+                  }${
+                    (token.value as ShadowValue)[0].blur.value.unit
+                  } {ks.box-shadow.color.${shadowName}._}`,
                   token: { category: 'Box Shadow', presenter: 'Shadow' }
                 };
               }
