@@ -1,3 +1,16 @@
+# v0.2.10 (Sun May 22 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- feat(tokens): add text-color tokens to specify convert ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.9 (Sat May 21 2022)
 
 #### ⚠️ Pushed to `main`
