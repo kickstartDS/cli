@@ -36,7 +36,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   let tmpDir: string;
 
   const explorer = cosmiconfig(`${module}-${command}`);
-  const logger = getLogger(module, 'info', true, true, command).child({
+  const logger = getLogger(module, 'info', true, false, command).child({
     command
   });
   const getTmpDir = () => tmpDir || '';

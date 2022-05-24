@@ -111,7 +111,7 @@ const run = async (
   const configFileName = `.${moduleName}-${command}rc.json`;
 
   // add logging around your sub-commands 1/2
-  const cmdLogger = getLogger(moduleName, 'info', true, true, command).child({
+  const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command
   });
 

@@ -121,7 +121,7 @@ const run = async (
 
   const compileVariable = 'compile-task';
 
-  const cmdLogger = getLogger(moduleName, 'info', true, true, command).child({
+  const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command
   });
   if (isRevert)

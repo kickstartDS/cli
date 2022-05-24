@@ -118,7 +118,7 @@ const run = async (
 
   const initVariable = 'init-task';
 
-  const cmdLogger = getLogger(moduleName, 'info', true, true, command).child({
+  const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command
   });
   if (isRevert)
