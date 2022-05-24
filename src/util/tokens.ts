@@ -43,21 +43,21 @@ export default (logger: winston.Logger): TokensUtil => {
       'border-width': {},
       'border-radius': {
         control: {
-          value: '2px',
+          value: '4px',
           token: {
             category: 'Border Radius',
             presenter: 'BorderRadius'
           }
         },
         card: {
-          value: '2px',
+          value: '6px',
           token: {
             category: 'Border Radius',
             presenter: 'BorderRadius'
           }
         },
         surface: {
-          value: '4px',
+          value: '8px',
           token: {
             category: 'Border Radius',
             presenter: 'BorderRadius'
@@ -422,16 +422,16 @@ export default (logger: winston.Logger): TokensUtil => {
                 },
                 'bp-factor': {
                   phone: {
-                    value: '1.414'
+                    value: '1'
                   },
                   tablet: {
-                    value: '1.9994'
+                    value: '1.15'
                   },
                   laptop: {
-                    value: '2.8271'
+                    value: '1.25'
                   },
                   desktop: {
-                    value: '3.9976'
+                    value: '1.5'
                   }
                 }
               };
@@ -532,9 +532,18 @@ export default (logger: winston.Logger): TokensUtil => {
 
             map.typo['font-family'][textStyleName] =
               map.typo['font-family'][textStyleName] || {};
+            // TODO fix this after demo
+            // map.typo['font-family'][textStyleName] = {
+            //   value: ((token.value as TextStyleValue).font as FontToken).value
+            //     .fontFamily,
+            //   token: {
+            //     category: 'Font Families',
+            //     presenter: 'FontFamily'
+            //   }
+            // };
             map.typo['font-family'][textStyleName] = {
-              value: ((token.value as TextStyleValue).font as FontToken).value
-                .fontFamily,
+              value:
+                "apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
               token: {
                 category: 'Font Families',
                 presenter: 'FontFamily'
@@ -578,9 +587,13 @@ export default (logger: winston.Logger): TokensUtil => {
               map.typo['line-height'][textStyleName] || {};
             map.typo['line-height'][textStyleName][textStyleVariant] =
               map.typo['line-height'][textStyleName][textStyleVariant] || {};
+            // TODO re-add this, de-activated for demo
+            // map.typo['line-height'][textStyleName][textStyleVariant] = {
+            //   value:
+            //     (token.value as TextStyleValue).lineHeight.value.measure / 16
+            // };
             map.typo['line-height'][textStyleName][textStyleVariant] = {
-              value:
-                (token.value as TextStyleValue).lineHeight.value.measure / 16
+              value: '1.35'
             };
             break;
           }
