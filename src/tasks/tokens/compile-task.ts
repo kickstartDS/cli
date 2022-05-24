@@ -18,12 +18,14 @@ const { shell: taskUtilShell, tokens: taskUtilTokens, getLogger } = taskUtil;
 const {
   helper: {
     requireCommands: shellRequireCommands,
-    dirExistsInCwd: shellDirExistsInCwd
+    dirExistsInCwd: shellDirExistsInCwd,
+    fileExistsInCwd: shellFileExistsInCwd
   }
 } = taskUtilShell;
 
 const {
   helper: {
+    getDefaultStyleDictionary: tokensGetDefaultStyleDictionary,
     getStyleDictionary: tokensGetStyleDictionary,
     compileTokens: tokensCompileTokens
   }
@@ -63,12 +65,25 @@ const run = async (
     logger.info(
       chalkTemplate`getting {bold Style Dictionary} from token files`
     );
-    const styleDictionary = tokensGetStyleDictionary(callingPath, 'tokens');
+
+    let styleDictionary;
+    if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
+      styleDictionary = await tokensGetStyleDictionary(
+        callingPath,
+        'tokens',
+        `${callingPath}/sd.config.cjs`
+      );
+    } else {
+      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, 'tokens');
+    }
 
     logger.info(
       chalkTemplate`compiling {bold Style Dictionary} to needed CSS and assets`
     );
-    await tokensCompileTokens(styleDictionary);
+    await tokensCompileTokens(
+      styleDictionary,
+      Object.keys(styleDictionary.options.platforms)
+    );
 
     logger.info(
       chalkTemplate`copying generated CSS and assets to local folder`

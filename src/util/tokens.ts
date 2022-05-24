@@ -8,6 +8,7 @@ import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
 import { promisify } from 'util';
 import { traverse } from 'object-traversal';
+import { createRequire } from 'module';
 import {
   TokenInterface,
   TokensType,
@@ -581,21 +582,6 @@ export default (logger: winston.Logger): TokensUtil => {
               value:
                 (token.value as TextStyleValue).lineHeight.value.measure / 16
             };
-
-            // console.log(textStyleName, textStyleVariant);
-            // console.log(
-            //   token.name,
-            //   ((token.value as TextStyleValue).font as FontToken).value
-            //     .fontFamily
-            // );
-            // console.log(
-            //   token.name,
-            //   ((token.value as TextStyleValue).font as FontToken).value
-            //     .fontWeight
-            // );
-            // console.log(token.name, (token.value as TextStyleValue).fontSize);
-            // console.log(token.name, (token.value as TextStyleValue).lineHeight);
-            // console.log('-------');
             break;
           }
           default:
@@ -1354,14 +1340,13 @@ export default (logger: winston.Logger): TokensUtil => {
     return result;
   };
 
-  const compileTokens = (styleDictionary: StyleDictionary.Core): void => {
-    styleDictionary
-      .buildPlatform('css')
-      .buildPlatform('jsx')
-      .buildPlatform('storybook');
-  };
+  const compileTokens = (
+    styleDictionary: StyleDictionary.Core,
+    platforms: string[]
+  ): void =>
+    platforms.forEach((platform) => styleDictionary.buildPlatform(platform));
 
-  const getStyleDictionary = (
+  const getDefaultStyleDictionary = (
     callingPath: string,
     sourceDir: string
   ): StyleDictionary.Core =>
@@ -1384,6 +1369,22 @@ export default (logger: winston.Logger): TokensUtil => {
       }
     });
 
+  const getStyleDictionary = async (
+    callingPath: string,
+    sourceDir: string,
+    sdConfigPath?: string
+  ): Promise<StyleDictionary.Core> => {
+    if (!sdConfigPath) {
+      return getDefaultStyleDictionary(callingPath, sourceDir);
+    }
+
+    const require = createRequire(import.meta.url);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
+    const sdConfig = require(`${sdConfigPath}`);
+
+    return StyleDictionary.extend(sdConfig);
+  };
+
   return {
     helper: {
       generateFromPrimitivesJson,
@@ -1391,6 +1392,7 @@ export default (logger: winston.Logger): TokensUtil => {
       generateFromSpecifyJson,
       generateFromSpecifyPath,
       compileTokens,
+      getDefaultStyleDictionary,
       getStyleDictionary
     }
   };

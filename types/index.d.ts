@@ -228,11 +228,19 @@ interface TokensUtil {
       primitiveTokenPath: string,
       targetDir?: string
     ) => Promise<void>;
-    compileTokens: (styleDictionary: StyleDictionary.Core) => void;
-    getStyleDictionary: (
+    compileTokens: (
+      styleDictionary: StyleDictionary.Core,
+      platforms: string[]
+    ) => void;
+    getDefaultStyleDictionary: (
       callingPath: string,
       sourceDir: string
     ) => StyleDictionary.Core;
+    getStyleDictionary: (
+      callingPath: string,
+      sourceDir: string,
+      sdConfigPath?: string
+    ) => Promise<StyleDictionary.Core>;
   };
 }
 
