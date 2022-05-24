@@ -1,3 +1,15 @@
+# v0.2.18 (Tue May 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(logging): deactivate file logging for good ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.17 (Tue May 24 2022)
 
 #### ⚠️ Pushed to `main`
