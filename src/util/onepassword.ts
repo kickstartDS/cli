@@ -7,7 +7,7 @@ const onepasswordInstance = 'ruhmesmeile.1password.com';
 
 export default (logger: winston.Logger): OnepasswordUtil => {
   const subCmdLogger = logger.child({ utility: true });
-  const emailAddress = shell.cat('~/.ruhmesmeile/user').trim();
+  const emailAddress = 'example@demo.com';
 
   let onepasswordToken: string;
 

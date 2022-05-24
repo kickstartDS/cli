@@ -5,7 +5,7 @@ import createTask from '../task.js';
 
 const moduleName = 'tokens';
 const command = 'init';
-const requiredCommands: string[] = ['jq'];
+const requiredCommands: string[] = [];
 
 const {
   init: taskInit,
