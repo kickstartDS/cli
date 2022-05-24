@@ -12,12 +12,14 @@ import {
 import { PerformanceObserver, performance } from 'perf_hooks';
 
 const variables = config().parsed;
-const url = (variables && variables.INFLUXDB_URL) || process.env.INFLUXDB_URL;
+const url =
+  (variables && variables.INFLUXDB_URL) || process.env.INFLUXDB_URL || '';
 const token =
-  (variables && variables.INFLUXDB_TOKEN) || process.env.INFLUXDB_TOKEN;
-const org = (variables && variables.INFLUXDB_ORG) || process.env.INFLUXDB_ORG;
+  (variables && variables.INFLUXDB_TOKEN) || process.env.INFLUXDB_TOKEN || '';
+const org =
+  (variables && variables.INFLUXDB_ORG) || process.env.INFLUXDB_ORG || '';
 const bucket =
-  (variables && variables.INFLUXDB_BUCKET) || process.env.INFLUXDB_BUCKET;
+  (variables && variables.INFLUXDB_BUCKET) || process.env.INFLUXDB_BUCKET || '';
 
 export default (logger: winston.Logger): AnalyticsUtil => {
   const subCmdLogger = logger.child({ utility: true });
