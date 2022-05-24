@@ -1,3 +1,15 @@
+# v0.2.21 (Tue May 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: remove dependencies ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.20 (Tue May 24 2022)
 
 #### ⚠️ Pushed to `main`
