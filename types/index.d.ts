@@ -29,6 +29,7 @@ declare const StyleDictionaryObject: {
 };
 
 interface AnalyticsUtil {
+  analyticsActive: boolean;
   helper: {
     init: (
       moduleString: string,

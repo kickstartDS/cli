@@ -231,7 +231,7 @@ export const getLogger = (
   label: string,
   level = 'info',
   consoleTransport = true,
-  fileTransport = true,
+  fileTransport = false,
   command = ''
 ): winston.Logger => {
   if (!winston.loggers.has(label)) {

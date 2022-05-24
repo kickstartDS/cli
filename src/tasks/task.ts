@@ -59,6 +59,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   const tokensUtil = tokensHelper(logger);
 
   const {
+    analyticsActive,
     helper: {
       timeStart: analyticsTimeStart,
       timeEnd: analyticsTimeEnd,
@@ -137,19 +138,23 @@ export default (moduleName: string, commandName: string): TaskUtil => {
     };
 
     const revert = async () => {
-      analyticsInit(moduleName, `${commandName}-revert`, identifier);
-      const averageTiming = await analyticsGetAverageTiming();
-      const progressBarTransport = addProgressBarTransport(
-        moduleName,
-        averageTiming
-      );
+      let progressBarTransport;
+
+      if (analyticsActive) {
+        analyticsInit(moduleName, `${commandName}-revert`, identifier);
+        const averageTiming = await analyticsGetAverageTiming();
+        progressBarTransport = addProgressBarTransport(
+          moduleName,
+          averageTiming
+        );
+      }
 
       for (const [index, revertSubCommand] of asyncReverts.entries()) {
         const revertSubCommandName = revertSubCommand.name
           .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2')
           .toLowerCase();
 
-        analyticsTimeStart(revertSubCommandName, 'revert');
+        if (analyticsActive) analyticsTimeStart(revertSubCommandName, 'revert');
         await revertSubCommand(
           logger.child({
             subcommand: revertSubCommandName,
@@ -158,30 +163,37 @@ export default (moduleName: string, commandName: string): TaskUtil => {
           }),
           tmpDir
         );
-        analyticsTimeEnd(revertSubCommandName, 'revert');
-
-        if (progressBarTransport)
-          progressBarTransport.completeStep(revertSubCommandName);
+        if (analyticsActive) {
+          analyticsTimeEnd(revertSubCommandName, 'revert');
+          if (progressBarTransport)
+            progressBarTransport.completeStep(revertSubCommandName);
+        }
       }
 
       if (progressBarTransport) removeProgressBarTransport(moduleName);
-      return analyticsClose();
+      if (analyticsActive) return analyticsClose();
+
+      return Promise.resolve();
     };
 
     const run = async () => {
-      analyticsInit(moduleName, commandName, identifier);
-      const averageTiming = await analyticsGetAverageTiming();
-      const progressBarTransport = addProgressBarTransport(
-        moduleName,
-        averageTiming
-      );
+      let progressBarTransport;
+
+      if (analyticsActive) {
+        analyticsInit(moduleName, commandName, identifier);
+        const averageTiming = await analyticsGetAverageTiming();
+        progressBarTransport = addProgressBarTransport(
+          moduleName,
+          averageTiming
+        );
+      }
 
       for (const [index, check] of asyncChecks.entries()) {
         const checkName = check.name
           .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2')
           .toLowerCase();
 
-        analyticsTimeStart(checkName, 'check');
+        if (analyticsActive) analyticsTimeStart(checkName, 'check');
         await check(
           logger.child({
             subcommand: checkName,
@@ -190,9 +202,11 @@ export default (moduleName: string, commandName: string): TaskUtil => {
           }),
           tmpDir
         );
-        analyticsTimeEnd(checkName, 'check');
-
-        if (progressBarTransport) progressBarTransport.completeStep(checkName);
+        if (analyticsActive) {
+          analyticsTimeEnd(checkName, 'check');
+          if (progressBarTransport)
+            progressBarTransport.completeStep(checkName);
+        }
       }
 
       if (cleanup) await cleanUp();
@@ -202,7 +216,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
           .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2')
           .toLowerCase();
 
-        analyticsTimeStart(subCommandName, 'run');
+        if (analyticsActive) analyticsTimeStart(subCommandName, 'run');
         await subCommand(
           logger.child({
             subcommand: subCommandName,
@@ -211,14 +225,18 @@ export default (moduleName: string, commandName: string): TaskUtil => {
           }),
           tmpDir
         );
-        analyticsTimeEnd(subCommandName, 'run');
+        if (analyticsActive) {
+          analyticsTimeEnd(subCommandName, 'run');
 
-        if (progressBarTransport)
-          progressBarTransport.completeStep(subCommandName);
+          if (progressBarTransport)
+            progressBarTransport.completeStep(subCommandName);
+        }
       }
 
       if (progressBarTransport) removeProgressBarTransport(moduleName);
-      return analyticsClose();
+      if (analyticsActive) return analyticsClose();
+
+      return Promise.resolve();
     };
 
     if (silent) {

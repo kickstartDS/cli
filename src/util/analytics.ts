@@ -12,20 +12,12 @@ import {
 import { PerformanceObserver, performance } from 'perf_hooks';
 
 const variables = config().parsed;
-const url =
-  (variables && variables.INFLUXDB_URL) ||
-  process.env.INFLUXDB_URL ||
-  'https://host.influxdata.com';
+const url = (variables && variables.INFLUXDB_URL) || process.env.INFLUXDB_URL;
 const token =
-  (variables && variables.INFLUXDB_TOKEN) ||
-  process.env.INFLUXDB_TOKEN ||
-  'API TOKEN';
-const org =
-  (variables && variables.INFLUXDB_ORG) || process.env.INFLUXDB_ORG || 'ORG ID';
+  (variables && variables.INFLUXDB_TOKEN) || process.env.INFLUXDB_TOKEN;
+const org = (variables && variables.INFLUXDB_ORG) || process.env.INFLUXDB_ORG;
 const bucket =
-  (variables && variables.INFLUXDB_BUCKET) ||
-  process.env.INFLUXDB_BUCKET ||
-  'kickstartDS-cli';
+  (variables && variables.INFLUXDB_BUCKET) || process.env.INFLUXDB_BUCKET;
 
 export default (logger: winston.Logger): AnalyticsUtil => {
   const subCmdLogger = logger.child({ utility: true });
@@ -42,6 +34,17 @@ export default (logger: winston.Logger): AnalyticsUtil => {
   let moduleName: string;
   let commandName: string;
   let instanceName: string;
+
+  const analyticsActive =
+    (url &&
+      url.length > 0 &&
+      token &&
+      token.length > 0 &&
+      org &&
+      org.length > 0 &&
+      bucket &&
+      bucket.length > 0) ||
+    false;
 
   const writeTiming = (subCommandName: string, ms: number): void => {
     subCommandTimings.push({
@@ -150,6 +153,7 @@ export default (logger: winston.Logger): AnalyticsUtil => {
   };
 
   return {
+    analyticsActive,
     helper: {
       init,
       writeTiming,
