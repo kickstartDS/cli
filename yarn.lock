@@ -987,9 +987,9 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
-"@specifyapp/parsers@ssh://git@github.com:julrich/parsers.git":
+"@specifyapp/parsers@julrich/parsers":
   version "0.0.11"
-  resolved "ssh://git@github.com:julrich/parsers.git#fb5a87fac26b5831e325dd6d97246df5b8d41dda"
+  resolved "https://codeload.github.com/julrich/parsers/tar.gz/fb5a87fac26b5831e325dd6d97246df5b8d41dda"
   dependencies:
     "@types/lodash" "^4.14.175"
     "@types/mustache" "^4.1.2"
