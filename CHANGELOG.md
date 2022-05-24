@@ -1,3 +1,17 @@
+# v0.2.17 (Tue May 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(build): handle strings potentially being empty ([@julrich](https://github.com/julrich))
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix: improve usability in projects ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.16 (Tue May 24 2022)
 
 #### ⚠️ Pushed to `main`
