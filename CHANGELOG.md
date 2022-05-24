@@ -1,3 +1,15 @@
+# v0.2.19 (Tue May 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): adjust conversion for demo ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.18 (Tue May 24 2022)
 
 #### ⚠️ Pushed to `main`
