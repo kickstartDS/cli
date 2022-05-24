@@ -1,3 +1,16 @@
+# v0.2.16 (Tue May 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- feat(tokens): make style dictionary config importable from project ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.15 (Sun May 22 2022)
 
 #### ⚠️ Pushed to `main`
