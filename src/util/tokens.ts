@@ -1,3 +1,4 @@
+import Ajv from 'ajv';
 import winston from 'winston';
 import StyleDictionary from 'style-dictionary';
 import path from 'path';
@@ -6,9 +7,13 @@ import tokens from '@kickstartds/core/design-tokens/index.js';
 import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
+import { JSONSchema7 } from 'json-schema';
+import { config as dotEnvConfig } from 'dotenv';
 import { promisify } from 'util';
 import { traverse } from 'object-traversal';
 import { createRequire } from 'module';
+import * as Figma from 'figma-api';
+
 import {
   TokenInterface,
   TokensType,
@@ -1359,6 +1364,73 @@ export default (logger: winston.Logger): TokensUtil => {
   ): void =>
     platforms.forEach((platform) => styleDictionary.buildPlatform(platform));
 
+  const syncToFigma = async (
+    callingPath: string,
+    styleDictionary: StyleDictionary.Core
+  ): Promise<void> => {
+    // const variables = config().parsed;
+    // const personalAccessToken =
+    //   (variables && variables.FIGMA_PERSONAL_ACCESS_TOKEN) || process.env.FIGMA_PERSONAL_ACCESS_TOKEN || '';
+    // const fileId =
+    //   (variables && variables.FIGMA_FILE_ID) || process.env.FIGMA_FILE_ID || '';
+    // const api = new Figma.Api({
+    //   personalAccessToken: personalAccessToken
+    // });
+    // const file = await api.getFile(fileId);
+    // fsWriteFilePromise('figmaFile.json', JSON.stringify(file, null, 2));
+
+    // eslint-disable-next-line new-cap
+    const ajv = new Ajv.default({
+      removeAdditional: true,
+      validateSchema: true,
+      schemaId: '$id',
+      allErrors: true,
+      strictTuples: false
+    });
+
+    const figmaTokensSchema = JSON.parse(
+      await fsReadFilePromise(
+        `${callingPath}/figma-tokens.schema.json`,
+        'utf-8'
+      )
+    ) as JSONSchema7;
+    const figmaTokensJson = JSON.parse(
+      await fsReadFilePromise(`${callingPath}/figmaFile2.json`, 'utf-8')
+    );
+    // console.log(figmaTokensSchema, figmaTokensJson);
+
+    // ajv.validateSchema(figmaTokensSchema);
+    // ajv.validate(figmaTokensSchema, figmaTokensJson);
+
+    const validate = ajv.compile(figmaTokensSchema);
+    const valid = validate(figmaTokensJson);
+    if (!valid) {
+      console.log(validate.errors, validate.errors?.length);
+    } else {
+      console.log('no errors');
+    }
+
+    // const colorPage = file.document.children.find(
+    //   (page) => page.name === 'Colors'
+    // ) as Figma.FRAME;
+
+    // if (colorPage) {
+    //   const colorScales = colorPage.children.find(
+    //     (frame) => frame.name === 'Colors Scale'
+    //   );
+
+    //   if (colorScales) {
+    //     traverse(colorScales, ({ key, value, meta }) => {
+    //       if (value && value.children) {
+    //         console.log(meta, value.children.length, value.name);
+    //       }
+    //     });
+    //   }
+    // } else {
+    //   // TODO handle page not being defined
+    // }
+  };
+
   const getDefaultStyleDictionary = (
     callingPath: string,
     sourceDir: string
@@ -1405,6 +1477,7 @@ export default (logger: winston.Logger): TokensUtil => {
       generateFromSpecifyJson,
       generateFromSpecifyPath,
       compileTokens,
+      syncToFigma,
       getDefaultStyleDictionary,
       getStyleDictionary
     }

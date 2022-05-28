@@ -141,3 +141,10 @@ $RECYCLE.BIN/
 # PhpStrom
 .idea/
 
+# Ignore tokens related test files
+sd.config.cjs
+specify-tokens.json
+token-primitives.json
+tokens.css
+tokens/
+.storybook/

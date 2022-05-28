@@ -1,0 +1,1110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://schema.kickstartds.com/figma-tokens.schema.json",
+  "title": "kickstartDS Figma Token Structure",
+  "description": "Describes structure of kickstartDS specific Figma file for Design Token management",
+  "type": "object",
+  "properties": {
+    "document": {
+      "title": "Figma document",
+      "description": "Contains the canvas",
+      "type": "object",
+      "properties": {
+        "id": {
+          "const": "0:0"
+        },
+        "name": {
+          "const": "Document"
+        },
+        "type": {
+          "const": "DOCUMENT"
+        },
+        "children": {
+          "type": "array",
+          "title": "Canvases",
+          "description": "List of all Canvases (Thumbnail, Setup, Border Widths, Colors, etc)",
+          "additionalItems": false,
+          "minItems": 13,
+          "maxItems": 13,
+          "items": [
+            { "$ref": "#/definitions/canvas/thumbnail" },
+            { "$ref": "#/definitions/canvas/setup" },
+            { "$ref": "#/definitions/canvas/token-divider" },
+            { "$ref": "#/definitions/canvas/border-widths" },
+            { "$ref": "#/definitions/canvas/colors" },
+            { "$ref": "#/definitions/canvas/durations" },
+            { "$ref": "#/definitions/canvas/spacing" },
+            { "$ref": "#/definitions/canvas/opacities" },
+            { "$ref": "#/definitions/canvas/shadows" },
+            { "$ref": "#/definitions/canvas/text-styles" },
+            { "$ref": "#/definitions/canvas/asset-divider" },
+            { "$ref": "#/definitions/canvas/bitmaps" },
+            { "$ref": "#/definitions/canvas/vectors" }
+          ]
+        }
+      }
+    }
+  },
+  "definitions": {
+    "types": {
+      "color": {
+        "type": "object",
+        "title": "Color Definition",
+        "description": "RGBa color definition",
+        "properties": {
+          "r": {
+            "type": "number",
+            "title": "Red",
+            "description": "Red part of the color",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "g": {
+            "type": "number",
+            "title": "Green",
+            "description": "Green part of the color",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "b": {
+            "type": "number",
+            "title": "Blue",
+            "description": "Blue part of the color",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "a": {
+            "type": "number",
+            "title": "Alpha",
+            "description": "Alpha part of the color",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "canvas": {
+      "thumbnail": {
+        "type": "object",
+        "title": "Thumbnail",
+        "description": "Thumbnail of the Figma file",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Thumbnail"
+          },
+          "type": {
+            "const": "CANVAS"
+          }
+        }
+      },
+      "setup": {
+        "type": "object",
+        "title": "Setup",
+        "description": "Setup of the Figma file",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Setup"
+          },
+          "type": {
+            "const": "CANVAS"
+          }
+        }
+      },
+      "token-divider": {
+        "type": "object",
+        "title": "Token Divider",
+        "description": "Divides intro and tokens sections",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "---- TOKENS ----"
+          },
+          "type": {
+            "const": "CANVAS"
+          }
+        }
+      },
+      "border-widths": {
+        "type": "object",
+        "title": "Border Widths",
+        "description": "Border Widths tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Border Widths"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Border Widths frames",
+            "description": "Includes instructions and semantic border widths frames",
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+              {
+                "$ref": "#/definitions/frame/border-widths/semantic-border-widths"
+              },
+              { "$ref": "#/definitions/frame/border-widths/instructions" }
+            ]
+          }
+        }
+      },
+      "colors": {
+        "type": "object",
+        "title": "Colors",
+        "description": "Colors tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Colors"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Colors frames",
+            "description": "Includes instructions, colors scale, semantic background colors, semantic text colors and semantic box shadow colors frames",
+            "additionalItems": false,
+            "minItems": 5,
+            "maxItems": 5,
+            "items": [
+              {
+                "$ref": "#/definitions/frame/colors/semantic-box-shadow-colors"
+              },
+              { "$ref": "#/definitions/frame/colors/semantic-text-colors" },
+              {
+                "$ref": "#/definitions/frame/colors/semantic-background-colors"
+              },
+              { "$ref": "#/definitions/frame/colors/colors-scale" },
+              { "$ref": "#/definitions/frame/colors/instructions" }
+            ]
+          }
+        }
+      },
+      "durations": {
+        "type": "object",
+        "title": "Durations",
+        "description": "Durations tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Durations"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Durations frames",
+            "description": "Includes instructions, duration scale and semantic durations frames",
+            "additionalItems": false,
+            "minItems": 3,
+            "maxItems": 3,
+            "items": [
+              { "$ref": "#/definitions/frame/durations/semantic-durations" },
+              { "$ref": "#/definitions/frame/durations/duration-scale" },
+              { "$ref": "#/definitions/frame/durations/instructions" }
+            ]
+          }
+        }
+      },
+      "spacing": {
+        "type": "object",
+        "title": "Spacing",
+        "description": "Spacing tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Spacing"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Spacing frames",
+            "description": "Includes instructions, spacing scale and semantic spacings frames",
+            "additionalItems": false,
+            "minItems": 3,
+            "maxItems": 3,
+            "items": [
+              { "$ref": "#/definitions/frame/spacings/semantic-spacings" },
+              { "$ref": "#/definitions/frame/spacings/spacing-scale" },
+              { "$ref": "#/definitions/frame/spacings/instructions" }
+            ]
+          }
+        }
+      },
+      "opacities": {
+        "type": "object",
+        "title": "Opacities",
+        "description": "Opacities tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Opacities"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Spacing frames",
+            "description": "Includes instructions and semantic opacities frames",
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+              { "$ref": "#/definitions/frame/opacities/semantic-opacities" },
+              { "$ref": "#/definitions/frame/opacities/instructions" }
+            ]
+          }
+        }
+      },
+      "shadows": {
+        "type": "object",
+        "title": "Shadows",
+        "description": "Shadows tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Shadows"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Shadows frames",
+            "description": "Includes instructions and semantic shadows frames",
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+              { "$ref": "#/definitions/frame/shadows/semantic-shadows" },
+              { "$ref": "#/definitions/frame/shadows/instructions" }
+            ]
+          }
+        }
+      },
+      "text-styles": {
+        "type": "object",
+        "title": "Text Styles",
+        "description": "Text Styles tokens",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Text Styles"
+          },
+          "type": {
+            "const": "CANVAS"
+          },
+          "children": {
+            "type": "array",
+            "title": "Text Styles frames",
+            "description": "Includes instructions and semantic text styles frames",
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+              {
+                "$ref": "#/definitions/frame/text-styles/semantic-text-styles"
+              },
+              { "$ref": "#/definitions/frame/text-styles/instructions" }
+            ]
+          }
+        }
+      },
+      "asset-divider": {
+        "type": "object",
+        "title": "Asset Divider",
+        "description": "Divides tokens and assets",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "---- ASSETS ----"
+          },
+          "type": {
+            "const": "CANVAS"
+          }
+        }
+      },
+      "bitmaps": {
+        "type": "object",
+        "title": "Bitmaps",
+        "description": "Bitmap assets",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Bitmaps"
+          },
+          "type": {
+            "const": "CANVAS"
+          }
+        }
+      },
+      "vectors": {
+        "type": "object",
+        "title": "Vectors",
+        "description": "Vector assets",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Vectors"
+          },
+          "type": {
+            "const": "CANVAS"
+          }
+        }
+      }
+    },
+    "frame": {
+      "header": {
+        "type": "object",
+        "title": "Frame Header",
+        "description": "Shared header used for frames",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Header"
+          },
+          "type": {
+            "const": "INSTANCE"
+          }
+        }
+      },
+      "border-widths": {
+        "instructions": {
+          "title": "Border Widths Instructions",
+          "description": "Instructions for border widths",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-border-widths": {
+          "title": "Semantic Border Widths",
+          "description": "Definitions for semantic border widths tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Border Widths"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      },
+      "colors": {
+        "instructions": {
+          "title": "Colors Instructions",
+          "description": "Instructions for colors",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "colors-scale": {
+          "title": "Colors Scale",
+          "description": "Definitions for colors scale tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Colors Scale"
+            },
+            "type": {
+              "const": "FRAME"
+            },
+            "children": {
+              "type": "array",
+              "title": "Colors Scale Category Frames",
+              "description": "Includes definitions for base colors scales TODO should be restricted again to existing layers when finished",
+              "additionalItems": false,
+              "minItems": 8,
+              "maxItems": 8,
+              "items": [
+                { "$ref": "#/definitions/color/scale/link-inverted" },
+                { "$ref": "#/definitions/color/scale/link" },
+                { "$ref": "#/definitions/color/scale/transparent" },
+                { "$ref": "#/definitions/color/scale/color-fg-inverted" },
+                { "$ref": "#/definitions/color/scale/color-fg" },
+                { "$ref": "#/definitions/color/scale/color-primary-inverted" },
+                { "$ref": "#/definitions/color/scale/color-primary" },
+                { "$ref": "#/definitions/frame/header" }
+              ]
+            }
+          }
+        },
+        "semantic-background-colors": {
+          "title": "Semantic Background Colors",
+          "description": "Definitions for semantic background colors tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Background Colors"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-text-colors": {
+          "title": "Semantic Text Colors",
+          "description": "Definitions for semantic text colors tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Text Colors"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-box-shadow-colors": {
+          "title": "Semantic Box Shadow Colors",
+          "description": "Definitions for semantic box shadow colors tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Box Shadow Colors"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      },
+      "durations": {
+        "instructions": {
+          "title": "Durations Instructions",
+          "description": "Instructions for durations",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "duration-scale": {
+          "title": "Duration Scale",
+          "description": "Definitions for duration scale tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Duration Scale"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-durations": {
+          "title": "Semantic Durations",
+          "description": "Definitions for semantic durations tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Durations"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      },
+      "spacings": {
+        "instructions": {
+          "title": "Spacings Instructions",
+          "description": "Instructions for spacings",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "spacing-scale": {
+          "title": "Spacing Scale",
+          "description": "Definitions for spacing scale tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Spacing Scale"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-spacings": {
+          "title": "Semantic Spacings",
+          "description": "Definitions for semantic spacings tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Spacings"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      },
+      "opacities": {
+        "instructions": {
+          "title": "Opacities Instructions",
+          "description": "Instructions for opacities",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-opacities": {
+          "title": "Semantic Opacities",
+          "description": "Definitions for semantic opacities tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Opacities"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      },
+      "shadows": {
+        "instructions": {
+          "title": "Shadows Instructions",
+          "description": "Instructions for shadows",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-shadows": {
+          "title": "Semantic Shadows",
+          "description": "Definitions for semantic shadows tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Shadows"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      },
+      "text-styles": {
+        "instructions": {
+          "title": "Text Styles Instructions",
+          "description": "Instructions for text styles",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Instructions"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        },
+        "semantic-text-styles": {
+          "title": "Semantic Text Styles",
+          "description": "Definitions for semantic text styles tokens",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "const": "Semantic Text Styles"
+            },
+            "type": {
+              "const": "FRAME"
+            }
+          }
+        }
+      }
+    },
+    "color": {
+      "scale": {
+        "base": {
+          "title": "Base Color",
+          "description": "Base color for the brand",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "const": "FRAME"
+            },
+            "children": {
+              "type": "array",
+              "title": "Color Wrappers",
+              "description": "Organizational wrappers in Figma",
+              "additionalItems": false,
+              "minItems": 1,
+              "maxItems": 1,
+              "items": [
+                {
+                  "type": "object",
+                  "title": "Wrapper",
+                  "description": "Organizational wrapper in Figma",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "const": "Frame"
+                    },
+                    "type": {
+                      "const": "FRAME"
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 3,
+                      "additionalItems": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "const": "Scales"
+                          },
+                          "type": {
+                            "const": "FRAME"
+                          }
+                        }
+                      },
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "const": "Title"
+                            },
+                            "type": {
+                              "const": "GROUP"
+                            },
+                            "children": {
+                              "type": "array",
+                              "additionalItems": false,
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "const": "Text"
+                                    },
+                                    "type": {
+                                      "const": "TEXT"
+                                    },
+                                    "characters": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "const": "Color"
+                            },
+                            "type": {
+                              "const": "FRAME"
+                            },
+                            "children": {
+                              "type": "array",
+                              "additionalItems": false,
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "const": "Definition"
+                                    },
+                                    "type": {
+                                      "const": "FRAME"
+                                    },
+                                    "children": {
+                                      "type": "array",
+                                      "additionalItems": false,
+                                      "minItems": 2,
+                                      "maxItems": 2,
+                                      "items": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "string"
+                                            },
+                                            "name": {
+                                              "const": "Swatch"
+                                            },
+                                            "type": {
+                                              "const": "RECTANGLE"
+                                            },
+                                            "fills": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "object",
+                                                "title": "",
+                                                "description": "",
+                                                "properties": {
+                                                  "color": {
+                                                    "$ref": "#/definitions/types/color"
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "styles": {
+                                              "type": "object",
+                                              "properties": {
+                                                "fill": {
+                                                  "type": "string",
+                                                  "title": "Fill Style",
+                                                  "description": "Reference to the fill styles used"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "string"
+                                            },
+                                            "name": {
+                                              "const": "Info"
+                                            },
+                                            "type": {
+                                              "const": "INSTANCE"
+                                            },
+                                            "children": {
+                                              "type": "array",
+                                              "additionalItems": false,
+                                              "minItems": 3,
+                                              "maxItems": 3,
+                                              "items": [
+                                                {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "id": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "const": "Name"
+                                                    },
+                                                    "type": {
+                                                      "const": "TEXT"
+                                                    },
+                                                    "characters": {
+                                                      "type": "string"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "id": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "const": "Divider"
+                                                    },
+                                                    "type": {
+                                                      "const": "VECTOR"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "id": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "const": "Code"
+                                                    },
+                                                    "type": {
+                                                      "const": "TEXT"
+                                                    },
+                                                    "characters": {
+                                                      "type": "string"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "color-primary": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Primary Color",
+              "description": "Primary color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-primary"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale/base" }
+          ]
+        },
+        "color-primary-inverted": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Primary Inverted Color",
+              "description": "Primary inverted color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-primary-inverted"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale/base" }
+          ]
+        },
+        "color-fg": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Foreground Color",
+              "description": "Foreground color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-fg"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale/base" }
+          ]
+        },
+        "color-fg-inverted": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Background Color",
+              "description": "Background color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-fg-inverted"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale/base" }
+          ]
+        },
+        "transparent": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Transparent Color",
+              "description": "Transparent color for the brand",
+              "properties": {
+                "name": {
+                  "const": "transparent"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale/base" }
+          ]
+        },
+        "link": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Link Color",
+              "description": "Link color for the brand",
+              "properties": {
+                "name": {
+                  "const": "link"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale/base" }
+          ]
+        },
+        "link-inverted": {
+          "allOf": [
+            { "$ref": "#/definitions/color/scale/base" },
+            {
+              "type": "object",
+              "title": "Link Inverted Color",
+              "description": "Link inverted color for the brand",
+              "properties": {
+                "name": {
+                  "const": "link-inverted"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "categories": [
+    "background-color",
+    "border",
+    "box-shadow",
+    "breakpoints",
+    "color",
+    "depth",
+    "spacing",
+    "text-color",
+    "transition",
+    "typo"
+  ],
+  "overwrite": false
+}

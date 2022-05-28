@@ -233,6 +233,10 @@ interface TokensUtil {
       styleDictionary: StyleDictionary.Core,
       platforms: string[]
     ) => void;
+    syncToFigma: (
+      callingPath: string,
+      styleDictionary: StyleDictionary.Core
+    ) => Promise<void>;
     getDefaultStyleDictionary: (
       callingPath: string,
       sourceDir: string
