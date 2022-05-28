@@ -3,14 +3,18 @@ import winston from 'winston';
 import StyleDictionary from 'style-dictionary';
 import path from 'path';
 import shell from 'shelljs';
+import traverse from 'json-schema-traverse';
 import tokens from '@kickstartds/core/design-tokens/index.js';
+import mergeAllOf from 'json-schema-merge-allof';
+import $RefParser from '@apidevtools/json-schema-ref-parser';
 import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
-import { JSONSchema7 } from 'json-schema';
+import { JSONSchema4, JSONSchema7 } from 'json-schema';
 import { config as dotEnvConfig } from 'dotenv';
+import { compile } from 'json-schema-to-typescript';
 import { promisify } from 'util';
-import { traverse } from 'object-traversal';
+import { traverse as objectTraverse } from 'object-traversal';
 import { createRequire } from 'module';
 import * as Figma from 'figma-api';
 
@@ -26,6 +30,7 @@ import {
   FontToken,
   TextStyleValue
 } from '@specifyapp/parsers/types';
+import { KickstartDSFigmaTokenStructure } from '../../figma-file.js';
 import promiseHelper from './promise.js';
 
 const { config, writeTokens } = tokens;
@@ -637,7 +642,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -650,7 +655,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -700,7 +705,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -713,7 +718,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -765,7 +770,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -778,7 +783,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -830,7 +835,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -843,7 +848,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -903,7 +908,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName && refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -916,7 +921,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else if (refColorName) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -966,7 +971,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName && refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -979,7 +984,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else if (refColorName) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -1031,7 +1036,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
                 const referenceableTokens: string[] = [];
                 if (refColorName && refColorName.endsWith('-inverted')) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -1044,7 +1049,7 @@ export default (logger: winston.Logger): TokensUtil => {
                     }
                   });
                 } else if (refColorName) {
-                  traverse(map.color, ({ key, value, meta }) => {
+                  objectTraverse(map.color, ({ key, value, meta }) => {
                     if (
                       key === 'base' &&
                       value.value.r === (token.value as ColorValue).r &&
@@ -1114,7 +1119,7 @@ export default (logger: winston.Logger): TokensUtil => {
               const [base, orientation] = measurementVariant.split('-');
 
               const referenceableTokens: string[] = [];
-              traverse(map.spacing, ({ key, value, meta }) => {
+              objectTraverse(map.spacing, ({ key, value, meta }) => {
                 if (
                   key === 'base' &&
                   value.value ===
@@ -1166,7 +1171,7 @@ export default (logger: winston.Logger): TokensUtil => {
               }
             } else {
               const referenceableTokens: string[] = [];
-              traverse(map.spacing, ({ key, value, meta }) => {
+              objectTraverse(map.spacing, ({ key, value, meta }) => {
                 if (
                   key === 'base' &&
                   value.value ===
@@ -1203,7 +1208,7 @@ export default (logger: winston.Logger): TokensUtil => {
             const [, durationName] = splitName;
 
             const referenceableTokens: string[] = [];
-            traverse(map.transition.duration, ({ key, value, meta }) => {
+            objectTraverse(map.transition.duration, ({ key, value, meta }) => {
               if (
                 key === 'value' &&
                 value ===
@@ -1398,10 +1403,6 @@ export default (logger: winston.Logger): TokensUtil => {
     const figmaTokensJson = JSON.parse(
       await fsReadFilePromise(`${callingPath}/figmaFile.json`, 'utf-8')
     );
-    // console.log(figmaTokensSchema, figmaTokensJson);
-
-    // ajv.validateSchema(figmaTokensSchema);
-    // ajv.validate(figmaTokensSchema, figmaTokensJson);
 
     const validate = ajv.compile(figmaTokensSchema);
     const valid = validate(figmaTokensJson);
@@ -1411,25 +1412,27 @@ export default (logger: winston.Logger): TokensUtil => {
       console.log('no errors');
     }
 
-    // const colorPage = file.document.children.find(
-    //   (page) => page.name === 'Colors'
-    // ) as Figma.FRAME;
+    const dereffed = await $RefParser.dereference(figmaTokensSchema);
+    const merged = mergeAllOf(dereffed);
 
-    // if (colorPage) {
-    //   const colorScales = colorPage.children.find(
-    //     (frame) => frame.name === 'Colors Scale'
-    //   );
+    const types = await compile(
+      figmaTokensSchema as JSONSchema4,
+      'FigmaTokensSchema'
+    );
+    await fsWriteFilePromise('figma-file.d.ts', types);
 
-    //   if (colorScales) {
-    //     traverse(colorScales, ({ key, value, meta }) => {
-    //       if (value && value.children) {
-    //         console.log(meta, value.children.length, value.name);
-    //       }
-    //     });
-    //   }
-    // } else {
-    //   // TODO handle page not being defined
-    // }
+    objectTraverse(
+      figmaTokensJson as KickstartDSFigmaTokenStructure,
+      ({ key, value, meta }) => {
+        // console.log(meta.nodePath);
+      }
+    );
+
+    traverse(merged, {
+      cb: (schema, pointer) => {
+        // console.log(schema, pointer);
+      }
+    });
   };
 
   const getDefaultStyleDictionary = (

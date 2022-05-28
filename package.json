@@ -50,6 +50,7 @@
     }
   },
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.9",
     "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
@@ -68,6 +69,8 @@
     "figma-api": "^1.10.1",
     "inquirer": "^8.2.4",
     "json-schema": "^0.4.0",
+    "json-schema-merge-allof": "^0.8.1",
+    "json-schema-to-typescript": "^10.1.5",
     "json-schema-traverse": "^1.0.0",
     "npm-run-all": "^4.1.5",
     "nunjucks": "^3.2.3",
@@ -101,6 +104,7 @@
     "@types/dockerode": "^3.3.9",
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.2.1",
+    "@types/json-schema-merge-allof": "^0.6.1",
     "@types/nunjucks": "^3.2.1",
     "@types/omelette": "^0.4.1",
     "@types/progress": "^2.0.5",
