@@ -29,6 +29,7 @@ import {
 import promiseHelper from './promise.js';
 
 const { config, writeTokens } = tokens;
+const require = createRequire(import.meta.url);
 
 const fsReadFilePromise = promisify(readFile);
 const fsWriteFilePromise = promisify(writeFile);
@@ -1439,8 +1440,8 @@ export default (logger: winston.Logger): TokensUtil => {
       source: [
         `${sourceDir}/*.json`,
         path.join(
-          callingPath,
-          'node_modules/@kickstartds/core/source/design-tokens/icons/*.svg'
+          path.dirname(require.resolve('@kickstartds/core/package.json')),
+          'source/design-tokens/icons/*.svg'
         ),
         path.join(callingPath, 'static/icons/*.svg')
       ],
@@ -1463,7 +1464,6 @@ export default (logger: winston.Logger): TokensUtil => {
       return getDefaultStyleDictionary(callingPath, sourceDir);
     }
 
-    const require = createRequire(import.meta.url);
     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
     const sdConfig = require(`${sdConfigPath}`);
 

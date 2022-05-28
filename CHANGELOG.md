@@ -1,3 +1,19 @@
+# v0.2.22 (Sat May 28 2022)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, Lukas Mestel ([@lmestel](https://github.com/lmestel)), for all your work!
+
+#### 🐛 Bug Fix
+
+- use node's module resolution to find core icons [#9](https://github.com/kickstartDS/kickstartDS-cli/pull/9) ([@lmestel](https://github.com/lmestel))
+
+#### Authors: 1
+
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
 # v0.2.21 (Tue May 24 2022)
 
 #### ⚠️ Pushed to `main`
