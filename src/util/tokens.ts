@@ -1396,7 +1396,7 @@ export default (logger: winston.Logger): TokensUtil => {
       )
     ) as JSONSchema7;
     const figmaTokensJson = JSON.parse(
-      await fsReadFilePromise(`${callingPath}/figmaFile2.json`, 'utf-8')
+      await fsReadFilePromise(`${callingPath}/figmaFile.json`, 'utf-8')
     );
     // console.log(figmaTokensSchema, figmaTokensJson);
 
