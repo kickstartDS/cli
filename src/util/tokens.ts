@@ -1376,13 +1376,15 @@ export default (logger: winston.Logger): TokensUtil => {
     callingPath: string,
     styleDictionary: StyleDictionary.Core
   ): Promise<void> => {
-    // const variables = config().parsed;
+    // const variables = dotEnvConfig().parsed;
     // const personalAccessToken =
-    //   (variables && variables.FIGMA_PERSONAL_ACCESS_TOKEN) || process.env.FIGMA_PERSONAL_ACCESS_TOKEN || '';
+    //   (variables && variables.FIGMA_PERSONAL_ACCESS_TOKEN) ||
+    //   process.env.FIGMA_PERSONAL_ACCESS_TOKEN ||
+    //   '';
     // const fileId =
     //   (variables && variables.FIGMA_FILE_ID) || process.env.FIGMA_FILE_ID || '';
     // const api = new Figma.Api({
-    //   personalAccessToken: personalAccessToken
+    //   personalAccessToken
     // });
     // const file = await api.getFile(fileId);
     // fsWriteFilePromise('figmaFile.json', JSON.stringify(file, null, 2));

@@ -81,6 +81,96 @@
             "maximum": 1
           }
         }
+      },
+      "scale": {
+        "type": "object",
+        "title": "Color Scale Structure",
+        "description": "Base definition for color scales to reuse",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "const": "FRAME"
+          },
+          "children": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "additionalItems": false,
+            "items": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "const": "Title"
+                  },
+                  "type": {
+                    "const": "GROUP"
+                  },
+                  "children": {
+                    "type": "array",
+                    "additionalItems": false,
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "items": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "const": "Text"
+                          },
+                          "type": {
+                            "const": "TEXT"
+                          },
+                          "characters": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              { "$ref": "#/definitions/types/row" },
+              { "$ref": "#/definitions/types/row" },
+              { "$ref": "#/definitions/types/row" }
+            ]
+          }
+        }
+      },
+      "row": {
+        "type": "object",
+        "title": "Scale Row",
+        "description": "One row of three colors for a scale",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Row"
+          },
+          "type": {
+            "const": "FRAME"
+          },
+          "children": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "$ref": "#/definitions/frame/color"
+            }
+          }
+        }
       }
     },
     "canvas": {
@@ -407,6 +497,140 @@
           }
         }
       },
+      "color": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "const": "Color"
+          },
+          "type": {
+            "const": "FRAME"
+          },
+          "children": {
+            "type": "array",
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "const": "Swatch"
+                  },
+                  "type": {
+                    "const": "RECTANGLE"
+                  },
+                  "fills": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "additionalItems": false,
+                    "items": [
+                      {
+                        "type": "object",
+                        "title": "",
+                        "description": "",
+                        "properties": {
+                          "color": {
+                            "$ref": "#/definitions/types/color"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "styles": {
+                    "type": "object",
+                    "properties": {
+                      "fill": {
+                        "type": "string",
+                        "title": "Fill Style",
+                        "description": "Reference to the fill styles used"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "const": "Info"
+                  },
+                  "type": {
+                    "const": "INSTANCE"
+                  },
+                  "children": {
+                    "type": "array",
+                    "additionalItems": false,
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "const": "Name"
+                          },
+                          "type": {
+                            "const": "TEXT"
+                          },
+                          "characters": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "const": "Divider"
+                          },
+                          "type": {
+                            "const": "VECTOR"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "const": "Code"
+                          },
+                          "type": {
+                            "const": "TEXT"
+                          },
+                          "characters": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
       "border-widths": {
         "instructions": {
           "title": "Border Widths Instructions",
@@ -480,13 +704,13 @@
               "minItems": 8,
               "maxItems": 8,
               "items": [
-                { "$ref": "#/definitions/color/scale/link-inverted" },
-                { "$ref": "#/definitions/color/scale/link" },
-                { "$ref": "#/definitions/color/scale/transparent" },
-                { "$ref": "#/definitions/color/scale/color-fg-inverted" },
-                { "$ref": "#/definitions/color/scale/color-fg" },
-                { "$ref": "#/definitions/color/scale/color-primary-inverted" },
-                { "$ref": "#/definitions/color/scale/color-primary" },
+                { "$ref": "#/definitions/color/link-inverted" },
+                { "$ref": "#/definitions/color/link" },
+                { "$ref": "#/definitions/color/transparent" },
+                { "$ref": "#/definitions/color/color-fg-inverted" },
+                { "$ref": "#/definitions/color/color-fg" },
+                { "$ref": "#/definitions/color/color-primary-inverted" },
+                { "$ref": "#/definitions/color/color-primary" },
                 { "$ref": "#/definitions/frame/header" }
               ]
             }
@@ -745,6 +969,111 @@
       }
     },
     "color": {
+      "color-primary": {
+        "allOf": [
+          {
+            "type": "object",
+            "title": "Primary Color",
+            "description": "Primary color for the brand",
+            "properties": {
+              "name": {
+                "const": "color-primary"
+              }
+            }
+          },
+          { "$ref": "#/definitions/color/scale/base" }
+        ]
+      },
+      "color-primary-inverted": {
+        "allOf": [
+          {
+            "type": "object",
+            "title": "Primary Inverted Color",
+            "description": "Primary inverted color for the brand",
+            "properties": {
+              "name": {
+                "const": "color-primary-inverted"
+              }
+            }
+          },
+          { "$ref": "#/definitions/color/scale/base" }
+        ]
+      },
+      "color-fg": {
+        "allOf": [
+          {
+            "type": "object",
+            "title": "Foreground Color",
+            "description": "Foreground color for the brand",
+            "properties": {
+              "name": {
+                "const": "color-fg"
+              }
+            }
+          },
+          { "$ref": "#/definitions/color/scale/base" }
+        ]
+      },
+      "color-fg-inverted": {
+        "allOf": [
+          {
+            "type": "object",
+            "title": "Background Color",
+            "description": "Background color for the brand",
+            "properties": {
+              "name": {
+                "const": "color-fg-inverted"
+              }
+            }
+          },
+          { "$ref": "#/definitions/color/scale/base" }
+        ]
+      },
+      "transparent": {
+        "allOf": [
+          {
+            "type": "object",
+            "title": "Transparent Color",
+            "description": "Transparent color for the brand",
+            "properties": {
+              "name": {
+                "const": "transparent"
+              }
+            }
+          },
+          { "$ref": "#/definitions/color/scale/base" }
+        ]
+      },
+      "link": {
+        "allOf": [
+          {
+            "type": "object",
+            "title": "Link Color",
+            "description": "Link color for the brand",
+            "properties": {
+              "name": {
+                "const": "link"
+              }
+            }
+          },
+          { "$ref": "#/definitions/color/scale/base" }
+        ]
+      },
+      "link-inverted": {
+        "allOf": [
+          { "$ref": "#/definitions/color/scale/base" },
+          {
+            "type": "object",
+            "title": "Link Inverted Color",
+            "description": "Link inverted color for the brand",
+            "properties": {
+              "name": {
+                "const": "link-inverted"
+              }
+            }
+          }
+        ]
+      },
       "scale": {
         "base": {
           "title": "Base Color",
@@ -797,6 +1126,35 @@
                           },
                           "type": {
                             "const": "FRAME"
+                          },
+                          "children": {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "items": [
+                              {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": { "const": "alpha" }
+                                    }
+                                  },
+                                  { "$ref": "#/definitions/types/scale" }
+                                ]
+                              },
+                              {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": { "const": "to-bg" }
+                                    }
+                                  },
+                                  { "$ref": "#/definitions/types/scale" }
+                                ]
+                              }
+                            ]
                           }
                         }
                       },
@@ -847,152 +1205,16 @@
                               "type": "string"
                             },
                             "name": {
-                              "const": "Color"
+                              "const": "Definition"
                             },
                             "type": {
                               "const": "FRAME"
                             },
                             "children": {
                               "type": "array",
-                              "additionalItems": false,
                               "minItems": 1,
                               "maxItems": 1,
-                              "items": [
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "string"
-                                    },
-                                    "name": {
-                                      "const": "Definition"
-                                    },
-                                    "type": {
-                                      "const": "FRAME"
-                                    },
-                                    "children": {
-                                      "type": "array",
-                                      "additionalItems": false,
-                                      "minItems": 2,
-                                      "maxItems": 2,
-                                      "items": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "id": {
-                                              "type": "string"
-                                            },
-                                            "name": {
-                                              "const": "Swatch"
-                                            },
-                                            "type": {
-                                              "const": "RECTANGLE"
-                                            },
-                                            "fills": {
-                                              "type": "array",
-                                              "minItems": 1,
-                                              "maxItems": 1,
-                                              "additionalItems": false,
-                                              "items": [
-                                                {
-                                                  "type": "object",
-                                                  "title": "",
-                                                  "description": "",
-                                                  "properties": {
-                                                    "color": {
-                                                      "$ref": "#/definitions/types/color"
-                                                    }
-                                                  }
-                                                }
-                                              ]
-                                            },
-                                            "styles": {
-                                              "type": "object",
-                                              "properties": {
-                                                "fill": {
-                                                  "type": "string",
-                                                  "title": "Fill Style",
-                                                  "description": "Reference to the fill styles used"
-                                                }
-                                              }
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "id": {
-                                              "type": "string"
-                                            },
-                                            "name": {
-                                              "const": "Info"
-                                            },
-                                            "type": {
-                                              "const": "INSTANCE"
-                                            },
-                                            "children": {
-                                              "type": "array",
-                                              "additionalItems": false,
-                                              "minItems": 3,
-                                              "maxItems": 3,
-                                              "items": [
-                                                {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "id": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "const": "Name"
-                                                    },
-                                                    "type": {
-                                                      "const": "TEXT"
-                                                    },
-                                                    "characters": {
-                                                      "type": "string"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "id": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "const": "Divider"
-                                                    },
-                                                    "type": {
-                                                      "const": "VECTOR"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "id": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "const": "Code"
-                                                    },
-                                                    "type": {
-                                                      "const": "TEXT"
-                                                    },
-                                                    "characters": {
-                                                      "type": "string"
-                                                    }
-                                                  }
-                                                }
-                                              ]
-                                            }
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ]
+                              "items": { "$ref": "#/definitions/frame/color" }
                             }
                           }
                         }
@@ -1003,111 +1225,6 @@
               ]
             }
           }
-        },
-        "color-primary": {
-          "allOf": [
-            {
-              "type": "object",
-              "title": "Primary Color",
-              "description": "Primary color for the brand",
-              "properties": {
-                "name": {
-                  "const": "color-primary"
-                }
-              }
-            },
-            { "$ref": "#/definitions/color/scale/base" }
-          ]
-        },
-        "color-primary-inverted": {
-          "allOf": [
-            {
-              "type": "object",
-              "title": "Primary Inverted Color",
-              "description": "Primary inverted color for the brand",
-              "properties": {
-                "name": {
-                  "const": "color-primary-inverted"
-                }
-              }
-            },
-            { "$ref": "#/definitions/color/scale/base" }
-          ]
-        },
-        "color-fg": {
-          "allOf": [
-            {
-              "type": "object",
-              "title": "Foreground Color",
-              "description": "Foreground color for the brand",
-              "properties": {
-                "name": {
-                  "const": "color-fg"
-                }
-              }
-            },
-            { "$ref": "#/definitions/color/scale/base" }
-          ]
-        },
-        "color-fg-inverted": {
-          "allOf": [
-            {
-              "type": "object",
-              "title": "Background Color",
-              "description": "Background color for the brand",
-              "properties": {
-                "name": {
-                  "const": "color-fg-inverted"
-                }
-              }
-            },
-            { "$ref": "#/definitions/color/scale/base" }
-          ]
-        },
-        "transparent": {
-          "allOf": [
-            {
-              "type": "object",
-              "title": "Transparent Color",
-              "description": "Transparent color for the brand",
-              "properties": {
-                "name": {
-                  "const": "transparent"
-                }
-              }
-            },
-            { "$ref": "#/definitions/color/scale/base" }
-          ]
-        },
-        "link": {
-          "allOf": [
-            {
-              "type": "object",
-              "title": "Link Color",
-              "description": "Link color for the brand",
-              "properties": {
-                "name": {
-                  "const": "link"
-                }
-              }
-            },
-            { "$ref": "#/definitions/color/scale/base" }
-          ]
-        },
-        "link-inverted": {
-          "allOf": [
-            { "$ref": "#/definitions/color/scale/base" },
-            {
-              "type": "object",
-              "title": "Link Inverted Color",
-              "description": "Link inverted color for the brand",
-              "properties": {
-                "name": {
-                  "const": "link-inverted"
-                }
-              }
-            }
-          ]
         }
       }
     }
