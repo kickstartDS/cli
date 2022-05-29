@@ -7,7 +7,7 @@
   "properties": {
     "document": {
       "title": "Figma document",
-      "description": "Contains the canvas",
+      "description": "Contains the canvases",
       "type": "object",
       "properties": {
         "id": {
@@ -704,13 +704,13 @@
               "minItems": 8,
               "maxItems": 8,
               "items": [
-                { "$ref": "#/definitions/color/link-inverted" },
-                { "$ref": "#/definitions/color/link" },
-                { "$ref": "#/definitions/color/transparent" },
-                { "$ref": "#/definitions/color/color-fg-inverted" },
-                { "$ref": "#/definitions/color/color-fg" },
-                { "$ref": "#/definitions/color/color-primary-inverted" },
-                { "$ref": "#/definitions/color/color-primary" },
+                { "$ref": "#/definitions/color/base/link-inverted" },
+                { "$ref": "#/definitions/color/base/link" },
+                { "$ref": "#/definitions/color/base/transparent" },
+                { "$ref": "#/definitions/color/base/color-fg-inverted" },
+                { "$ref": "#/definitions/color/base/color-fg" },
+                { "$ref": "#/definitions/color/base/color-primary-inverted" },
+                { "$ref": "#/definitions/color/base/color-primary" },
                 { "$ref": "#/definitions/frame/header" }
               ]
             }
@@ -969,261 +969,273 @@
       }
     },
     "color": {
-      "color-primary": {
-        "allOf": [
-          {
-            "type": "object",
-            "title": "Primary Color",
-            "description": "Primary color for the brand",
-            "properties": {
-              "name": {
-                "const": "color-primary"
+      "base": {
+        "color-primary": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Primary Color",
+              "description": "Primary color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-primary"
+                }
               }
-            }
-          },
-          { "$ref": "#/definitions/color/scale/base" }
-        ]
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        },
+        "color-primary-inverted": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Primary Inverted Color",
+              "description": "Primary inverted color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-primary-inverted"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        },
+        "color-fg": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Foreground Color",
+              "description": "Foreground color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-fg"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        },
+        "color-fg-inverted": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Background Color",
+              "description": "Background color for the brand",
+              "properties": {
+                "name": {
+                  "const": "color-fg-inverted"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        },
+        "transparent": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Transparent Color",
+              "description": "Transparent color for the brand",
+              "properties": {
+                "name": {
+                  "const": "transparent"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        },
+        "link": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Link Color",
+              "description": "Link color for the brand",
+              "properties": {
+                "name": {
+                  "const": "link"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        },
+        "link-inverted": {
+          "allOf": [
+            {
+              "type": "object",
+              "title": "Link Inverted Color",
+              "description": "Link inverted color for the brand",
+              "properties": {
+                "name": {
+                  "const": "link-inverted"
+                }
+              }
+            },
+            { "$ref": "#/definitions/color/scale" }
+          ]
+        }
       },
-      "color-primary-inverted": {
-        "allOf": [
-          {
-            "type": "object",
-            "title": "Primary Inverted Color",
-            "description": "Primary inverted color for the brand",
-            "properties": {
-              "name": {
-                "const": "color-primary-inverted"
-              }
-            }
-          },
-          { "$ref": "#/definitions/color/scale/base" }
-        ]
-      },
-      "color-fg": {
-        "allOf": [
-          {
-            "type": "object",
-            "title": "Foreground Color",
-            "description": "Foreground color for the brand",
-            "properties": {
-              "name": {
-                "const": "color-fg"
-              }
-            }
-          },
-          { "$ref": "#/definitions/color/scale/base" }
-        ]
-      },
-      "color-fg-inverted": {
-        "allOf": [
-          {
-            "type": "object",
-            "title": "Background Color",
-            "description": "Background color for the brand",
-            "properties": {
-              "name": {
-                "const": "color-fg-inverted"
-              }
-            }
-          },
-          { "$ref": "#/definitions/color/scale/base" }
-        ]
-      },
-      "transparent": {
-        "allOf": [
-          {
-            "type": "object",
-            "title": "Transparent Color",
-            "description": "Transparent color for the brand",
-            "properties": {
-              "name": {
-                "const": "transparent"
-              }
-            }
-          },
-          { "$ref": "#/definitions/color/scale/base" }
-        ]
-      },
-      "link": {
-        "allOf": [
-          {
-            "type": "object",
-            "title": "Link Color",
-            "description": "Link color for the brand",
-            "properties": {
-              "name": {
-                "const": "link"
-              }
-            }
-          },
-          { "$ref": "#/definitions/color/scale/base" }
-        ]
-      },
-      "link-inverted": {
-        "allOf": [
-          { "$ref": "#/definitions/color/scale/base" },
-          {
-            "type": "object",
-            "title": "Link Inverted Color",
-            "description": "Link inverted color for the brand",
-            "properties": {
-              "name": {
-                "const": "link-inverted"
-              }
-            }
-          }
-        ]
+      "background-color": {
+        "primary": {},
+        "primary-inverted": {},
+        "clear": {},
+        "clear-inverted": {},
+        "accent": {},
+        "accent-inverted": {},
+        "interface": {},
+        "interface-inverted": {},
+        "default": {},
+        "default-inverted": {}
       },
       "scale": {
-        "base": {
-          "title": "Base Color",
-          "description": "Base color for the brand",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "type": {
-              "const": "FRAME"
-            },
-            "children": {
-              "type": "array",
-              "title": "Color Wrappers",
-              "description": "Organizational wrappers in Figma",
-              "additionalItems": false,
-              "minItems": 1,
-              "maxItems": 1,
-              "items": [
-                {
-                  "type": "object",
-                  "title": "Wrapper",
-                  "description": "Organizational wrapper in Figma",
-                  "properties": {
-                    "id": {
-                      "type": "string"
+        "title": "Base Color",
+        "description": "Base color for the brand",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "const": "FRAME"
+          },
+          "children": {
+            "type": "array",
+            "title": "Color Wrappers",
+            "description": "Organizational wrappers in Figma",
+            "additionalItems": false,
+            "minItems": 1,
+            "maxItems": 1,
+            "items": [
+              {
+                "type": "object",
+                "title": "Wrapper",
+                "description": "Organizational wrapper in Figma",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "const": "Frame"
+                  },
+                  "type": {
+                    "const": "FRAME"
+                  },
+                  "children": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 3,
+                    "additionalItems": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "const": "Scales"
+                        },
+                        "type": {
+                          "const": "FRAME"
+                        },
+                        "children": {
+                          "type": "array",
+                          "minItems": 2,
+                          "maxItems": 2,
+                          "items": [
+                            {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": { "const": "alpha" }
+                                  }
+                                },
+                                { "$ref": "#/definitions/types/scale" }
+                              ]
+                            },
+                            {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": { "const": "to-bg" }
+                                  }
+                                },
+                                { "$ref": "#/definitions/types/scale" }
+                              ]
+                            }
+                          ]
+                        }
+                      }
                     },
-                    "name": {
-                      "const": "Frame"
-                    },
-                    "type": {
-                      "const": "FRAME"
-                    },
-                    "children": {
-                      "type": "array",
-                      "minItems": 2,
-                      "maxItems": 3,
-                      "additionalItems": {
+                    "items": [
+                      {
                         "type": "object",
                         "properties": {
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "const": "Scales"
+                            "const": "Title"
+                          },
+                          "type": {
+                            "const": "GROUP"
+                          },
+                          "children": {
+                            "type": "array",
+                            "additionalItems": false,
+                            "minItems": 1,
+                            "maxItems": 1,
+                            "items": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "const": "Text"
+                                  },
+                                  "type": {
+                                    "const": "TEXT"
+                                  },
+                                  "characters": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "const": "Definition"
                           },
                           "type": {
                             "const": "FRAME"
                           },
                           "children": {
                             "type": "array",
-                            "minItems": 2,
-                            "maxItems": 2,
-                            "items": [
-                              {
-                                "allOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "name": { "const": "alpha" }
-                                    }
-                                  },
-                                  { "$ref": "#/definitions/types/scale" }
-                                ]
-                              },
-                              {
-                                "allOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "name": { "const": "to-bg" }
-                                    }
-                                  },
-                                  { "$ref": "#/definitions/types/scale" }
-                                ]
-                              }
-                            ]
+                            "minItems": 1,
+                            "maxItems": 1,
+                            "items": { "$ref": "#/definitions/frame/color" }
                           }
                         }
-                      },
-                      "items": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "const": "Title"
-                            },
-                            "type": {
-                              "const": "GROUP"
-                            },
-                            "children": {
-                              "type": "array",
-                              "additionalItems": false,
-                              "minItems": 1,
-                              "maxItems": 1,
-                              "items": [
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "string"
-                                    },
-                                    "name": {
-                                      "const": "Text"
-                                    },
-                                    "type": {
-                                      "const": "TEXT"
-                                    },
-                                    "characters": {
-                                      "type": "string"
-                                    }
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "const": "Definition"
-                            },
-                            "type": {
-                              "const": "FRAME"
-                            },
-                            "children": {
-                              "type": "array",
-                              "minItems": 1,
-                              "maxItems": 1,
-                              "items": { "$ref": "#/definitions/frame/color" }
-                            }
-                          }
-                        }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 }
-              ]
-            }
+              }
+            ]
           }
         }
       }

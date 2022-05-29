@@ -1372,6 +1372,7 @@ export default (logger: winston.Logger): TokensUtil => {
   ): void =>
     platforms.forEach((platform) => styleDictionary.buildPlatform(platform));
 
+  // TODO add `required` everywhere as needed in figma-tokens.schema.json
   const syncToFigma = async (
     callingPath: string,
     styleDictionary: StyleDictionary.Core
@@ -1442,8 +1443,6 @@ export default (logger: winston.Logger): TokensUtil => {
     );
 
     const parsedTokens: KickstartDSFigmaTokenStructure = {};
-
-    // TODO add handling for "open" arrays (items: {}, not items: [])
     traverse(merged, {
       cb: (
         schema,
