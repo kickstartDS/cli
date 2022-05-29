@@ -7,10 +7,12 @@ import traverse from 'json-schema-traverse';
 import tokens from '@kickstartds/core/design-tokens/index.js';
 import mergeAllOf from 'json-schema-merge-allof';
 import $RefParser from '@apidevtools/json-schema-ref-parser';
+import jsonPointer from 'json-pointer';
 import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
 import { JSONSchema4, JSONSchema7 } from 'json-schema';
+import { inlineDefinitions } from '@kickstartds/jsonschema-utils/dist/helpers.js';
 import { config as dotEnvConfig } from 'dotenv';
 import { compile } from 'json-schema-to-typescript';
 import { promisify } from 'util';
@@ -1407,32 +1409,106 @@ export default (logger: winston.Logger): TokensUtil => {
     const validate = ajv.compile(figmaTokensSchema);
     const valid = validate(figmaTokensJson);
     if (!valid) {
-      console.log(validate.errors, validate.errors?.length);
-    } else {
-      console.log('no errors');
+      logger.error(
+        `Invalid JSON in sync to figma task:\n${JSON.stringify(
+          validate.errors,
+          null,
+          2
+        )}`
+      );
+      shell.exit(1);
     }
 
     const dereffed = await $RefParser.dereference(figmaTokensSchema);
     const merged = mergeAllOf(dereffed);
+    inlineDefinitions([figmaTokensSchema]);
+    delete merged.definitions;
 
-    const types = await compile(
-      figmaTokensSchema as JSONSchema4,
-      'FigmaTokensSchema'
-    );
+    const types = await compile(merged as JSONSchema4, 'FigmaTokensSchema');
     await fsWriteFilePromise('figma-file.d.ts', types);
 
-    objectTraverse(
-      figmaTokensJson as KickstartDSFigmaTokenStructure,
-      ({ key, value, meta }) => {
-        // console.log(meta.nodePath);
-      }
+    // objectTraverse(
+    //   figmaTokensJson as KickstartDSFigmaTokenStructure,
+    //   ({ key, value, meta }) => {
+    //     console.log(meta.nodePath);
+    //   }
+    // );
+
+    await fsWriteFilePromise(
+      'figma-tokens.schema.dereffed.json',
+      JSON.stringify(merged, null, 2)
     );
 
+    const parsedTokens: KickstartDSFigmaTokenStructure = {};
+
+    // TODO add handling for "open" arrays (items: {}, not items: [])
     traverse(merged, {
-      cb: (schema, pointer) => {
-        // console.log(schema, pointer);
+      cb: (
+        schema,
+        pointer,
+        _rootSchema,
+        parentPointer,
+        _parentKeyword,
+        parentSchema
+      ) => {
+        const objectPointer = pointer
+          .replaceAll('/properties', '')
+          .replaceAll('/items', '');
+
+        if (objectPointer.endsWith('/additionalItems') && parentPointer) {
+          const objectParentPointer =
+            parentPointer
+              .replaceAll('/properties', '')
+              .replaceAll('/items', '') || '';
+
+          if (parentSchema) {
+            const array = jsonPointer.get(figmaTokensJson, objectParentPointer);
+            const difference = parentSchema.items.length - array.length;
+            if (difference < 0) {
+              const additionalItems: JSONSchema7[] = array.slice(difference);
+              additionalItems.forEach((additionalItem, index) => {
+                traverse(parentSchema.additionalItems, {
+                  cb: (additionalSchema, additionalPointer) => {
+                    if (
+                      !additionalSchema.properties &&
+                      !additionalSchema.items
+                    ) {
+                      const additionalObjectPointer = additionalPointer
+                        .replaceAll('/properties', '')
+                        .replaceAll('/items', '');
+                      const value = jsonPointer.get(
+                        additionalItem,
+                        additionalObjectPointer
+                      );
+                      jsonPointer.set(
+                        parsedTokens,
+                        `${objectParentPointer}/${
+                          array.length + difference + index
+                        }${additionalObjectPointer}`,
+                        value
+                      );
+                    }
+                  }
+                });
+              });
+            }
+          }
+        } else if (
+          objectPointer &&
+          !objectPointer.includes('/additionalItems/')
+        ) {
+          if (!schema.properties && !schema.items) {
+            const value = jsonPointer.get(figmaTokensJson, objectPointer);
+            jsonPointer.set(parsedTokens, objectPointer, value);
+          }
+        }
       }
     });
+
+    await fsWriteFilePromise(
+      'parsed-tokens.json',
+      JSON.stringify(parsedTokens, null, 2)
+    );
   };
 
   const getDefaultStyleDictionary = (

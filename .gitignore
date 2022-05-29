@@ -149,3 +149,5 @@ $RECYCLE.BIN/
 /tokens/
 /.storybook/
 /figma-file.d.ts
+/figma-tokens.schema.dereffed.json
+/parsed-tokens.json

@@ -890,16 +890,21 @@
                                             },
                                             "fills": {
                                               "type": "array",
-                                              "items": {
-                                                "type": "object",
-                                                "title": "",
-                                                "description": "",
-                                                "properties": {
-                                                  "color": {
-                                                    "$ref": "#/definitions/types/color"
+                                              "minItems": 1,
+                                              "maxItems": 1,
+                                              "additionalItems": false,
+                                              "items": [
+                                                {
+                                                  "type": "object",
+                                                  "title": "",
+                                                  "description": "",
+                                                  "properties": {
+                                                    "color": {
+                                                      "$ref": "#/definitions/types/color"
+                                                    }
                                                   }
                                                 }
-                                              }
+                                              ]
                                             },
                                             "styles": {
                                               "type": "object",
