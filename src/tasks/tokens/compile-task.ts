@@ -1,6 +1,7 @@
 import winston from 'winston';
 import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
+import StyleDictionary from 'style-dictionary';
 import createTask from '../task.js';
 
 const moduleName = 'tokens';
@@ -66,7 +67,7 @@ const run = async (
       chalkTemplate`getting {bold Style Dictionary} from token files`
     );
 
-    let styleDictionary;
+    let styleDictionary: StyleDictionary.Core;
     if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
       styleDictionary = await tokensGetStyleDictionary(
         callingPath,
@@ -88,7 +89,22 @@ const run = async (
     logger.info(
       chalkTemplate`copying generated CSS and assets to local folder`
     );
-    shell.cp('-r', ['.storybook', 'tokens.css'], callingPath);
+
+    Object.keys(styleDictionary.options.platforms).forEach((platformName) => {
+      const platform = styleDictionary.options.platforms[platformName];
+      const { files } = platform;
+
+      if (files && files.length) {
+        shell.cp('-r', ['.storybook', 'tokens.css'], callingPath);
+        files.forEach((file) => {
+          shell.mkdir('-p', `${callingPath}${platform.buildPath || ''}`);
+          shell.cp(
+            `${shell.pwd()}/${platform.buildPath || ''}${file.destination}`,
+            `${callingPath}${platform.buildPath || ''}/${file.destination}`
+          );
+        });
+      }
+    });
 
     logger.info(
       chalkTemplate`finished running the {bold compile} subtask successfully`

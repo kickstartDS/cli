@@ -18,7 +18,6 @@ import {
   ColorValue,
   DurationValue,
   ShadowValue,
-  FontToken,
   TextStyleValue
 } from '@specifyapp/parsers/types';
 import promiseHelper from './promise.js';
