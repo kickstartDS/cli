@@ -1,3 +1,15 @@
+# v0.2.24 (Tue May 31 2022)
+
+#### 🐛 Bug Fix
+
+- fix(tokens): copy all specified files after token compile [#12](https://github.com/kickstartDS/kickstartDS-cli/pull/12) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.23 (Tue May 31 2022)
 
 #### 🐛 Bug Fix
