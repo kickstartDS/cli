@@ -1,3 +1,16 @@
+# v0.2.25 (Tue May 31 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): merge release ([@julrich](https://github.com/julrich))
+- fix(tokens): quick-fix additional, unneeded cp call ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.24 (Tue May 31 2022)
 
 #### 🐛 Bug Fix
