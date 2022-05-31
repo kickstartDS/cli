@@ -1,3 +1,15 @@
+# v0.2.23 (Tue May 31 2022)
+
+#### 🐛 Bug Fix
+
+- build: update kickstartds [#11](https://github.com/kickstartDS/kickstartDS-cli/pull/11) ([@lmestel](https://github.com/lmestel))
+
+#### Authors: 1
+
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
 # v0.2.22 (Sat May 28 2022)
 
 :tada: This release contains work from a new contributor! :tada:
