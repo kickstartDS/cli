@@ -96,10 +96,17 @@ const run = async (
 
       if (files && files.length) {
         files.forEach((file) => {
-          shell.mkdir('-p', `${callingPath}${platform.buildPath || ''}`);
+          shell.mkdir(
+            '-p',
+            `${callingPath.endsWith('/') ? callingPath : `${callingPath}/`}${
+              platform.buildPath || ''
+            }`
+          );
           shell.cp(
             `${shell.pwd()}/${platform.buildPath || ''}${file.destination}`,
-            `${callingPath}${platform.buildPath || ''}/${file.destination}`
+            `${callingPath.endsWith('/') ? callingPath : `${callingPath}/`}${
+              platform.buildPath || ''
+            }/${file.destination}`
           );
         });
       }
