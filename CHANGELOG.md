@@ -1,3 +1,15 @@
+# v0.2.28 (Fri Jun 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(scripts): add more safeguards to scripts in postinstall ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.27 (Fri Jun 10 2022)
 
 #### ⚠️ Pushed to `main`
