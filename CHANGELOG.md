@@ -1,3 +1,16 @@
+# v0.2.27 (Fri Jun 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(scripts): add guard to git related script ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.26 (Wed Jun 01 2022)
 
 #### ⚠️ Pushed to `main`
