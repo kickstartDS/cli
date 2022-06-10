@@ -20,11 +20,11 @@
   "node": ">=18.1",
   "type": "module",
   "scripts": {
-    "copy-env-file": "[ ! -f .env ] && cp .env-example .env || true",
+    "copy-env-file": "[ ! -f .env ] && [ -f .env-example  ] && cp .env-example .env || true",
     "eslint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "find-licenses": "node ./scripts/license.js",
     "format": "prettier --write .",
-    "git-config": "[ -d ./.git ] && git config --local include.path ../.gitconfig",
+    "git-config": "[ -d ./.git ] && git config --local include.path ../.gitconfig || true",
     "husky-commit-msg": "commitlint -E GIT_PARAMS",
     "husky-pre-commit": "lint-staged",
     "integration": "rm -rf tokens && mkdir -p tokens && cp /home/julrich/Projects/Frontend/code/specify-poc/specify-tokens.json ./ && yarn start tokens init --from-specify --rc-only --cleanup && rm -rf /home/julrich/Projects/Frontend/code/specify-poc/tokens && cp -r tokens /home/julrich/Projects/Frontend/code/specify-poc/",
