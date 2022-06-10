@@ -1,3 +1,15 @@
+# v0.2.26 (Wed Jun 01 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): use correct paths in asset copy ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.25 (Tue May 31 2022)
 
 #### ⚠️ Pushed to `main`
