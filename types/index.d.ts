@@ -278,4 +278,4 @@ interface TaskUtil {
   };
 }
 
-declare module '@kickstartds/core/design-tokens/index.js';
+declare module '@kickstartds/style-dictionary';

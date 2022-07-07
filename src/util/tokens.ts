@@ -2,7 +2,7 @@ import winston from 'winston';
 import StyleDictionary from 'style-dictionary';
 import path from 'path';
 import shell from 'shelljs';
-import tokens from '@kickstartds/core/design-tokens/index.js';
+import tokens from '@kickstartds/style-dictionary';
 import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
