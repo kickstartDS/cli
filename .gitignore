@@ -141,3 +141,9 @@ $RECYCLE.BIN/
 # PhpStrom
 .idea/
 
+# Style Dictionary
+/.storybook/IconSprite.js
+/.storybook/icons.html
+/.storybook/tokens.css
+/.storybook/tokens.js
+
