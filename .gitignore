@@ -146,4 +146,5 @@ $RECYCLE.BIN/
 /.storybook/icons.html
 /.storybook/tokens.css
 /.storybook/tokens.js
-
+/token-primitives.json
+/tokens

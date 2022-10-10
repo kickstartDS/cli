@@ -278,7 +278,7 @@ export default (logger: winston.Logger): TokensUtil => {
     const result = generateTokens(primitiveTokenJson, targetDir);
 
     subCmdLogger.info(
-      chalkTemplate`successfully generated {bold Specify} tokens and wrote them to folder {bold ${targetDir}}`
+      chalkTemplate`successfully generated {bold primitives} tokens and wrote them to folder {bold ${targetDir}}`
     );
 
     return result;
