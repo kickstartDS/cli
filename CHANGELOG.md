@@ -1,3 +1,16 @@
+# v0.2.30 (Mon Oct 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(config): update gitignore ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.29 (Thu Jul 07 2022)
 
 #### 🐛 Bug Fix
