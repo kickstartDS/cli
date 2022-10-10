@@ -1,6 +1,6 @@
 {
   "name": "kickstartds",
-  "version": "0.2.27",
+  "version": "0.2.29",
   "description": "kickstartDS CLI utility",
   "keywords": [],
   "author": "Jonas Ulrich | ruhmesmeile GmbH",
@@ -53,7 +53,7 @@
     "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
-    "@kickstartds/core": "2.0.0-canary.922.4383.0",
+    "@kickstartds/style-dictionary": "2.0.0-canary.922.4433.0",
     "@specifyapp/parsers": "julrich/parsers",
     "byline": "^5.0.0",
     "chalk": "^5.0.1",
@@ -113,5 +113,8 @@
     "eslint-plugin-import": "^2.26.0",
     "husky": "^7.0.4",
     "prettier": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@kickstartds/core": "*"
   }
 }

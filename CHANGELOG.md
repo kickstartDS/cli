@@ -1,3 +1,27 @@
+# v0.2.29 (Thu Jul 07 2022)
+
+#### 🐛 Bug Fix
+
+- build: update kickstartds [#13](https://github.com/kickstartDS/kickstartDS-cli/pull/13) ([@lmestel](https://github.com/lmestel))
+
+#### Authors: 1
+
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
+# v0.2.28 (Fri Jun 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(scripts): add more safeguards to scripts in postinstall ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.27 (Fri Jun 10 2022)
 
 #### ⚠️ Pushed to `main`
