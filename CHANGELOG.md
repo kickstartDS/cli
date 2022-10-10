@@ -1,3 +1,16 @@
+# v0.2.31 (Mon Oct 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(token): update to current version of dependencies for newer projects ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.30 (Mon Oct 10 2022)
 
 #### ⚠️ Pushed to `main`
