@@ -1,3 +1,15 @@
+# v0.2.32 (Tue Oct 11 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(token): only compile token platforms that have a buildPath ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.31 (Mon Oct 10 2022)
 
 #### ⚠️ Pushed to `main`
