@@ -83,7 +83,7 @@ const run = async (
     );
     await tokensCompileTokens(
       styleDictionary,
-      Object.keys(styleDictionary.options.platforms)
+      Object.keys(styleDictionary.options.platforms).filter((platform) => styleDictionary.options.platforms[platform].buildPath)
     );
 
     logger.info(
