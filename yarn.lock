@@ -763,10 +763,10 @@
     eslint-plugin-import "^2.25.4"
     find-up "^5.0.0"
 
-"@kickstartds/style-dictionary@2.0.0-canary.922.4908.0":
-  version "2.0.0-canary.922.4908.0"
-  resolved "https://registry.npmjs.org/@kickstartds/style-dictionary/-/style-dictionary-2.0.0-canary.922.4908.0.tgz#7210c5861f74bbf7a74a86e6d408f8e314efa08f"
-  integrity sha512-EsUiTHoj/sD25Wdv0aEX7nDbQWBDOx7QhjeSRTi2d+MHMmpVYqN1nT6yHu3icfbBVvdZan5bo1FD+emx2OX1lA==
+"@kickstartds/style-dictionary@2.0.0-canary.922.4927.0":
+  version "2.0.0-canary.922.4927.0"
+  resolved "https://registry.npmjs.org/@kickstartds/style-dictionary/-/style-dictionary-2.0.0-canary.922.4927.0.tgz#f2cfaa33250f91ca9a08d2fcf2dcbd87e0f039d6"
+  integrity sha512-EZZ5bEfUe4hH/BSLl7Zke+w3SJ/L99twf8edCiZZlpqjoTYqefVLREXnzue8pGa73gaRVUip0JwgtFwII4MzkQ==
   dependencies:
     "@babel/core" "^7.17.8"
     "@babel/preset-react" "^7.16.7"
