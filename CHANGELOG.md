@@ -1,3 +1,15 @@
+# v0.2.33 (Wed Oct 12 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(dependencies): update kickstartDS style dictionary dep ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.32 (Tue Oct 11 2022)
 
 #### ⚠️ Pushed to `main`
