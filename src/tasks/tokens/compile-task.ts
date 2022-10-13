@@ -2,6 +2,7 @@ import winston from 'winston';
 import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import StyleDictionary from 'style-dictionary';
+import { dirname } from 'path';
 import createTask from '../task.js';
 
 const moduleName = 'tokens';
@@ -33,6 +34,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
+  tokenPath: string = 'tokens',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -46,9 +48,9 @@ const run = async (
     shellRequireCommands(requiredCommands);
 
     shell.pushd(`${callingPath}`);
-    if (!shellDirExistsInCwd('tokens')) {
+    if (!shellDirExistsInCwd(tokenPath)) {
       logger.error(
-        chalkTemplate`no {bold tokens} directory found in current directory`
+        chalkTemplate`no {bold ${tokenPath}} directory found in current directory`
       );
       shell.exit(1);
     }
@@ -61,7 +63,8 @@ const run = async (
   const compile = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold compile} subtask`);
 
-    shell.cp('-r', `${callingPath}/tokens`, shell.pwd());
+    shell.mkdir('-p', `${shell.pwd()}/${dirname(tokenPath)}/`);
+    shell.cp('-r', `${callingPath}/${tokenPath}`, `${shell.pwd()}/${dirname(tokenPath)}/`);
 
     logger.info(
       chalkTemplate`getting {bold Style Dictionary} from token files`
@@ -71,11 +74,11 @@ const run = async (
     if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
       styleDictionary = await tokensGetStyleDictionary(
         callingPath,
-        'tokens',
+        tokenPath,
         `${callingPath}/sd.config.cjs`
       );
     } else {
-      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, 'tokens');
+      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, tokenPath);
     }
 
     logger.info(

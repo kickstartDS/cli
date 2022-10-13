@@ -143,6 +143,7 @@ $RECYCLE.BIN/
 
 # Style Dictionary
 /.storybook/IconSprite.js
+/.storybook/icons.svg
 /.storybook/icons.html
 /.storybook/tokens.css
 /.storybook/tokens.js
