@@ -1,3 +1,15 @@
+# v0.2.36 (Thu Oct 13 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): token init path handling ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.35 (Thu Oct 13 2022)
 
 #### ⚠️ Pushed to `main`
