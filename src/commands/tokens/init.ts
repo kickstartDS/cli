@@ -7,6 +7,10 @@ const init = new Command('init')
     chalkTemplate`converts {bold token-primitives.json} or {bold Specify} raw tokens to Style Dictionary configuration, ready to use in your {#ecff00.bold kickstartDS} Design System`
   )
   .option(
+    '--token-path <path>',
+    chalkTemplate`relative path from project root to your token dictionary, default {bold ./tokens}`,
+  )
+  .option(
     '--from-specify',
     chalkTemplate`read tokens from {bold Specify} raw tokens, instead of the default {bold token-primitives.json}`,
     false
@@ -25,6 +29,7 @@ const init = new Command('init')
   .option('--debug', 'show debugging output', false)
   .action((options) => {
     runTask(
+      options.tokenPath,
       options.rcOnly,
       options.revert,
       options.cleanup,

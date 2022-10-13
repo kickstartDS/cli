@@ -30,6 +30,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
+  tokenPath: string = 'tokens',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -75,16 +76,16 @@ const run = async (
       await tokensGenerateFromSpecifyPath(
         `${shell.pwd()}/specify-tokens.json`,
         `${shell.pwd()}/token-primitives.json`,
-        `${shell.pwd()}/tokens`
+        `${shell.pwd()}/${tokenPath}`
       );
-      shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, callingPath);
     } else {
       shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
       await tokensGenerateFromPrimitivesPath(
         `${shell.pwd()}/token-primitives.json`,
-        `${shell.pwd()}/tokens`
+        `${shell.pwd()}/${tokenPath}`
       );
-      shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, callingPath);
     }
 
     logger.info(
