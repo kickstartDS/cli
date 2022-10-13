@@ -1,3 +1,15 @@
+# v0.2.35 (Thu Oct 13 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(token): add tokenPath to init token task, too ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.34 (Thu Oct 13 2022)
 
 #### ⚠️ Pushed to `main`
