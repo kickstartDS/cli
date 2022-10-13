@@ -1,5 +1,6 @@
 import winston from 'winston';
 import shell from 'shelljs';
+import { dirname } from 'path';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 
@@ -78,14 +79,14 @@ const run = async (
         `${shell.pwd()}/token-primitives.json`,
         `${shell.pwd()}/${tokenPath}`
       );
-      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, callingPath);
+      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, `${callingPath}/${dirname(tokenPath)}/`);
     } else {
       shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
       await tokensGenerateFromPrimitivesPath(
         `${shell.pwd()}/token-primitives.json`,
         `${shell.pwd()}/${tokenPath}`
       );
-      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, callingPath);
+      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, `${callingPath}/${dirname(tokenPath)}/`);
     }
 
     logger.info(
