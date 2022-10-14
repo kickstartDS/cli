@@ -761,10 +761,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kickstartds/core@2.0.0-canary.922.4927.0":
-  version "2.0.0-canary.922.4927.0"
-  resolved "https://registry.npmjs.org/@kickstartds/core/-/core-2.0.0-canary.922.4927.0.tgz#5d8767c7343eeb6e4817ade4c9eff4713dba96b3"
-  integrity sha512-5IuLVPrr3hHQ523Zss68AdGGpKcRpwOc398SL5RTfC21aDN7u3vMNnnsgg/cfIv49j8/acdRnOE1DayM6bHApg==
+"@kickstartds/core@2.0.0-canary.922.4940.0":
+  version "2.0.0-canary.922.4940.0"
+  resolved "https://registry.npmjs.org/@kickstartds/core/-/core-2.0.0-canary.922.4940.0.tgz#96355893d6e823c9657a81999d6c92166389c10c"
+  integrity sha512-azbwTmRweLhJhY175yfJP40t5uaKmcn3+aKNINCjPuKICedTRwYFitDXnkD4ZvjHmbxwD7SpfX2IodqH+7ovwg==
   dependencies:
     "@babel/runtime" "^7.19.0"
     bourbon "^7.2.0"
@@ -794,10 +794,10 @@
     eslint-plugin-import "^2.25.4"
     find-up "^5.0.0"
 
-"@kickstartds/style-dictionary@2.0.0-canary.922.4927.0":
-  version "2.0.0-canary.922.4927.0"
-  resolved "https://registry.npmjs.org/@kickstartds/style-dictionary/-/style-dictionary-2.0.0-canary.922.4927.0.tgz#f2cfaa33250f91ca9a08d2fcf2dcbd87e0f039d6"
-  integrity sha512-EZZ5bEfUe4hH/BSLl7Zke+w3SJ/L99twf8edCiZZlpqjoTYqefVLREXnzue8pGa73gaRVUip0JwgtFwII4MzkQ==
+"@kickstartds/style-dictionary@2.0.0-canary.922.4940.0":
+  version "2.0.0-canary.922.4940.0"
+  resolved "https://registry.npmjs.org/@kickstartds/style-dictionary/-/style-dictionary-2.0.0-canary.922.4940.0.tgz#7af1861353250c20be5b109c00175eea5ab9d7c4"
+  integrity sha512-6M6X8knt3h4ga8h7HbYcLmNOlG1yJbZn977ez1PkXVOr9Yn71q/O8S8Qqh0o2Pe7G3n4qOfKsfsAh9/hSJj3mw==
   dependencies:
     "@babel/core" "^7.17.8"
     "@babel/preset-react" "^7.16.7"
