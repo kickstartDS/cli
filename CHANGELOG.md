@@ -1,3 +1,15 @@
+# v0.2.38 (Fri Oct 14 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: move commands to prepare ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.37 (Fri Oct 14 2022)
 
 #### ⚠️ Pushed to `main`
