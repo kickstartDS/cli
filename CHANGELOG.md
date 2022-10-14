@@ -1,3 +1,15 @@
+# v0.2.37 (Fri Oct 14 2022)
+
+#### ⚠️ Pushed to `main`
+
+- chore(dependencies): update kickstartDS deps ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.36 (Thu Oct 13 2022)
 
 #### ⚠️ Pushed to `main`
