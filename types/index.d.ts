@@ -203,7 +203,7 @@ interface ShellUtil {
 interface SchemaUtil {
   helper: {
     generateComponentPropTypes: (schemas: JSONSchema7[]) => Record<string, any>;
-    dereferenceSchemas: (schemaPaths: string[], callingPath: string, componentsPath: string) => Promise<JSONSchema7[]>;
+    dereferenceSchemas: (schemaPaths: string[], callingPath: string, componentsPath: string, schemaDomain: string) => Promise<JSONSchema7[]>;
   }
 }
 

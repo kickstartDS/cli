@@ -1,6 +1,4 @@
 import winston from 'winston';
-import shell from 'shelljs';
-import { dirname } from 'path';
 import fg from 'fast-glob';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
@@ -33,6 +31,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  schemaDomain: string,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -52,9 +51,11 @@ const run = async (
   const types = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold types} subtask`);
 
-    `${shell.pwd()}/${componentsPath}`
     const schemaPaths = await fg(`${callingPath}/${componentsPath}/**/*.schema.json`);
-    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath);
+    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath, schemaDomain);
+
+    logger.info(chalkTemplate`dereffed {bold ${dereffed.length} component definitions}`);
+
     const types = schemaGenerateComponentPropTypes(dereffed);
 
     logger.info(
