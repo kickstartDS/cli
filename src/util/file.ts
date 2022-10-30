@@ -2,6 +2,7 @@ import winston from 'winston';
 import chalkTemplate from 'chalk-template';
 import { writeFile, readFile } from 'fs';
 import { promisify } from 'util';
+import { FileUtil } from '../../types/index.js';
 
 const fsWriteFilePromise = promisify(writeFile);
 const fsReadFilePromise = promisify(readFile);

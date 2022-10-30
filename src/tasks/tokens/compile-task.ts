@@ -4,6 +4,7 @@ import chalkTemplate from 'chalk-template';
 import StyleDictionary from 'style-dictionary';
 import { dirname } from 'path';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'tokens';
 const command = 'compile';

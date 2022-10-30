@@ -3,6 +3,7 @@ import shell from 'shelljs';
 import { dirname } from 'path';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'tokens';
 const command = 'init';

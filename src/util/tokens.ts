@@ -2,7 +2,6 @@ import winston from 'winston';
 import StyleDictionary from 'style-dictionary';
 import path from 'path';
 import shell from 'shelljs';
-import tokens from '@kickstartds/style-dictionary';
 import chalkTemplate from 'chalk-template';
 import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
@@ -21,9 +20,11 @@ import {
   TextStyleValue
 } from '@specifyapp/parsers/types';
 import promiseHelper from './promise.js';
+import { StyleDictionaryObject, TokensUtil } from '../../types/index.js';
 
-const { config, writeTokens } = tokens;
 const require = createRequire(import.meta.url);
+const tokens = require('@kickstartds/style-dictionary');
+const { config, writeTokens } = tokens;
 
 const fsReadFilePromise = promisify(readFile);
 const fsWriteFilePromise = promisify(writeFile);

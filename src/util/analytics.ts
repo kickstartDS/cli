@@ -10,6 +10,7 @@ import {
   WriteApi
 } from '@influxdata/influxdb-client';
 import { PerformanceObserver, performance } from 'perf_hooks';
+import { AnalyticsUtil, Timing } from '../../types/index.js';
 
 const variables = config().parsed;
 const url =

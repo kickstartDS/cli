@@ -2,6 +2,7 @@ import winston from 'winston';
 import Docker from 'dockerode';
 import { createStream } from 'byline';
 import { config, DotenvParseOutput } from 'dotenv';
+import { DockerUtil } from '../../types/index.js';
 
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 

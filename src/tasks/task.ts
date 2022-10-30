@@ -9,12 +9,14 @@ import { fileURLToPath } from 'url';
 
 import analyticsHelper from '../util/analytics.js';
 import dockerHelper from '../util/docker.js';
+import exampleHelper from '../util/example.js';
 import fileHelper from '../util/file.js';
 import gitHelper from '../util/git.js';
 import jsonHelper from '../util/json.js';
 import npmHelper from '../util/npm.js';
 import onepasswordHelper from '../util/onepassword.js';
 import promiseHelper from '../util/promise.js';
+import schemaHelper from '../util/schema.js';
 import shellHelper from '../util/shell.js';
 import templateHelper from '../util/template.js';
 import tokensHelper from '../util/tokens.js';
@@ -25,6 +27,7 @@ import {
   addProgressBarTransport,
   removeProgressBarTransport
 } from '../logging.js';
+import { StepFunction, TaskUtil } from '../../types/index.js';
 
 const { rm, mkdir, pushd, popd, tempdir } = shell;
 
@@ -48,6 +51,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   // generateTokens)
   const analyticsUtil = analyticsHelper(logger);
   const dockerUtil = dockerHelper(logger);
+  const exampleUtil = exampleHelper(logger);
   const fileUtil = fileHelper(logger);
   const gitUtil = gitHelper(logger);
   const jsonUtil = jsonHelper(logger);
@@ -55,6 +59,7 @@ export default (moduleName: string, commandName: string): TaskUtil => {
   const onepasswordUtil = onepasswordHelper(logger);
   const promiseUtil = promiseHelper(logger);
   const shellUtil = shellHelper(logger);
+  const schemaUtil = schemaHelper(logger);
   const templateUtil = templateHelper(logger);
   const tokensUtil = tokensHelper(logger);
 
@@ -272,12 +277,14 @@ export default (moduleName: string, commandName: string): TaskUtil => {
       getLogger,
       analytics: analyticsUtil,
       docker: dockerUtil,
+      example: exampleUtil,
       file: fileUtil,
       git: gitUtil,
       json: jsonUtil,
       npm: npmUtil,
       onepassword: onepasswordUtil,
       promise: promiseUtil,
+      schema: schemaUtil,
       shell: shellUtil,
       template: templateUtil,
       tokens: tokensUtil
