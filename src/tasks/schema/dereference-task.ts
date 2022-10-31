@@ -59,12 +59,11 @@ const run = async (
 
     logger.info(chalkTemplate`dereffed {bold ${dereffed.length} component definitions}`);
 
-    // TODO don't do this relying on specific array sorting
-    schemaPaths.forEach(async (schemaPath, index) => {
+    schemaPaths.forEach(async (schemaPath) => {
       const dir = dirname(schemaPath);
       const base = basename(schemaPath, ".json");
 
-      await outputJSON(`${dir}/${base}.dereffed.json`, dereffed[index], {
+      await outputJSON(`${dir}/${base}.dereffed.json`, dereffed[schemaPath], {
         spaces: 2,
       });
     });

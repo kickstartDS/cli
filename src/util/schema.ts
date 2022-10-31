@@ -1,14 +1,15 @@
 
-import winston from 'winston';
-import chalkTemplate from 'chalk-template';
+import winston from "winston";
+import chalkTemplate from "chalk-template";
 import refParser, { FileInfo } from "json-schema-ref-parser";
 import merge from "json-schema-merge-allof";
 import traverse from "json-schema-traverse";
-import { dirname, basename } from 'path';
+import { dirname, basename } from "path";
 import glob from "fast-glob";
 import fsExtra from "fs-extra";
-import { JSONSchema7 } from 'json-schema';
-import { SchemaUtil } from '../../types/index.js';
+import { JSONSchema4, JSONSchema7 } from "json-schema";
+import { compile } from "json-schema-to-typescript";
+import { SchemaUtil } from "../../types/index.js";
 
 /* dereferenceSchemas */
 const readJSON = fsExtra.readJSON;
@@ -122,39 +123,42 @@ export default (logger: winston.Logger): SchemaUtil => {
         },
       }) as Promise<JSONSchema7>;
 
-    const dereffedSchemas = await Promise.all(schemaPaths.map((schemaPath) => parseSchema(schemaPath)) as Promise<JSONSchema7>[]);
-    dereffedSchemas.forEach(mergeAnyOfEnums);
-    const mergedSchemas = dereffedSchemas.map((schema) => merge(schema, { ignoreAdditionalProperties: true }));
+    const mergedSchemas: Record<string, JSONSchema7> = {};
+    await Promise.all(schemaPaths.map(async (schemaPath) => {
+      const dereffedSchema = await parseSchema(schemaPath);
+      mergeAnyOfEnums(dereffedSchema);
+      mergedSchemas[schemaPath] = merge(dereffedSchema, { ignoreAdditionalProperties: true });
+    }));
 
     subCmdLogger.info(chalkTemplate`dereferencing {bold ${schemaPaths.length} component definitions}`);
     return mergedSchemas;
   };
 
   const generateComponentPropTypes = async (
-    schemas: JSONSchema7[],
+    schemas: Record<string, JSONSchema7>,
   ) => {
     subCmdLogger.info(chalkTemplate`generating component prop types for {bold ${schemas.length}} component schemas`)
 
-    // schemas.forEach((dereffed) => {
-    //   if (
-    //     !(
-    //       dereffed.title &&
-    //       (dereffed.properties || dereffed.allOf || dereffed.$ref)
-    //     )
-    //   )
-    //     return;
-    //   const schema = { ...dereffed };
-    //   const basename = basename(schemaPath, ".json");
-    //   const dirname = dirname(schemaPath);
-    //   schema.title += " Props";
-    //   removeUnsupportedProps(schema);
-    //   const ts = await compile(schema, schema.title, options);
-    // });
+    const convertedTs: Record<string, string> = {};
+    await Promise.all(Object.keys(schemas).map(async (schemaPath) => {
+      const dereffed = schemas[schemaPath];
+      if (
+        !(
+          dereffed.title &&
+          (dereffed.properties || dereffed.allOf || dereffed.$ref)
+        )
+      )
+        return;
+      const schema = { ...dereffed } as JSONSchema4;
+      const base = basename(schemaPath, ".json");
+      const dir = dirname(schemaPath);
+      schema.title += " Props";
+      removeUnsupportedProps(schema);
+      const ts = await compile(schema, schema.title || '', options);
+      convertedTs[schemaPath] = ts;
+    }));
 
-    // return
-    return {
-      demo: 'test'
-    }
+    return convertedTs;
   };
 
   return {

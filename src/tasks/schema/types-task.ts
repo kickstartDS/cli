@@ -1,8 +1,13 @@
 import winston from 'winston';
 import fg from 'fast-glob';
+import fsExtra from 'fs-extra';
+import { basename, dirname } from 'path';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
+import { pascalCase } from 'change-case';
+
+const writeFile = fsExtra.writeFile;
 
 const moduleName = 'schema';
 const command = 'types';
@@ -56,7 +61,21 @@ const run = async (
 
     logger.info(chalkTemplate`dereffed {bold ${dereffed.length} component definitions}`);
 
-    const types = schemaGenerateComponentPropTypes(dereffed);
+    const types = await schemaGenerateComponentPropTypes(dereffed);
+
+    await Promise.all(Object.keys(types).map(async (schemaPath) => {
+      const schema = dereffed[schemaPath];
+      const base = basename(schemaPath, ".json");
+      const dir = dirname(schemaPath);
+      schema.title += " Props";
+
+      return writeFile(
+        `${dir}/${pascalCase(
+          base.replace(/\.(schema|definitions)$/, "")
+        )}Props.ts`,
+        types[schemaPath]
+      );
+    }));
 
     logger.info(
       chalkTemplate`finished running the {bold types} subtask successfully`
