@@ -149,3 +149,6 @@ $RECYCLE.BIN/
 /.storybook/tokens.js
 /token-primitives.json
 /tokens
+
+# JSON Schema
+/src/components

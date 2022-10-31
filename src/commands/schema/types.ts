@@ -11,6 +11,10 @@ const types = new Command('types')
     chalkTemplate`relative path from project root to your components directory, default {bold ./src/components}`,
   )
   .option(
+    '--schema-domain <domain>',
+    chalkTemplate`{bold domain} used in your JSON Schema {bold $id} fields, e.g. "schema.mydomain.com"`,
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     false
@@ -25,6 +29,7 @@ const types = new Command('types')
   .action((options) => {
     runTask(
       options.componentsPath,
+      options.schemaDomain,
       options.rcOnly,
       options.revert,
       options.cleanup,

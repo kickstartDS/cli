@@ -1,11 +1,12 @@
 import winston from 'winston';
-import shell from 'shelljs';
-import { dirname, resolve } from 'path';
+import { dirname, basename } from 'path';
 import fg from 'fast-glob';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import { pathCase } from 'change-case';
+import fsExtra from "fs-extra";
+
+const outputJSON = fsExtra.outputJSON;
 
 const moduleName = 'schema';
 const command = 'dereference';
@@ -33,6 +34,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  schemaDomain: string,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -53,9 +55,18 @@ const run = async (
     logger.info(chalkTemplate`running the {bold dereference} subtask`);
 
     const schemaPaths = await fg(`${callingPath}/${componentsPath}/**/*.schema.json`);
-    const dereffed = await schemaDereferenceSchemas(schemaPaths.map((schemaPath) => resolve(schemaPath)), callingPath, componentsPath);
+    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath, schemaDomain);
 
     logger.info(chalkTemplate`dereffed {bold ${dereffed.length} component definitions}`);
+
+    schemaPaths.forEach(async (schemaPath) => {
+      const dir = dirname(schemaPath);
+      const base = basename(schemaPath, ".json");
+
+      await outputJSON(`${dir}/${base}.dereffed.json`, dereffed[schemaPath], {
+        spaces: 2,
+      });
+    });
 
     logger.info(
       chalkTemplate`finished running the {bold dereference} subtask successfully`

@@ -1,10 +1,13 @@
 import winston from 'winston';
-import shell from 'shelljs';
-import { dirname } from 'path';
 import fg from 'fast-glob';
+import fsExtra from 'fs-extra';
+import { basename, dirname } from 'path';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
+import { pascalCase } from 'change-case';
+
+const writeFile = fsExtra.writeFile;
 
 const moduleName = 'schema';
 const command = 'types';
@@ -33,6 +36,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  schemaDomain: string,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -52,10 +56,26 @@ const run = async (
   const types = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold types} subtask`);
 
-    `${shell.pwd()}/${componentsPath}`
     const schemaPaths = await fg(`${callingPath}/${componentsPath}/**/*.schema.json`);
-    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath);
-    const types = schemaGenerateComponentPropTypes(dereffed);
+    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath, schemaDomain);
+
+    logger.info(chalkTemplate`dereffed {bold ${dereffed.length} component definitions}`);
+
+    const types = await schemaGenerateComponentPropTypes(dereffed);
+
+    await Promise.all(Object.keys(types).map(async (schemaPath) => {
+      const schema = dereffed[schemaPath];
+      const base = basename(schemaPath, ".json");
+      const dir = dirname(schemaPath);
+      schema.title += " Props";
+
+      return writeFile(
+        `${dir}/${pascalCase(
+          base.replace(/\.(schema|definitions)$/, "")
+        )}Props.ts`,
+        types[schemaPath]
+      );
+    }));
 
     logger.info(
       chalkTemplate`finished running the {bold types} subtask successfully`
