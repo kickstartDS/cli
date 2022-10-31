@@ -7,6 +7,7 @@ import chalkTemplate from 'chalk-template';
 import { readFile, writeFile } from 'fs';
 import { promisify } from 'util';
 import { pascalCase } from 'change-case';
+import { TemplateUtil } from '../../types/index.js';
 
 const { configure, Environment, FileSystemLoader } = nunjucks;
 

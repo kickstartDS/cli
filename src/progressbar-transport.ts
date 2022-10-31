@@ -4,6 +4,7 @@ import prettyMs from 'pretty-ms';
 import TransportStream from 'winston-transport';
 import ProgressBar from 'progress';
 import chalkTemplate from 'chalk-template';
+import { Timing } from '../types/index.js';
 
 const cliStringConsole = chalkTemplate`{bold.keyword("orange") kickstartDS}`;
 

@@ -8,6 +8,7 @@ import simpleGit, {
   PullResult
 } from 'simple-git';
 import chalkTemplate from 'chalk-template';
+import { GitUtil } from '../../types/index.js';
 
 const { pwd } = shell;
 

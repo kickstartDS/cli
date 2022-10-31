@@ -1,4 +1,5 @@
 import winston from 'winston';
+import { PromiseUtil } from '../../types/index.js';
 
 /* eslint-disable no-await-in-loop */
 export default (logger: winston.Logger): PromiseUtil => {

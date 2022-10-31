@@ -1,7 +1,10 @@
 import winston from 'winston';
 import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
+import StyleDictionary from 'style-dictionary';
+import { dirname } from 'path';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'tokens';
 const command = 'compile';
@@ -32,6 +35,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
+  tokenPath: string = 'tokens',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -45,9 +49,9 @@ const run = async (
     shellRequireCommands(requiredCommands);
 
     shell.pushd(`${callingPath}`);
-    if (!shellDirExistsInCwd('tokens')) {
+    if (!shellDirExistsInCwd(tokenPath)) {
       logger.error(
-        chalkTemplate`no {bold tokens} directory found in current directory`
+        chalkTemplate`no {bold ${tokenPath}} directory found in current directory`
       );
       shell.exit(1);
     }
@@ -60,21 +64,22 @@ const run = async (
   const compile = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold compile} subtask`);
 
-    shell.cp('-r', `${callingPath}/tokens`, shell.pwd());
+    shell.mkdir('-p', `${shell.pwd()}/${dirname(tokenPath)}/`);
+    shell.cp('-r', `${callingPath}/${tokenPath}`, `${shell.pwd()}/${dirname(tokenPath)}/`);
 
     logger.info(
       chalkTemplate`getting {bold Style Dictionary} from token files`
     );
 
-    let styleDictionary;
+    let styleDictionary: StyleDictionary.Core;
     if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
       styleDictionary = await tokensGetStyleDictionary(
         callingPath,
-        'tokens',
+        tokenPath,
         `${callingPath}/sd.config.cjs`
       );
     } else {
-      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, 'tokens');
+      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, tokenPath);
     }
 
     logger.info(
@@ -82,13 +87,34 @@ const run = async (
     );
     await tokensCompileTokens(
       styleDictionary,
-      Object.keys(styleDictionary.options.platforms)
+      Object.keys(styleDictionary.options.platforms).filter((platform) => styleDictionary.options.platforms[platform].buildPath)
     );
 
     logger.info(
       chalkTemplate`copying generated CSS and assets to local folder`
     );
-    shell.cp('-r', ['.storybook', 'tokens.css'], callingPath);
+
+    Object.keys(styleDictionary.options.platforms).forEach((platformName) => {
+      const platform = styleDictionary.options.platforms[platformName];
+      const { files } = platform;
+
+      if (files && files.length) {
+        files.forEach((file) => {
+          shell.mkdir(
+            '-p',
+            `${callingPath.endsWith('/') ? callingPath : `${callingPath}/`}${
+              platform.buildPath || ''
+            }`
+          );
+          shell.cp(
+            `${shell.pwd()}/${platform.buildPath || ''}${file.destination}`,
+            `${callingPath.endsWith('/') ? callingPath : `${callingPath}/`}${
+              platform.buildPath || ''
+            }/${file.destination}`
+          );
+        });
+      }
+    });
 
     logger.info(
       chalkTemplate`finished running the {bold compile} subtask successfully`

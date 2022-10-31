@@ -1,3 +1,212 @@
+# v0.2.39 (Fri Oct 14 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- chore(dependencies): update kickstartDS deps ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.38 (Fri Oct 14 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: move commands to prepare ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.37 (Fri Oct 14 2022)
+
+#### ⚠️ Pushed to `main`
+
+- chore(dependencies): update kickstartDS deps ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.36 (Thu Oct 13 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): token init path handling ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.35 (Thu Oct 13 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(token): add tokenPath to init token task, too ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.34 (Thu Oct 13 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): make token path configurable ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.33 (Wed Oct 12 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(dependencies): update kickstartDS style dictionary dep ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.32 (Tue Oct 11 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(token): only compile token platforms that have a buildPath ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.31 (Mon Oct 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(token): update to current version of dependencies for newer projects ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.30 (Mon Oct 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(config): update gitignore ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.29 (Thu Jul 07 2022)
+
+#### 🐛 Bug Fix
+
+- build: update kickstartds [#13](https://github.com/kickstartDS/kickstartDS-cli/pull/13) ([@lmestel](https://github.com/lmestel))
+
+#### Authors: 1
+
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
+# v0.2.28 (Fri Jun 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(scripts): add more safeguards to scripts in postinstall ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.27 (Fri Jun 10 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- fix(scripts): add guard to git related script ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.26 (Wed Jun 01 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): use correct paths in asset copy ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.25 (Tue May 31 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(tokens): merge release ([@julrich](https://github.com/julrich))
+- fix(tokens): quick-fix additional, unneeded cp call ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.24 (Tue May 31 2022)
+
+#### 🐛 Bug Fix
+
+- fix(tokens): copy all specified files after token compile [#12](https://github.com/kickstartDS/kickstartDS-cli/pull/12) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v0.2.23 (Tue May 31 2022)
+
+#### 🐛 Bug Fix
+
+- build: update kickstartds [#11](https://github.com/kickstartDS/kickstartDS-cli/pull/11) ([@lmestel](https://github.com/lmestel))
+
+#### Authors: 1
+
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
 # v0.2.22 (Sat May 28 2022)
 
 :tada: This release contains work from a new contributor! :tada:

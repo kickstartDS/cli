@@ -29,14 +29,15 @@ import {
   ColorValue,
   DurationValue,
   ShadowValue,
-  FontToken,
   TextStyleValue
 } from '@specifyapp/parsers/types';
 import { KickstartDSFigmaTokenStructure } from '../../figma-file.js';
 import promiseHelper from './promise.js';
+import { StyleDictionaryObject, TokensUtil } from '../../types/index.js';
 
-const { config, writeTokens } = tokens;
 const require = createRequire(import.meta.url);
+const tokens = require('@kickstartds/style-dictionary');
+const { config, writeTokens } = tokens;
 
 const fsReadFilePromise = promisify(readFile);
 const fsWriteFilePromise = promisify(writeFile);
@@ -291,7 +292,7 @@ export default (logger: winston.Logger): TokensUtil => {
     const result = generateTokens(primitiveTokenJson, targetDir);
 
     subCmdLogger.info(
-      chalkTemplate`successfully generated {bold Specify} tokens and wrote them to folder {bold ${targetDir}}`
+      chalkTemplate`successfully generated {bold primitives} tokens and wrote them to folder {bold ${targetDir}}`
     );
 
     return result;

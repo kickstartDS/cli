@@ -3,6 +3,7 @@ import shell, { ShellString } from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
+import { JsonUtil } from '../../types/index.js';
 
 const fsWriteFilePromise = promisify(writeFile);
 

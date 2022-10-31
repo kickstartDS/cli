@@ -4,6 +4,7 @@ import chalkTemplate from 'chalk-template';
 import shell from 'shelljs';
 import stripAnsi from 'strip-ansi';
 import ProgressBarTransport from './progressbar-transport.js';
+import { ErrorLogEntry, Timing } from '../types/index.js';
 
 const { ls } = shell;
 

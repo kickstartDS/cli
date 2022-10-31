@@ -142,9 +142,8 @@ $RECYCLE.BIN/
 .idea/
 
 # Ignore tokens related test files
-/sd.config.cjs
-/specify-tokens.json
 /token-primitives.json
+/sd.config.cjs
 /tokens.css
 /tokens/
 /.storybook/
@@ -152,3 +151,6 @@ $RECYCLE.BIN/
 /figma-tokens.schema.dereffed.json
 /parsed-tokens.json
 /_token-map.scss
+
+# JSON Schema
+/src/components

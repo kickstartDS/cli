@@ -46,6 +46,9 @@ program
 program.command('tokens', 'initialize, build and convert your design tokens', {
   executableFile: `${cliRoot}/dist/src/commands/tokens.js`
 });
+program.command('schema', 'generate types or dereference component JSON Schema', {
+  executableFile: `${cliRoot}/dist/src/commands/schema.js`
+});
 program.command('completion', 'kickstartDS CLI shell autocompletion', {
   executableFile: `${cliRoot}/dist/src/commands/completion.js`
 });

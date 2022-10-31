@@ -1,7 +1,9 @@
 import winston from 'winston';
 import shell from 'shelljs';
+import { dirname } from 'path';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'tokens';
 const command = 'init';
@@ -30,6 +32,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
+  tokenPath: string = 'tokens',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -75,16 +78,16 @@ const run = async (
       await tokensGenerateFromSpecifyPath(
         `${shell.pwd()}/specify-tokens.json`,
         `${shell.pwd()}/token-primitives.json`,
-        `${shell.pwd()}/tokens`
+        `${shell.pwd()}/${tokenPath}`
       );
-      shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, `${callingPath}/${dirname(tokenPath)}/`);
     } else {
       shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
       await tokensGenerateFromPrimitivesPath(
         `${shell.pwd()}/token-primitives.json`,
-        `${shell.pwd()}/tokens`
+        `${shell.pwd()}/${tokenPath}`
       );
-      shell.cp(`-r`, `${shell.pwd()}/tokens`, callingPath);
+      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, `${callingPath}/${dirname(tokenPath)}/`);
     }
 
     logger.info(

@@ -1,6 +1,6 @@
 {
   "name": "kickstartds",
-  "version": "0.2.22",
+  "version": "0.2.39",
   "description": "kickstartDS CLI utility",
   "keywords": [],
   "author": "Jonas Ulrich | ruhmesmeile GmbH",
@@ -20,18 +20,18 @@
   "node": ">=18.1",
   "type": "module",
   "scripts": {
-    "copy-env-file": "[ ! -f .env ] && cp .env-example .env || true",
+    "copy-env-file": "[ ! -f .env ] && [ -f .env-example  ] && cp .env-example .env || true",
     "eslint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "find-licenses": "node ./scripts/license.js",
     "format": "prettier --write .",
-    "git-config": "git config --local include.path ../.gitconfig",
+    "git-config": "[ -d ./.git ] && git config --local include.path ../.gitconfig || true",
     "husky-commit-msg": "commitlint -E GIT_PARAMS",
     "husky-pre-commit": "lint-staged",
+    "husky-install": "husky install",
     "integration": "rm -rf tokens && mkdir -p tokens && cp /home/julrich/Projects/Frontend/code/specify-poc/specify-tokens.json ./ && yarn start tokens init --from-specify --rc-only --cleanup && rm -rf /home/julrich/Projects/Frontend/code/specify-poc/tokens && cp -r tokens /home/julrich/Projects/Frontend/code/specify-poc/",
     "lint": "run-p eslint",
     "patch-package": "patch-package",
-    "postinstall": "run-p patch-package git-config copy-env-file",
-    "prepare": "husky install",
+    "prepare": "run-p husky-install patch-package git-config copy-env-file",
     "staged": "git diff --name-only --cached | grep 'kickstartds' | cut -d / -f 3 | awk '!seen[$0]++'",
     "start": "tsc && node dist/index.js"
   },
@@ -54,7 +54,10 @@
     "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
-    "@kickstartds/core": "2.0.0-canary.922.4357.0",
+    "@kickstartds/base": "1.6.0-canary.1092.5084.0",
+    "@kickstartds/content": "1.6.0-canary.1092.5084.0",
+    "@kickstartds/core": "1.6.0-canary.1092.5084.0",
+    "@kickstartds/style-dictionary": "1.6.0-canary.1092.5084.0",
     "@kickstartds/jsonschema-utils": "2.2.0-canary.37.454.0",
     "@specifyapp/parsers": "julrich/parsers",
     "ajv": "^8.11.0",
@@ -106,6 +109,7 @@
     "@types/byline": "^4.2.33",
     "@types/dockerode": "^3.3.9",
     "@types/figlet": "^1.5.4",
+    "@types/fs-extra": "^9.0.13",
     "@types/inquirer": "^8.2.1",
     "@types/json-pointer": "^1.0.31",
     "@types/json-schema-merge-allof": "^0.6.1",
@@ -121,7 +125,15 @@
     "eslint": "^7.32.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^10.1.0",
     "husky": "^7.0.4",
+    "json-schema-merge-allof": "^0.8.1",
+    "json-schema-ref-parser": "^9.0.9",
+    "json-schema-to-typescript": "^11.0.2",
     "prettier": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@kickstartds/core": "*"
   }
 }

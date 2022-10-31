@@ -1,3 +1,5 @@
+import { JSONSchema7 } from "json-schema";
+
 // TODO add correct namespace
 interface ErrorLogEntry {
   message: string;
@@ -52,8 +54,16 @@ interface DockerUtil {
       command: string[],
       binds: string[],
       envFile: boolean,
-      autoRemove: boolean
+      autoRemove: boolean,
     ) => Promise<void>;
+  };
+}
+
+interface ExampleUtil {
+  helper: {
+    demo: (
+      outout: string,
+    ) => void;
   };
 }
 
@@ -190,6 +200,13 @@ interface ShellUtil {
   };
 }
 
+interface SchemaUtil {
+  helper: {
+    generateComponentPropTypes: (schemas: Record<string, JSONSchema7>) => Promise<Record<string, string>>;
+    dereferenceSchemas: (schemaPaths: string[], callingPath: string, componentsPath: string, schemaDomain: string) => Promise<Record<string, JSONSchema7>>;
+  }
+}
+
 interface TemplateUtil {
   helper: {
     replaceAll: (string: string, mapObj: Record<string, string>) => string;
@@ -270,16 +287,18 @@ interface TaskUtil {
     getLogger: winston.Logger;
     analytics: AnalyticsUtil;
     docker: DockerUtil;
+    example: ExampleUtil;
     file: FileUtil;
     git: GitUtil;
     json: JsonUtil;
     npm: NpmUtil;
     onepassword: OnepasswordUtil;
     promise: PromiseUtil;
+    schema: SchemaUtil;
     shell: ShellUtil;
     template: TemplateUtil;
     tokens: TokensUtil;
   };
 }
 
-declare module '@kickstartds/core/design-tokens/index.js';
+declare module '@kickstartds/style-dictionary';

@@ -1,6 +1,7 @@
 import shell from 'shelljs';
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
+import { ShellUtil } from '../../types/index.js';
 
 const { which, ls, mv, cp, exit } = shell;
 

@@ -1,6 +1,7 @@
 import winston from 'winston';
 import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
+import { JsonUtil, NpmUtil } from '../../types/index.js';
 
 export default (logger: winston.Logger, json: JsonUtil): NpmUtil => {
   const subCmdLogger = logger.child({ utility: true });
