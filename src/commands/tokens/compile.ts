@@ -8,7 +8,8 @@ const init = new Command('compile')
   )
   .option(
     '--token-path <path>',
-    chalkTemplate`relative path from project root to your token dictionary, default {bold ./tokens}`,
+    chalkTemplate`relative path from project root to your token dictionary, default {bold src/token/dictionary}`,
+    'src/token/dictionary',
   )
   .option(
     '--rc-only',

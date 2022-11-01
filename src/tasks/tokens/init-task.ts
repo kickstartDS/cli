@@ -31,7 +31,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
-  tokenPath: string = 'tokens',
+  tokenPath: string = 'src/token/dictionary',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
