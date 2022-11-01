@@ -13,7 +13,7 @@ const init = new Command('init')
   .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .tokens-initrc.json}, skip prompts`,
-    false
+    true
   )
   .option(
     '--revert',

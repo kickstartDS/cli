@@ -13,7 +13,7 @@ const init = new Command('tofigma')
   .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .tokens-tofigmarc.json}, skip prompts`,
-    false
+    true
   )
   .option(
     '--revert',

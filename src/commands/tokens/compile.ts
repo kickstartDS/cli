@@ -13,7 +13,7 @@ const init = new Command('compile')
   .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .tokens-compilerc.json}, skip prompts`,
-    false
+    true
   )
   .option(
     '--revert',
