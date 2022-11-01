@@ -7,9 +7,6 @@ import tofigma from './tokens/tofigma.js';
 
 const logger = getLogger('tokens');
 
-// TODO add missing tasks:
-// * template
-
 logger.debug('executing a command of tokens');
 
 program
