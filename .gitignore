@@ -151,6 +151,3 @@ $RECYCLE.BIN/
 /figma-tokens.schema.dereffed.json
 /parsed-tokens.json
 /_token-map.scss
-
-# JSON Schema
-/src/components
