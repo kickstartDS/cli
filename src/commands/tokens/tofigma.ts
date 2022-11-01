@@ -7,7 +7,7 @@ const init = new Command('tofigma')
     chalkTemplate`transfers {#ecff00.bold kickstartDS} compatible Style Dictionary configuration to {#ecff00.bold kickstartDS} compatible Figma file`
   )
   .option(
-    '--token-path <path>',
+    '--token-dictionary-path <directory>',
     chalkTemplate`relative path from project root to your token dictionary, default {bold src/token/dictionary}`,
     'src/token/dictionary',
   )

@@ -35,7 +35,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
-  tokenPath: string = 'src/token/dictionary',
+  tokenDictionaryPath: string = 'src/token/dictionary',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -49,9 +49,9 @@ const run = async (
     shellRequireCommands(requiredCommands);
 
     shell.pushd(`${callingPath}`);
-    if (!shellDirExistsInCwd(tokenPath)) {
+    if (!shellDirExistsInCwd(tokenDictionaryPath)) {
       logger.error(
-        chalkTemplate`no {bold ${tokenPath}} directory found in current directory`
+        chalkTemplate`no {bold ${tokenDictionaryPath}} directory found in current directory`
       );
       shell.exit(1);
     }
@@ -64,8 +64,8 @@ const run = async (
   const compile = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold compile} subtask`);
 
-    shell.mkdir('-p', `${shell.pwd()}/${dirname(tokenPath)}/`);
-    shell.cp('-r', `${callingPath}/${tokenPath}`, `${shell.pwd()}/${dirname(tokenPath)}/`);
+    shell.mkdir('-p', `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`);
+    shell.cp('-r', `${callingPath}/${tokenDictionaryPath}`, `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`);
 
     logger.info(
       chalkTemplate`getting {bold Style Dictionary} from token files`
@@ -75,11 +75,11 @@ const run = async (
     if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
       styleDictionary = await tokensGetStyleDictionary(
         callingPath,
-        tokenPath,
+        tokenDictionaryPath,
         `${callingPath}/sd.config.cjs`
       );
     } else {
-      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, tokenPath);
+      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, tokenDictionaryPath);
     }
 
     logger.info(
