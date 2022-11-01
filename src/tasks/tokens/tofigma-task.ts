@@ -2,6 +2,7 @@ import winston from 'winston';
 import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'tokens';
 const command = 'tofigma';
@@ -51,6 +52,7 @@ const run = async (
       );
       shell.exit(1);
     }
+
     shell.popd();
 
     logger.info('prerequesites met, starting');

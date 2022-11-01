@@ -236,16 +236,6 @@ interface TokensUtil {
       primitiveTokenPath: string,
       targetDir?: string
     ) => Promise<void>;
-    generateFromSpecifyJson: (
-      specifyTokenJson: TokenInterface[],
-      initializedTokenJson: typeof StyleDictionaryObject,
-      targetDir?: string
-    ) => Promise<void>;
-    generateFromSpecifyPath: (
-      specifyTokenPath: string,
-      primitiveTokenPath: string,
-      targetDir?: string
-    ) => Promise<void>;
     compileTokens: (
       styleDictionary: StyleDictionary.Core,
       platforms: string[]

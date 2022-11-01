@@ -7,6 +7,10 @@ const init = new Command('tofigma')
     chalkTemplate`transfers {#ecff00.bold kickstartDS} compatible Style Dictionary configuration to {#ecff00.bold kickstartDS} compatible Figma file`
   )
   .option(
+    '--token-path <path>',
+    chalkTemplate`relative path from project root to your token dictionary, default {bold ./tokens}`,
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .tokens-tofigmarc.json}, skip prompts`,
     false
