@@ -9,6 +9,7 @@ const dereference = new Command('dereference')
   .option(
     '--components-path <path>',
     chalkTemplate`relative path from project root to your components directory, default {bold ./src/components}`,
+    'src/components',
   )
   .option(
     '--schema-domain <domain>',
@@ -17,7 +18,7 @@ const dereference = new Command('dereference')
   .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-dereferencerc.json}, skip prompts`,
-    false
+    true
   )
   .option(
     '--revert',

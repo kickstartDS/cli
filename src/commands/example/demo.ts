@@ -9,7 +9,7 @@ const demo = new Command('demo')
   .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .example-demorc.json}, skip prompts`,
-    false
+    true
   )
   .option(
     '--revert',
