@@ -141,11 +141,13 @@ $RECYCLE.BIN/
 # PhpStrom
 .idea/
 
-# Style Dictionary
-/.storybook/IconSprite.js
-/.storybook/icons.svg
-/.storybook/icons.html
-/.storybook/tokens.css
-/.storybook/tokens.js
+# Ignore tokens related test files
 /token-primitives.json
-/tokens
+/sd.config.cjs
+/tokens.css
+/tokens/
+/.storybook/
+/figma-file.d.ts
+/figma-tokens.schema.dereffed.json
+/parsed-tokens.json
+/_token-map.scss

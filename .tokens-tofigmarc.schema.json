@@ -1,0 +1,59 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kickstartds.com/tokens-tofigma.schema.json",
+  "type": "object",
+  "title": "kickstartDS Token to Figma task",
+  "required": ["categories", "overwrite"],
+  "properties": {
+    "categories": {
+      "$id": "#/properties/categories",
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "title": "Token categories",
+      "items": {
+        "type": "string",
+        "enum": [
+          "background-color",
+          "border",
+          "box-shadow",
+          "breakpoints",
+          "color",
+          "depth",
+          "spacing",
+          "text-color",
+          "transition",
+          "typo"
+        ]
+      },
+      "default": [
+        "background-color",
+        "border",
+        "box-shadow",
+        "breakpoints",
+        "color",
+        "depth",
+        "spacing",
+        "text-color",
+        "transition",
+        "typo"
+      ],
+      "examples": [
+        ["background-color", "color", "text-color"],
+        ["border", "box-shadow", "depth"],
+        ["spacing", "typo"]
+      ],
+      "description": "Select all token categories that should get generated",
+      "question": "Which of the following categories should be generated"
+    },
+    "overwrite": {
+      "$id": "#/properties/overwrite",
+      "type": "boolean",
+      "default": false,
+      "title": "Overwrite values",
+      "description": "Whether to write over existing tokens",
+      "question": "Should existing tokens be overwritten"
+    }
+  }
+}

@@ -2,6 +2,7 @@ import winston from 'winston';
 import shell, { ShellString } from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import { execFileSync } from 'child_process';
+import { OnepasswordUtil, VaultItem } from '../../types/index.js';
 
 const onepasswordInstance = 'ruhmesmeile.1password.com';
 

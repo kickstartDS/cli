@@ -1,8 +1,9 @@
 import winston from 'winston';
 import shell from 'shelljs';
-import { dirname } from 'path';
+import { dirname, basename } from 'path';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'tokens';
 const command = 'init';
@@ -26,17 +27,16 @@ const {
 const {
   helper: {
     generateFromPrimitivesPath: tokensGenerateFromPrimitivesPath,
-    generateFromSpecifyPath: tokensGenerateFromSpecifyPath
   }
 } = taskUtilTokens;
 
 const run = async (
-  tokenPath: string = 'tokens',
+  brandingTokenPath: string = 'src/token/branding-token.json',
+  tokenDictionaryPath: string = 'src/token/dictionary',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
   debugActive: boolean,
-  fromSpecify: boolean
 ): Promise<void> => {
   const callingPath: string = process.cwd();
 
@@ -45,20 +45,10 @@ const run = async (
 
     shellRequireCommands(requiredCommands);
 
-    shell.pushd(`${callingPath}`);
-    if (fromSpecify && !shellFileExistsInCwd('specify-tokens.json')) {
+    shell.pushd(`${callingPath}/${dirname(brandingTokenPath)}`);
+    if (!shellFileExistsInCwd(basename(brandingTokenPath))) {
       logger.error(
-        chalkTemplate`no {bold specify-tokens.json} found in current directory`
-      );
-      shell.exit(1);
-    } else if (fromSpecify && !shellFileExistsInCwd('token-primitives.json')) {
-      logger.error(
-        chalkTemplate`no {bold token-primitives.json} found in current directory`
-      );
-      shell.exit(1);
-    } else if (!shellFileExistsInCwd('token-primitives.json')) {
-      logger.error(
-        chalkTemplate`no {bold token-primitives.json} found in current directory`
+        chalkTemplate`no {bold ${basename(brandingTokenPath)}} found in directory {bold ${dirname(brandingTokenPath)}}`
       );
       shell.exit(1);
     }
@@ -71,23 +61,12 @@ const run = async (
   const init = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold init} subtask`);
 
-    if (fromSpecify) {
-      shell.cp(`${callingPath}/specify-tokens.json`, shell.pwd());
-      shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
-      await tokensGenerateFromSpecifyPath(
-        `${shell.pwd()}/specify-tokens.json`,
-        `${shell.pwd()}/token-primitives.json`,
-        `${shell.pwd()}/${tokenPath}`
-      );
-      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, `${callingPath}/${dirname(tokenPath)}/`);
-    } else {
-      shell.cp(`${callingPath}/token-primitives.json`, shell.pwd());
-      await tokensGenerateFromPrimitivesPath(
-        `${shell.pwd()}/token-primitives.json`,
-        `${shell.pwd()}/${tokenPath}`
-      );
-      shell.cp(`-r`, `${shell.pwd()}/${tokenPath}`, `${callingPath}/${dirname(tokenPath)}/`);
-    }
+    shell.cp(`${callingPath}/${brandingTokenPath}`, shell.pwd());
+    await tokensGenerateFromPrimitivesPath(
+      `${shell.pwd()}/${basename(brandingTokenPath)}`,
+      `${shell.pwd()}/${tokenDictionaryPath}`
+    );
+    shell.cp(`-r`, `${shell.pwd()}/${tokenDictionaryPath}`, `${callingPath}/${dirname(tokenDictionaryPath)}/`);
 
     logger.info(
       chalkTemplate`finished running the {bold init} subtask successfully`

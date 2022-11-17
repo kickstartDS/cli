@@ -1,6 +1,7 @@
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
+import { StepFunction } from '../../../types/index.js';
 
 const moduleName = 'example'; // name of module; example: 'system', 'tokens', 'components'
 const command = 'demo'; // name of command; example: 'create', 'convert', 'build'
