@@ -1,3 +1,27 @@
+# v1.0.0 (Thu Nov 17 2022)
+
+#### 💥 Breaking Change
+
+- feat(schema): add json schema support to CLI [#14](https://github.com/kickstartDS/kickstartDS-cli/pull/14) ([@julrich](https://github.com/julrich))
+
+#### 🚀 Enhancement
+
+- Add branding token path to CLI as an option [#21](https://github.com/kickstartDS/kickstartDS-cli/pull/21) ([@julrich](https://github.com/julrich))
+- chore(assets): add assets needed for testing to repository explicitly [#10](https://github.com/kickstartDS/kickstartDS-cli/pull/10) ([@julrich](https://github.com/julrich))
+
+#### 🐛 Bug Fix
+
+- fix(token): make location of branding token file configurable [#19](https://github.com/kickstartDS/kickstartDS-cli/pull/19) ([@julrich](https://github.com/julrich))
+- fix(tokens): add default token path to token commands [#18](https://github.com/kickstartDS/kickstartDS-cli/pull/18) ([@julrich](https://github.com/julrich))
+- fix(defaults): always default to rc only for all commands [#17](https://github.com/kickstartDS/kickstartDS-cli/pull/17) ([@julrich](https://github.com/julrich))
+- fix(dependencies): move runtime dependencies [#16](https://github.com/kickstartDS/kickstartDS-cli/pull/16) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v0.2.39 (Fri Oct 14 2022)
 
 #### ⚠️ Pushed to `main`
