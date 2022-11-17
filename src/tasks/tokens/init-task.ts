@@ -61,7 +61,6 @@ const run = async (
   const init = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold init} subtask`);
 
-
     shell.cp(`${callingPath}/${brandingTokenPath}`, shell.pwd());
     await tokensGenerateFromPrimitivesPath(
       `${shell.pwd()}/${basename(brandingTokenPath)}`,
