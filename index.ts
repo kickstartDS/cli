@@ -29,7 +29,7 @@ console.log(
     verticalLayout: 'default'
   })}}\n\nVersion: {bold ${
     packageJson.version
-  }}\n{green For more information visit: }\n{blue https://www.kickstartDS.com/cli}\n\nStarting...`
+  }}\n{green For more information visit: }\n{blue https://www.kickstartds.com/docs/intro/cli/}\n\nStarting...`
 );
 
 // TODO this debugging switch does not work right now
