@@ -1,3 +1,15 @@
+# v1.0.1 (Sun Nov 20 2022)
+
+#### 🐛 Bug Fix
+
+- Update CLI docs URL in logging output [#22](https://github.com/kickstartDS/kickstartDS-cli/pull/22) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v1.0.0 (Thu Nov 17 2022)
 
 #### 💥 Breaking Change
