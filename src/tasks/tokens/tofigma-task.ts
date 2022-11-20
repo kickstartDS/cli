@@ -1,8 +1,10 @@
 import winston from 'winston';
 import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
+import { dirname } from 'path';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
+import StyleDictionary from 'style-dictionary';
 
 const moduleName = 'tokens';
 const command = 'tofigma';
@@ -33,6 +35,7 @@ const {
 } = taskUtilTokens;
 
 const run = async (
+  tokenDictionaryPath: string = 'src/token/dictionary',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -46,9 +49,9 @@ const run = async (
     shellRequireCommands(requiredCommands);
 
     shell.pushd(`${callingPath}`);
-    if (!shellDirExistsInCwd('tokens')) {
+    if (!shellDirExistsInCwd(tokenDictionaryPath)) {
       logger.error(
-        chalkTemplate`no {bold tokens} directory found in current directory`
+        chalkTemplate`no {bold ${tokenDictionaryPath}} directory found in current directory`
       );
       shell.exit(1);
     }
@@ -59,27 +62,28 @@ const run = async (
     return true;
   };
 
-  const compile = async (logger: winston.Logger): Promise<boolean> => {
+  const tofigma = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold tofigma} subtask`);
 
-    shell.cp('-r', `${callingPath}/tokens`, shell.pwd());
+    shell.mkdir('-p', `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`);
+    shell.cp('-r', `${callingPath}/${tokenDictionaryPath}`, `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`);
 
     logger.info(
       chalkTemplate`getting {bold Style Dictionary} from token files`
     );
 
-    let styleDictionary;
+    let styleDictionary: StyleDictionary.Core;
     if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
       styleDictionary = await tokensGetStyleDictionary(
         callingPath,
-        'tokens',
+        tokenDictionaryPath,
         `${callingPath}/sd.config.cjs`
       );
     } else {
-      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, 'tokens');
+      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, tokenDictionaryPath);
     }
 
-    tokensSyncToFigma(callingPath, styleDictionary);
+    tokensSyncToFigma(`${callingPath}/assets/tokens/figma`, styleDictionary);
 
     logger.info(
       chalkTemplate`finished running the {bold tofigma} subtask successfully`
@@ -87,7 +91,7 @@ const run = async (
     return true;
   };
 
-  const compileRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const tofigmaRevert = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(
       chalkTemplate`{bold reverting} running the {bold tofigma} subtask`
     );
@@ -106,8 +110,8 @@ const run = async (
     run: StepFunction[];
     revert: StepFunction[];
   } = {
-    run: [compile],
-    revert: [compileRevert]
+    run: [tofigma],
+    revert: [tofigmaRevert]
   };
 
   const tofigmaVariable = 'tofigma-task';

@@ -24,7 +24,7 @@ const init = new Command('tofigma')
   .option('--cleanup', 'clean up tmp dirs before running', true)
   .option('--debug', 'show debugging output', false)
   .action((options) => {
-    runTask(options.rcOnly, options.revert, options.cleanup, options.debug);
+    runTask(options.tokenDictionaryPath, options.rcOnly, options.revert, options.cleanup, options.debug);
   });
 
 export default init;

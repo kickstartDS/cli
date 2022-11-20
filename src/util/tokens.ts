@@ -293,7 +293,7 @@ export default (logger: winston.Logger): TokensUtil => {
 
   // TODO add `required` everywhere as needed in figma-tokens.schema.json
   const syncToFigma = async (
-    callingPath: string,
+    figmaTokenSchemaPath: string,
     styleDictionary: StyleDictionary.Core
   ): Promise<void> => {
     // const variables = dotEnvConfig().parsed;
@@ -320,12 +320,12 @@ export default (logger: winston.Logger): TokensUtil => {
 
     const figmaTokensSchema = JSON.parse(
       await fsReadFilePromise(
-        `${callingPath}/figma-tokens.schema.json`,
+        `${figmaTokenSchemaPath}/figma-tokens.schema.json`,
         'utf-8'
       )
     ) as JSONSchema7;
     const figmaTokensJson = JSON.parse(
-      await fsReadFilePromise(`${callingPath}/figmaFile.json`, 'utf-8')
+      await fsReadFilePromise(`${figmaTokenSchemaPath}/figmaFile.json`, 'utf-8')
     );
 
     const validate = ajv.compile(figmaTokensSchema);
@@ -347,7 +347,7 @@ export default (logger: winston.Logger): TokensUtil => {
     delete merged.definitions;
 
     const types = await compile(merged as JSONSchema4, 'FigmaTokensSchema');
-    await fsWriteFilePromise('figma-file.d.ts', types);
+    await fsWriteFilePromise(`${figmaTokenSchemaPath}/figma-file.d.ts`, types);
 
     // objectTraverse(
     //   figmaTokensJson as KickstartDSFigmaTokenStructure,
@@ -357,7 +357,7 @@ export default (logger: winston.Logger): TokensUtil => {
     // );
 
     await fsWriteFilePromise(
-      'figma-tokens.schema.dereffed.json',
+      `${figmaTokenSchemaPath}/figma-tokens.schema.dereffed.json`,
       JSON.stringify(merged, null, 2)
     );
 
@@ -419,8 +419,10 @@ export default (logger: winston.Logger): TokensUtil => {
           objectPointer &&
           !objectPointer.includes('/additionalItems/')
         ) {
+          // console.log('objectPointer', objectPointer);
           if (!schema.properties && !schema.items) {
             const value = jsonPointer.get(figmaTokensJson, objectPointer);
+            // console.log('value', value);
             jsonPointer.set(parsedTokens, objectPointer, value);
           }
         }
@@ -428,7 +430,7 @@ export default (logger: winston.Logger): TokensUtil => {
     });
 
     await fsWriteFilePromise(
-      'parsed-tokens.json',
+      `${figmaTokenSchemaPath}/parsed-tokens.json`,
       JSON.stringify(parsedTokens, null, 2)
     );
   };

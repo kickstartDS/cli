@@ -10,20 +10,43 @@
       "name": "Launch rc example demo",
       "program": "${workspaceFolder}/index.js",
       "args": ["example", "demo", "--rc-only"],
-      "skipFiles": [
-        "<node_internals>/**"
-      ]
-    }, {
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch tokens tofigma",
+      "program": "${workspaceFolder}/dist/index.js",
+      "args": [
+        "tokens",
+        "tofigma",
+        "--token-dictionary-path assets/tokens/dictionary"
+      ],
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Launch manual example demo",
       "program": "${workspaceFolder}/src/commands/rm-dist.js",
       "cwd": "/home/julrich/Projects/Entwicklung/material/distributioncheckout",
       "args": ["example", "demo"],
-      "skipFiles": [
-        "<node_internals>/**"
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch manual tokens tofigma",
+      "program": "${workspaceFolder}/dist/src/commands/tokens/tofigma.js",
+      "cwd": "/home/julrich/Projects/kickstartDS/code/kickstartDS-cli",
+      "args": [
+        "tokens",
+        "tofigma",
+        "--token-dictionary-path assets/tokens/dictionary"
       ],
-      "console" : "integratedTerminal"
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
     }
   ]
 }
