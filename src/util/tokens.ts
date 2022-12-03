@@ -364,70 +364,70 @@ export default (logger: winston.Logger): TokensUtil => {
     // TODO fix, readd this one:
     const parsedTokens: KickstartDSFigmaTokenStructure = {};
     // const parsedTokens: any = {};
-    traverse(merged, {
-      cb: (
-        schema,
-        pointer,
-        _rootSchema,
-        parentPointer,
-        _parentKeyword,
-        parentSchema
-      ) => {
-        const objectPointer = pointer
-          .replaceAll('/properties', '')
-          .replaceAll('/items', '');
+    // traverse(merged, {
+    //   cb: (
+    //     schema,
+    //     pointer,
+    //     _rootSchema,
+    //     parentPointer,
+    //     _parentKeyword,
+    //     parentSchema
+    //   ) => {
+    //     const objectPointer = pointer
+    //       .replaceAll('/properties', '')
+    //       .replaceAll('/items', '');
 
-        if (objectPointer.endsWith('/additionalItems') && parentPointer) {
-          const objectParentPointer =
-            parentPointer
-              .replaceAll('/properties', '')
-              .replaceAll('/items', '') || '';
+    //     if (objectPointer.endsWith('/additionalItems') && parentPointer) {
+    //       const objectParentPointer =
+    //         parentPointer
+    //           .replaceAll('/properties', '')
+    //           .replaceAll('/items', '') || '';
 
-          if (parentSchema) {
-            const array = jsonPointer.get(figmaTokensJson, objectParentPointer);
-            const difference = parentSchema.items.length - array.length;
-            if (difference < 0) {
-              const additionalItems: JSONSchema7[] = array.slice(difference);
-              additionalItems.forEach((additionalItem, index) => {
-                traverse(parentSchema.additionalItems, {
-                  cb: (additionalSchema, additionalPointer) => {
-                    if (
-                      !additionalSchema.properties &&
-                      !additionalSchema.items
-                    ) {
-                      const additionalObjectPointer = additionalPointer
-                        .replaceAll('/properties', '')
-                        .replaceAll('/items', '');
-                      const value = jsonPointer.get(
-                        additionalItem,
-                        additionalObjectPointer
-                      );
-                      jsonPointer.set(
-                        parsedTokens,
-                        `${objectParentPointer}/${
-                          array.length + difference + index
-                        }${additionalObjectPointer}`,
-                        value
-                      );
-                    }
-                  }
-                });
-              });
-            }
-          }
-        } else if (
-          objectPointer &&
-          !objectPointer.includes('/additionalItems/')
-        ) {
-          // console.log('objectPointer', objectPointer);
-          if (!schema.properties && !schema.items) {
-            const value = jsonPointer.get(figmaTokensJson, objectPointer);
-            // console.log('value', value);
-            jsonPointer.set(parsedTokens, objectPointer, value);
-          }
-        }
-      }
-    });
+    //       if (parentSchema) {
+    //         const array = jsonPointer.get(figmaTokensJson, objectParentPointer);
+    //         const difference = parentSchema.items.length - array.length;
+    //         if (difference < 0) {
+    //           const additionalItems: JSONSchema7[] = array.slice(difference);
+    //           additionalItems.forEach((additionalItem, index) => {
+    //             traverse(parentSchema.additionalItems, {
+    //               cb: (additionalSchema, additionalPointer) => {
+    //                 if (
+    //                   !additionalSchema.properties &&
+    //                   !additionalSchema.items
+    //                 ) {
+    //                   const additionalObjectPointer = additionalPointer
+    //                     .replaceAll('/properties', '')
+    //                     .replaceAll('/items', '');
+    //                   const value = jsonPointer.get(
+    //                     additionalItem,
+    //                     additionalObjectPointer
+    //                   );
+    //                   jsonPointer.set(
+    //                     parsedTokens,
+    //                     `${objectParentPointer}/${
+    //                       array.length + difference + index
+    //                     }${additionalObjectPointer}`,
+    //                     value
+    //                   );
+    //                 }
+    //               }
+    //             });
+    //           });
+    //         }
+    //       }
+    //     } else if (
+    //       objectPointer &&
+    //       !objectPointer.includes('/additionalItems/')
+    //     ) {
+    //       // console.log('objectPointer', objectPointer);
+    //       if (!schema.properties && !schema.items) {
+    //         const value = jsonPointer.get(figmaTokensJson, objectPointer);
+    //         // console.log('value', value);
+    //         jsonPointer.set(parsedTokens, objectPointer, value);
+    //       }
+    //     }
+    //   }
+    // });
 
     await fsWriteFilePromise(
       `${figmaTokenSchemaPath}/parsed-tokens.json`,
