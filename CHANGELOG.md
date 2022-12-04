@@ -1,3 +1,16 @@
+# v1.0.2 (Sun Dec 04 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(completions): update the currently available completions ([@julrich](https://github.com/julrich))
+- docs(readme): update README.md content ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v1.0.1 (Sun Nov 20 2022)
 
 #### 🐛 Bug Fix
