@@ -1,3 +1,16 @@
+# v1.0.3 (Sun Dec 04 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- docs(readme): fix image paths ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v1.0.2 (Sun Dec 04 2022)
 
 #### ⚠️ Pushed to `main`
