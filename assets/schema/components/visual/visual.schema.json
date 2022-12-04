@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://schema.uniform.dev/visual.schema.json",
+  "$id": "http://schema.mydomain.com/visual.schema.json",
   "title": "Visual",
   "description": "visual",
   "type": "object",
