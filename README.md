@@ -6,7 +6,7 @@
 
 [kickstartDS](https://www.kickstartDS.com) is a low-code framework and comprehensive component library enabling development teams to create consistent and brand compliant web frontends super efficiently.
 
-![Screenshot of the kickstartDS CLI]('assets/screenshot-cli.png')
+![Screenshot of the kickstartDS CLI](assets/screenshot-cli.png)
 
 ---
 
@@ -139,7 +139,7 @@ Once you've installed the **kickstartDS CLI**, you can verify everything works a
 kickstartDS --help
 ```
 
-![Screenshot of the kickstartDS CLI help option]('assets/screenshot-cli-help.png')
+![Screenshot of the kickstartDS CLI help option](assets/screenshot-cli-help.png)
 
 You'll notice the version of the **CLI** used is part of the logs, written by every command you run. This can help narrow down problems when debugging errors. You can also get the version by calling `--version` directly:
 
@@ -147,7 +147,7 @@ You'll notice the version of the **CLI** used is part of the logs, written by ev
 kickstartDS --version
 ```
 
-![Screenshot of the kickstartDS CLI version option]('assets/screenshot-version.png')
+![Screenshot of the kickstartDS CLI version option](assets/screenshot-version.png)
 
 The **CLI** should generally be pretty explorable by itself, so feel free to just follow the output provided by `--help` to find out about about commands, options, etc.
 
@@ -174,7 +174,7 @@ You can set up local shell completions for your terminal by simply calling the `
 kickstartDS completion install
 ```
 
-![Screenshot of the kickstartDS CLI completion install subcommand]('assets/screenshot-cli-completion-install.png')
+![Screenshot of the kickstartDS CLI completion install subcommand](assets/screenshot-cli-completion-install.png)
 
 You can also remove completions again by using the inverse `completion remove`:
 
@@ -182,7 +182,7 @@ You can also remove completions again by using the inverse `completion remove`:
 kickstartDS completion remove
 ```
 
-![Screenshot of the kickstartDS CLI completion remove subcommand]('assets/screenshot-cli-completion-remove.png')
+![Screenshot of the kickstartDS CLI completion remove subcommand](assets/screenshot-cli-completion-remove.png)
 
 We use [`omelette`](https://www.npmjs.com/package/omelette) under the hood to enable the completion features, see their section about [`Automated Install`](https://github.com/f/omelette#automated-install) for details on how this is achieved for different shell flavours. This can be especially helpful if something is not working out-of-the-box for you!
 
@@ -209,7 +209,7 @@ There's also a base config included for every command, which provides the defaul
 
 Interactive prompts for commands are generated dynamically based on the supplied **JSON Schema**, using `name`, `type`, `default` and `description` from the definition, to help make useful choices. Especially `type` is used to present prompts semantically, using [Inquirer.js](https://github.com/SBoudrias/Inquirer.js). Defaults are first pulled from your local `.rc` file (even if using `--rc-only` set to `false`, to have better contextual defaults presented to you), and then the fallback `.rc` file provided by **kickstartDS**.
 
-![inquirer-press-to-continue plugin demo output]('assets/cli-inquirer-demo.gif')
+![inquirer-press-to-continue plugin demo output](assets/cli-inquirer-demo.gif)
 e.g. https://github.com/leonzalion/inquirer-press-to-continue
 
 This setup provides a scalable approach to creating commands that can both work in a zero config way, while also being able to overwrite configuration (even if only granularly)... even in the most complex scenarios. It also allows persisting your configuration as part of your repository, so you can always repeat the exact process, or review the choices you made when running something like `kickstartDS tokens init`.
@@ -274,7 +274,7 @@ For a detailed setup guide for everything related to **Design Token**, give [par
 
 #### `tokens init`
 
-![Screenshot of the kickstartDS CLI token init subcommand]('assets/screenshot-cli-token-init.png')
+![Screenshot of the kickstartDS CLI token init subcommand](assets/screenshot-cli-token-init.png)
 
 Initializes your [**Design Token**](../foundations/token/design-token/index.md) set from a [**Branding Token**](../foundations/token/branding-token.mdx) file. Includes options to specify a specific file path for your branding token file (`--branding-token-path`), and a path for the dictionary (`--token-dictionary-path`), to set the location to store your **Design Token** set.
 
@@ -291,7 +291,7 @@ Default values are in alignment with the [main guide](../guides/create/index.mdx
 
 #### `tokens compile`
 
-![Screenshot of the kickstartDS CLI token compile subcommand]('assets/screenshot-cli-token-compile.png')
+![Screenshot of the kickstartDS CLI token compile subcommand](assets/screenshot-cli-token-compile.png)
 
 Takes your [**Design Token**](../foundations/token/design-token/index.md) set (a collection of **JSON** files in **Style Dictionary** format), and compiles them to a set of different output formats.
 
@@ -336,7 +336,7 @@ Every component based on **kickstartDS** includes a **JSON Schema** definition f
 
 #### `schema types`
 
-![Screenshot of the kickstartDS CLI schema types subcommand]('assets/screenshot-cli-schema-types.png')
+![Screenshot of the kickstartDS CLI schema types subcommand](assets/screenshot-cli-schema-types.png)
 
 Generate **TypeScript** types for your components, matching your [component API](../foundations/components/component-api.md) / **JSON Schema** exactly. These types can then be used when implementing your **React** template, providing a stable base to rely upon. Generated type definitions are put alongside the **JSON Schema** files, into the components directory.
 
@@ -355,7 +355,7 @@ Default values are in alignment with the [main guide](../guides/create/index.mdx
 
 #### `schema dereference`
 
-![Screenshot of the kickstartDS CLI schema dereference subcommand]('assets/screenshot-cli-schema-dereference.png')
+![Screenshot of the kickstartDS CLI schema dereference subcommand](assets/screenshot-cli-schema-dereference.png)
 
 **JSON Schema** definitions for [component API](../foundations/components/component-api.md)s can (and often do) include references to other component definitions. This is done by the way of using a `$ref` in one of the properties, or by using advanced workflows involving `allOf`, `anyOf`, `oneOf` and so forth.
 
