@@ -49,7 +49,7 @@ You'll need to have **Node.js** installed to use our **CLI**, see our page about
 
 **kickstartDS CLI** has to be installed for use with **Node.js**, which can be done through all the common package managers. You can either install it globally, or as a dependency of your Design System project.
 
-> :warning: **Install in project**: Installing the **CLI** as part of your Design System projects helps keeping the version used across your team and consumers consistent. We generally advise going this route, and wiring up your local `package.json` scripts entries to those commands for isolation.<br><br>Have a look at [part 2 of our main guide "Create your Design System"](https://www.kickstartDS.com/docs/guides/create/design#kickstartds-integration), for a more detailed explanation of this setup.
+> :information_source: **Install in project**: Installing the **CLI** as part of your Design System projects helps keeping the version used across your team and consumers consistent. We generally advise going this route, and wiring up your local `package.json` scripts entries to those commands for isolation.<br><br>Have a look at [part 2 of our main guide "Create your Design System"](https://www.kickstartDS.com/docs/guides/create/design#kickstartds-integration), for a more detailed explanation of this setup.
 
 Alternatively you can use the **CLI** directly, without installing it, by using `npx`, like this:
 
@@ -79,7 +79,7 @@ If you're encountering problems with this, or for more details on the technical 
 
 This is the preferred way of integrating the **kickstartDS CLI** into your workflow. It gives you the ability to fix the version of the **CLI** in use to the exact corresponding [**kickstartDS** package](https://www.kickstartDS.com/docs/intro/packages) versions, added as a dependency to your Design System. It also allows using the **CLI** in multiple projects, without those interferring with each other through a globally installed, shared dependency.
 
-All that said: we're being really careful with changes to the **CLI**, so it should only ever need to be upgraded when changing to a new breaking release of **kickstartDS** itself. You might still want to upgrade earlier to get access to fixes (`1.2.**3**`) or new features (`1.**2**.3`). See our [page about **Upgrading**](https://www.kickstartDS.com/docs/intro/upgrading) to learn more about our release process, and our versioning scheme!
+All that said: we're being really careful with changes to the **CLI**, so it should only ever need to be upgraded when changing to a new breaking release of **kickstartDS** itself. You might still want to upgrade earlier to get access to fixes (`X.X.3`) or new features (`X.2.X`). See our [page about **Upgrading**](https://www.kickstartDS.com/docs/intro/upgrading) to learn more about our release process, and our versioning scheme!
 
 The preferred way to install the **CLI** to your Design System project would be as a `devDependency`.
 
@@ -88,8 +88,6 @@ yarn add -D kickstartds
 ```
 
 See the following code snippet for an example of a typical (abridged) example of a `package.json` for a Design System project utilizing the **kickstartDS CLI**:
-
-<CH.Section>
 
 ```json package.json
 {
@@ -116,13 +114,11 @@ See the following code snippet for an example of a typical (abridged) example of
 }
 ```
 
-We have [`@kickstartds/base`](focus://13) as our main **kickstartDS** package dependency, and [`kickstartds`](focus://18) (the **kickstartDS CLI**) as a `devDependency`. We [also include **React**](focus://14:15) to complete our `dependencies`, while [`chokidar-cli`](focus://19) and [`npm-run-all`](focus://20) help us glue together **kickstartDS CLI** commands with our local `scripts` entries, as the remaining `devDependencies`.
+We have `@kickstartds/base` as our main **kickstartDS** package dependency, and `kickstartds` (the **kickstartDS CLI**) as a `devDependency`. We also include **React** to complete our `dependencies`, while `chokidar-cli` and `npm-run-all` help us glue together **kickstartDS CLI** commands with our local `scripts` entries, as the remaining `devDependencies`.
 
-There are three integration types at play here: 1. [Wire up a `script` entry to a **CLI** command directly](focus://4,5,7,8) ([optionally setting parameters as required](focus://7,8)), 2. [Run select `scripts` in parallel](focus://6) (using [`npm-run-all`](https://www.npmjs.com/package/npm-run-all)) to improve DX, by [grouping commands commonly used together](focus://6:8), and 3. [Watch for file changes](focus://9,10), to subsequently trigger a `script` entry... enabling a `watch` / hot reload mode (using [`chokidar-cli`](https://www.npmjs.com/package/chokidar-cli)).
+There are three integration types at play here: 1. Wire up a `script` entry to a **CLI** command directly (optionally setting parameters as required), 2. Run select `scripts` in parallel (using [`npm-run-all`](https://www.npmjs.com/package/npm-run-all)) to improve DX, by grouping commands commonly used together, and 3. Watch for file changes, to subsequently trigger a `script` entry... enabling a `watch` / hot reload mode (using [`chokidar-cli`](https://www.npmjs.com/package/chokidar-cli)).
 
 For a more detailed description of what all those commands do, have a look at our ["Create your Design System" guide](https://www.kickstartDS.com/docs/guides/create/).
-
-</CH.Section>
 
 ---
 
@@ -142,7 +138,7 @@ You'll notice the version of the **CLI** used is part of the logs, written by ev
 kickstartDS --version
 ```
 
-![Screenshot of the kickstartDS CLI version option](assets/screenshot-version.png)
+![Screenshot of the kickstartDS CLI version option](assets/screenshot-cli-version.png)
 
 The **CLI** should generally be pretty explorable by itself, so feel free to just follow the output provided by `--help` to find out about about commands, options, etc.
 
@@ -181,12 +177,7 @@ kickstartDS completion remove
 
 We use [`omelette`](https://www.npmjs.com/package/omelette) under the hood to enable the completion features, see their section about [`Automated Install`](https://github.com/f/omelette#automated-install) for details on how this is achieved for different shell flavours. This can be especially helpful if something is not working out-of-the-box for you!
 
-<Admonition type="tip" title="Shell support">
-This is a really early feature. As there are a lot of different terminal and shell combinations out there, we pretty much expect this to still be pretty unstable, because it is not widely tested.
-
-We'd love to hear your experience (Did it work? Did it to what you expected?), so we can continue improving this!
-
-</Admonition>
+> :information_source: **Shell support**: This is a really early feature. As there are a lot of different terminal and shell combinations out there, we pretty much expect this to still be pretty unstable, because it is not widely tested.<br><br>We'd love to hear your experience (Did it work? Did it to what you expected?), so we can continue improving this!
 
 ---
 
@@ -204,7 +195,7 @@ There's also a base config included for every command, which provides the defaul
 
 Interactive prompts for commands are generated dynamically based on the supplied **JSON Schema**, using `name`, `type`, `default` and `description` from the definition, to help make useful choices. Especially `type` is used to present prompts semantically, using [Inquirer.js](https://github.com/SBoudrias/Inquirer.js). Defaults are first pulled from your local `.rc` file (even if using `--rc-only` set to `false`, to have better contextual defaults presented to you), and then the fallback `.rc` file provided by **kickstartDS**.
 
-![inquirer-press-to-continue plugin demo output](assets/cli-inquirer-demo.gif)
+![inquirer-press-to-continue plugin demo output](assets/cli-inquirer-demo.gif)<br>
 e.g. https://github.com/leonzalion/inquirer-press-to-continue
 
 This setup provides a scalable approach to creating commands that can both work in a zero config way, while also being able to overwrite configuration (even if only granularly)... even in the most complex scenarios. It also allows persisting your configuration as part of your repository, so you can always repeat the exact process, or review the choices you made when running something like `kickstartDS tokens init`.
@@ -233,10 +224,7 @@ While having such a general structure in place is necessary, it's also required 
 
 Additionally, having a `--revert` variant available may not always be feasible or sensible. Those commands **not** having such a variant will be explicitly marked, including a short reasoning for not implementing it.
 
-<Admonition type="tip" title="Currently testing">
-The `--revert` variants of the tasks implemented so far are currently being tested. If you're stumbling over one not working as expected, please feel free to [open an issue on our Github](https://github.com/kickstartDS/kickstartDS-cli/issues/new).
-
-</Admonition>
+> :information_source: **Currently testing**: The `--revert` variants of the tasks implemented so far are currently being tested. If you're stumbling over one not working as expected, please feel free to [open an issue on our Github](https://github.com/kickstartDS/kickstartDS-cli/issues/new).
 
 ---
 
@@ -310,12 +298,7 @@ Takes your [**Design Token**](https://www.kickstartDS.com/docs/foundations/token
 
 You can configure the location of your **Design Token** set by using `--token-dictionary-path`.
 
-<Admonition type="tip" title="Work in progress">
-This command is currently work in progress. It will support syncing your **Design Token** set / **Style Dictionary** to a copy of our **Design Token** template for **Figma**. When this command is finished, we'll add the other direction (`fromfigma`), too. This will enable you to always keep **Design Token** in sync between code and design!
-
-Status: [**JSON Schema** matching our **Figma** template](https://github.com/kickstartDS/kickstartDS-cli/blob/next/assets/tokens/figma/figma-tokens.schema.json) down to every label, layer and description. Can already be used to validate the structure of a **Figma** file. Next up will be pulling the values out from the **Figma** template instance, to transform and write them to your **Design Token** set.
-
-</Admonition>
+> :information_source: **Work in progress**: This command is currently work in progress. It will support syncing your **Design Token** set / **Style Dictionary** to a copy of our **Design Token** template for **Figma**. When this command is finished, we'll add the other direction (`fromfigma`), too. This will enable you to always keep **Design Token** in sync between code and design!<br><br>Status: [**JSON Schema** matching our **Figma** template](https://github.com/kickstartDS/kickstartDS-cli/blob/next/assets/tokens/figma/figma-tokens.schema.json) down to every label, layer and description. Can already be used to validate the structure of a **Figma** file. Next up will be pulling the values out from the **Figma** template instance, to transform and write them to your **Design Token** set.
 
 **Available options**:
 
@@ -420,21 +403,6 @@ There's one additional command included with **kickstartDS CLI**, not mentioned 
 
 ---
 
-## License
-
-&copy; Copyright 2022 Jonas Ulrich, kickstartDS by ruhmesmeile GmbH [jonas.ulrich@kickstartds.com].
-
-This project is licensed under either of
-
-- [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) ([`LICENSE-APACHE`](LICENSE-APACHE))
-- [MIT license](https://opensource.org/licenses/MIT) ([`LICENSE-MIT`](LICENSE-MIT))
-
-at your option.
-
-The [SPDX](https://spdx.dev) license identifier for this project is `MIT OR Apache-2.0`.
-
----
-
 ## References
 
 Building a **CLI** with this range of features wouldn't have been possible without a solid foundation to build upon. We'll list our main dependencies here, to give you an idea of the general tooling in use:
@@ -452,3 +420,16 @@ Building a **CLI** with this range of features wouldn't have been possible witho
 | **Nunjucks Templating** | [https://mozilla.github.io/nunjucks/templating.html](https://mozilla.github.io/nunjucks/templating.html) | This is the heart of **Nunjucks**, used for consistent and efficient templating of all kinds of templates.                                            |
 
 This can also serve as a great source of inspiration when trying to identify easy to implement extension opportunities for features, commands or options you feel currently missing!
+
+## License
+
+&copy; Copyright 2022 Jonas Ulrich, kickstartDS by ruhmesmeile GmbH [jonas.ulrich@kickstartds.com].
+
+This project is licensed under either of
+
+- [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) ([`LICENSE-APACHE`](LICENSE-APACHE))
+- [MIT license](https://opensource.org/licenses/MIT) ([`LICENSE-MIT`](LICENSE-MIT))
+
+at your option.
+
+The [SPDX](https://spdx.dev) license identifier for this project is `MIT OR Apache-2.0`.
