@@ -26,7 +26,9 @@ Skip ahead to:
 - [Contributing](#contributing)
 - [References](#references)
 
-It currently supports two main categories of commands:
+### Overview
+
+The **kickstartDS CLI** currently supports two main categories of commands:
 
 1. **Schema**: Generate **TypeScript** types for components, or dereference component **JSON Schema**
 2. **Token**: Initialize **Style Dictionary** using [**Branding Token**](https://www.kickstartDS.com/docs/foundations/token/branding-token), or build prepared **Style Dictionary** platforms and formats for your token set
