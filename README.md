@@ -1,5 +1,10 @@
 <p align="center">
-  <img src="https://www.kickstartDS.com/logo.svg" />
+  <a href="https://www.kickstartDS.com/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://www.kickstartds.com/docs/img/logo-light.svg">
+      <img src="https://www.kickstartDS.com/logo.svg" alt="kickstartDS" width="400" />
+    </picture>
+  </a>
 </p>
 
 # kickstartDS CLI
@@ -16,20 +21,42 @@ The **kickstartDS CLI** helps ease everyday tasks when working with Design Syste
 
 Skip ahead to:
 
-- [Installation](#installation)
-- [Getting started](#getting-started)
-- [Features](#features)
-- [Available commands](#available-commands)
-- [Usage in CI / CD](#usage-in-ci-cd)
-- [Tips, Tricks and Gotchas](#tips-tricks-and-gotchas)
-- [Getting support](#getting-support)
-- [Contributing](#contributing)
-- [References](#references)
+- [kickstartDS CLI](#kickstartds-cli)
+  - [About](#about)
+    - [Overview](#overview)
+  - [Installation](#installation)
+    - [Install globally with **npm** or **Yarn**](#install-globally-with-npm-or-yarn)
+    - [Install as a part of a **kickstartDS** Design System](#install-as-a-part-of-a-kickstartds-design-system)
+  - [Getting started](#getting-started)
+    - [General options](#general-options)
+    - [Setting up shell completions](#setting-up-shell-completions)
+  - [Features](#features)
+    - [Interactive prompts and `.rc` files](#interactive-prompts-and-rc-files)
+    - [Temporary folders](#temporary-folders)
+    - [Revertability](#revertability)
+  - [Available commands](#available-commands)
+    - [**Design Token** commands](#design-token-commands)
+      - [`tokens init`](#tokens-init)
+      - [`tokens compile`](#tokens-compile)
+      - [`tokens tofigma`](#tokens-tofigma)
+    - [**JSON Schema** commands](#json-schema-commands)
+      - [`schema types`](#schema-types)
+      - [`schema dereference`](#schema-dereference)
+  - [Usage in CI/CD](#usage-in-cicd)
+  - [Tips, Tricks and Gotchas](#tips-tricks-and-gotchas)
+    - [Recover from errors / problems](#recover-from-errors--problems)
+    - [Debug long running commands](#debug-long-running-commands)
+  - [Getting support](#getting-support)
+  - [Contributing](#contributing)
+  - [References](#references)
+  - [License](#license)
 
-It currently supports two main categories of commands:
+### Overview
+
+The **kickstartDS CLI** currently supports two main categories of commands:
 
 1. **Schema**: Generate **TypeScript** types for components, or dereference component **JSON Schema**
-2. **Token**: Initialize **Style Dictionary** using [**Branding Token**](../foundations/token/branding-token.mdx), or build prepared **Style Dictionary** platforms and formats for your token set
+2. **Token**: Initialize **Style Dictionary** using [**Branding Token**](https://www.kickstartDS.com/docs/foundations/token/branding-token), or build prepared **Style Dictionary** platforms and formats for your token set
 
 Commands can generally be divided into the following types:
 
@@ -37,7 +64,7 @@ Commands can generally be divided into the following types:
 - Commands **automating tasks for you** (for example creating **TypeScript** types for your components, or dereferencing them, within the `schema` category), which helps keep your project free from scripts for those tasks
 - Commands meant to **reduce the amount of scaffolding** you'll have to write manually. We're currently working on those!
 
-We generally strive for all the commands to work with zero config when following the project structure outlined in our documentation for your own Design System (it's also the same one used [in our starter](../guides/use-our-starter.md)). But we also try to expose options to change those values as needed, you shouldn't ever _need_ to follow our structure. If there's an option that's missing for your use case, [feel free to contact us](../feedback/index.md) so when can add it!
+We generally strive for all the commands to work with zero config when following the project structure outlined in our documentation for your own Design System (it's also the same one used [in our starter](https://www.kickstartDS.com/docs/guides/use-our-starter)). But we also try to expose options to change those values as needed, you shouldn't ever _need_ to follow our structure. If there's an option that's missing for your use case, [feel free to contact us](https://www.kickstartDS.com/docs/feedback/) so when can add it!
 
 We also include support for **shell completions**. Though those will probably still need some more intimate knowledge with your terminal and shell setup, they can be a nice addition to explore available commands and options!
 
@@ -45,16 +72,11 @@ We also include support for **shell completions**. Though those will probably st
 
 ## Installation
 
-You'll need to have **Node.js** installed to use our **CLI**, see our page about [the expected environment](./environment.md) when working with **kickstartDS** for details.
+You'll need to have **Node.js** installed to use our **CLI**, see our page about [the expected environment](https://www.kickstartDS.com/docs/intro/environment) when working with **kickstartDS** for details.
 
 **kickstartDS CLI** has to be installed for use with **Node.js**, which can be done through all the common package managers. You can either install it globally, or as a dependency of your Design System project.
 
-<Admonition type="tip" title="Install in project">
-Installing the **CLI** as part of your Design System projects helps keeping the version used across your team and consumers consistent. We generally advise going this route, and wiring up your local `package.json` scripts entries to those commands for isolation.
-
-Have a look at [part 2 of our main guide "Create your Design System"](../guides/create/design.mdx#kickstartds-integration), for a more detailed explanation of this setup.
-
-</Admonition>
+> :information_source: **Install in project**: Installing the **CLI** as part of your Design System projects helps keeping the version used across your team and consumers consistent. We generally advise going this route, and wiring up your local `package.json` scripts entries to those commands for isolation.<br><br>Have a look at [part 2 of our main guide "Create your Design System"](https://www.kickstartDS.com/docs/guides/create/design#kickstartds-integration), for a more detailed explanation of this setup.
 
 Alternatively you can use the **CLI** directly, without installing it, by using `npx`, like this:
 
@@ -64,7 +86,7 @@ npx tokens init
 
 Learn more about `npx` as an option to run commands globally, without installation, in the [npm Docs](https://docs.npmjs.com/cli/v9/commands/npx).
 
-### Install globally with npm or Yarn
+### Install globally with **npm** or **Yarn**
 
 [kickstartDS CLI is available as a npm package](https://www.npmjs.com/package/kickstartds). If you have **Node.js** available, you can install it by running:
 
@@ -78,13 +100,13 @@ or if using **Yarn**:
 yarn global add kickstartds
 ```
 
-If you're encountering problems with this, or for more details on the technical setup needed to work with **kickstartDS**, see our **Getting Started** page about [the environment needed](./environment.md).
+If you're encountering problems with this, or for more details on the technical setup needed to work with **kickstartDS**, see our **Getting Started** page about [the environment needed](https://www.kickstartDS.com/docs/intro/environment).
 
 ### Install as a part of a **kickstartDS** Design System
 
-This is the preferred way of integrating the **kickstartDS CLI** into your workflow. It gives you the ability to fix the version of the **CLI** in use to the exact corresponding [**kickstartDS** package](./packages.md) versions, added as a dependency to your Design System. It also allows using the **CLI** in multiple projects, without those interferring with each other through a globally installed, shared dependency.
+This is the preferred way of integrating the **kickstartDS CLI** into your workflow. It gives you the ability to fix the version of the **CLI** in use to the exact corresponding [**kickstartDS** package](https://www.kickstartDS.com/docs/intro/packages) versions, added as a dependency to your Design System. It also allows using the **CLI** in multiple projects, without those interferring with each other through a globally installed, shared dependency.
 
-All that said: we're being really careful with changes to the **CLI**, so it should only ever need to be upgraded when changing to a new breaking release of **kickstartDS** itself. You might still want to upgrade earlier to get access to fixes (`1.2.**3**`) or new features (`1.**2**.3`). See our [page about **Upgrading**](./upgrading.md) to learn more about our release process, and our versioning scheme!
+All that said: we're being really careful with changes to the **CLI**, so it should only ever need to be upgraded when changing to a new breaking release of **kickstartDS** itself. You might still want to upgrade earlier to get access to fixes (`X.X.3`) or new features (`X.2.X`). See our [page about **Upgrading**](https://www.kickstartDS.com/docs/intro/upgrading) to learn more about our release process, and our versioning scheme!
 
 The preferred way to install the **CLI** to your Design System project would be as a `devDependency`.
 
@@ -93,8 +115,6 @@ yarn add -D kickstartds
 ```
 
 See the following code snippet for an example of a typical (abridged) example of a `package.json` for a Design System project utilizing the **kickstartDS CLI**:
-
-<CH.Section>
 
 ```json package.json
 {
@@ -121,13 +141,11 @@ See the following code snippet for an example of a typical (abridged) example of
 }
 ```
 
-We have [`@kickstartds/base`](focus://13) as our main **kickstartDS** package dependency, and [`kickstartds`](focus://18) (the **kickstartDS CLI**) as a `devDependency`. We [also include **React**](focus://14:15) to complete our `dependencies`, while [`chokidar-cli`](focus://19) and [`npm-run-all`](focus://20) help us glue together **kickstartDS CLI** commands with our local `scripts` entries, as the remaining `devDependencies`.
+We have `@kickstartds/base` as our main **kickstartDS** package dependency, and `kickstartds` (the **kickstartDS CLI**) as a `devDependency`. We also include **React** to complete our `dependencies`, while `chokidar-cli` and `npm-run-all` help us glue together **kickstartDS CLI** commands with our local `scripts` entries, as the remaining `devDependencies`.
 
-There are three integration types at play here: 1. [Wire up a `script` entry to a **CLI** command directly](focus://4,5,7,8) ([optionally setting parameters as required](focus://7,8)), 2. [Run select `scripts` in parallel](focus://6) (using [`npm-run-all`](https://www.npmjs.com/package/npm-run-all)) to improve DX, by [grouping commands commonly used together](focus://6:8), and 3. [Watch for file changes](focus://9,10), to subsequently trigger a `script` entry... enabling a `watch` / hot reload mode (using [`chokidar-cli`](https://www.npmjs.com/package/chokidar-cli)).
+There are three integration types at play here: 1. Wire up a `script` entry to a **CLI** command directly (optionally setting parameters as required), 2. Run select `scripts` in parallel (using [`npm-run-all`](https://www.npmjs.com/package/npm-run-all)) to improve DX, by grouping commands commonly used together, and 3. Watch for file changes, to subsequently trigger a `script` entry... enabling a `watch` / hot reload mode (using [`chokidar-cli`](https://www.npmjs.com/package/chokidar-cli)).
 
-For a more detailed description of what all those commands do, have a look at our ["Create your Design System" guide](../guides/create/index.mdx).
-
-</CH.Section>
+For a more detailed description of what all those commands do, have a look at our ["Create your Design System" guide](https://www.kickstartDS.com/docs/guides/create/).
 
 ---
 
@@ -147,7 +165,7 @@ You'll notice the version of the **CLI** used is part of the logs, written by ev
 kickstartDS --version
 ```
 
-![Screenshot of the kickstartDS CLI version option](assets/screenshot-version.png)
+![Screenshot of the kickstartDS CLI version option](assets/screenshot-cli-version.png)
 
 The **CLI** should generally be pretty explorable by itself, so feel free to just follow the output provided by `--help` to find out about about commands, options, etc.
 
@@ -186,12 +204,7 @@ kickstartDS completion remove
 
 We use [`omelette`](https://www.npmjs.com/package/omelette) under the hood to enable the completion features, see their section about [`Automated Install`](https://github.com/f/omelette#automated-install) for details on how this is achieved for different shell flavours. This can be especially helpful if something is not working out-of-the-box for you!
 
-<Admonition type="tip" title="Shell support">
-This is a really early feature. As there are a lot of different terminal and shell combinations out there, we pretty much expect this to still be pretty unstable, because it is not widely tested.
-
-We'd love to hear your experience (Did it work? Did it to what you expected?), so we can continue improving this!
-
-</Admonition>
+> :information_source: **Shell support**: This is a really early feature. As there are a lot of different terminal and shell combinations out there, we pretty much expect this to still be pretty unstable, because it is not widely tested.<br><br>We'd love to hear your experience (Did it work? Did it to what you expected?), so we can continue improving this!
 
 ---
 
@@ -209,7 +222,7 @@ There's also a base config included for every command, which provides the defaul
 
 Interactive prompts for commands are generated dynamically based on the supplied **JSON Schema**, using `name`, `type`, `default` and `description` from the definition, to help make useful choices. Especially `type` is used to present prompts semantically, using [Inquirer.js](https://github.com/SBoudrias/Inquirer.js). Defaults are first pulled from your local `.rc` file (even if using `--rc-only` set to `false`, to have better contextual defaults presented to you), and then the fallback `.rc` file provided by **kickstartDS**.
 
-![inquirer-press-to-continue plugin demo output](assets/cli-inquirer-demo.gif)
+![inquirer-press-to-continue plugin demo output](assets/cli-inquirer-demo.gif)<br>
 e.g. https://github.com/leonzalion/inquirer-press-to-continue
 
 This setup provides a scalable approach to creating commands that can both work in a zero config way, while also being able to overwrite configuration (even if only granularly)... even in the most complex scenarios. It also allows persisting your configuration as part of your repository, so you can always repeat the exact process, or review the choices you made when running something like `kickstartDS tokens init`.
@@ -238,10 +251,7 @@ While having such a general structure in place is necessary, it's also required 
 
 Additionally, having a `--revert` variant available may not always be feasible or sensible. Those commands **not** having such a variant will be explicitly marked, including a short reasoning for not implementing it.
 
-<Admonition type="tip" title="Currently testing">
-The `--revert` variants of the tasks implemented so far are currently being tested. If you're stumbling over one not working as expected, please feel free to [open an issue on our Github](https://github.com/kickstartDS/kickstartDS-cli/issues/new).
-
-</Admonition>
+> :information_source: **Currently testing**: The `--revert` variants of the tasks implemented so far are currently being tested. If you're stumbling over one not working as expected, please feel free to [open an issue on our Github](https://github.com/kickstartDS/kickstartDS-cli/issues/new).
 
 ---
 
@@ -249,15 +259,15 @@ The `--revert` variants of the tasks implemented so far are currently being test
 
 As hinted at before, commands are generally split into categories by some shared concept or use case. We currently have categories for **Design Token** (`token`) and **JSON Schema** (`schema`).
 
-**Token** category: Commands around working with your [**Design Token** set](../foundations/token/design-token/index.md).
+**Token** category: Commands around working with your [**Design Token** set](https://www.kickstartDS.com/docs/foundations/token/design-token/).
 
-| Command  | Subcommand    | Description                                                                                             |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------------- |
-| `tokens` | **`init`**    | Initialize your **Design Token** set from [**Branding Token**](../foundations/token/branding-token.mdx) |
-| `tokens` | **`compile`** | Compile your **Design Token** set into all configured **Style Dictionary** formats / outputs            |
-| `tokens` | **`tofigma`** | Sync your **Design Token** set to [**Figma**](https://www.figma.com/) (work in progress)                |
+| Command  | Subcommand    | Description                                                                                                                       |
+| -------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `tokens` | **`init`**    | Initialize your **Design Token** set from [**Branding Token**](https://www.kickstartDS.com/docs/foundations/token/branding-token) |
+| `tokens` | **`compile`** | Compile your **Design Token** set into all configured **Style Dictionary** formats / outputs                                      |
+| `tokens` | **`tofigma`** | Sync your **Design Token** set to [**Figma**](https://www.figma.com/) (work in progress)                                          |
 
-**Schema** category: Commands around working with your [**JSON Schema**](../foundations/components/component-api.md).
+**Schema** category: Commands around working with your [**JSON Schema**](https://www.kickstartDS.com/docs/foundations/components/component-api).
 
 | Command  | Subcommand        | Description                                                          |
 | -------- | ----------------- | -------------------------------------------------------------------- |
@@ -266,19 +276,19 @@ As hinted at before, commands are generally split into categories by some shared
 
 Both categories and their subcommands will be described in a bit more detail below.
 
-### Design Token commands
+### **Design Token** commands
 
-Commands in this category are used to deal with every type of token present in your Design System. Namely [**Branding Token**](../foundations/token/branding-token.mdx) for initial token set generation, [**Design Token**](../foundations/token/design-token/index.md) managed in **Style Dictionary**, and [**Component Token**](../foundations/token/component-token.mdx) used by your components.
+Commands in this category are used to deal with every type of token present in your Design System. Namely [**Branding Token**](https://www.kickstartDS.com/docs/foundations/token/branding-token) for initial token set generation, [**Design Token**](https://www.kickstartDS.com/docs/foundations/token/design-token/) managed in **Style Dictionary**, and [**Component Token**](https://www.kickstartDS.com/docs/foundations/token/component-token) used by your components.
 
-For a detailed setup guide for everything related to **Design Token**, give [part 2 of "Create your Design System"](../guides/create/design.mdx) a visit.
+For a detailed setup guide for everything related to **Design Token**, give [part 2 of "Create your Design System"](https://www.kickstartDS.com/docs/guides/create/design) a visit.
 
 #### `tokens init`
 
 ![Screenshot of the kickstartDS CLI token init subcommand](assets/screenshot-cli-token-init.png)
 
-Initializes your [**Design Token**](../foundations/token/design-token/index.md) set from a [**Branding Token**](../foundations/token/branding-token.mdx) file. Includes options to specify a specific file path for your branding token file (`--branding-token-path`), and a path for the dictionary (`--token-dictionary-path`), to set the location to store your **Design Token** set.
+Initializes your [**Design Token**](https://www.kickstartDS.com/docs/foundations/token/design-token/) set from a [**Branding Token**](https://www.kickstartDS.com/docs/foundations/token/branding-token) file. Includes options to specify a specific file path for your branding token file (`--branding-token-path`), and a path for the dictionary (`--token-dictionary-path`), to set the location to store your **Design Token** set.
 
-See the section ["2. Design Application" > "Initialization"](../guides/create/design.mdx#initialization) of our main guide ["Create your Design System"](../guides/create/index.mdx) to learn more about this setup.
+See the section ["2. Design Application" > "Initialization"](https://www.kickstartDS.com/docs/guides/create/design#initialization) of our main guide ["Create your Design System"](https://www.kickstartDS.com/docs/guides/create/) to learn more about this setup.
 
 **Available options**:
 
@@ -287,19 +297,19 @@ See the section ["2. Design Application" > "Initialization"](../guides/create/de
 | `--branding-token-path <file>`        | `src/token/branding-token.json` | relative path from project root to your branding token file |
 | `--token-dictionary-path <directory>` | `src/token/dictionary`          | relative path from project root to your token dictionary    |
 
-Default values are in alignment with the [main guide](../guides/create/index.mdx), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
+Default values are in alignment with the [main guide](https://www.kickstartDS.com/docs/guides/create/), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
 
 #### `tokens compile`
 
 ![Screenshot of the kickstartDS CLI token compile subcommand](assets/screenshot-cli-token-compile.png)
 
-Takes your [**Design Token**](../foundations/token/design-token/index.md) set (a collection of **JSON** files in **Style Dictionary** format), and compiles them to a set of different output formats.
+Takes your [**Design Token**](https://www.kickstartDS.com/docs/foundations/token/design-token/) set (a collection of **JSON** files in **Style Dictionary** format), and compiles them to a set of different output formats.
 
 Internally a configuration file for **Style Dictionary** (`sd.config.cjs` format) is included, that defines a base set of formats (`jsx`, `storybook`) to be used when no local configuration file is found in your project. You can find the responsible code for this [here in our repository](https://github.com/kickstartDS/kickstartDS-cli/blob/next/src/util/tokens.ts#L440-L457), for reference.
 
 The resulting files are saved to the locations specified (per format) either by the included **Style Dictionary** config, or by the one provided inside your project (`sd.config.cjs`), the location of your **Design Token** set you can use `--token-dictionary-path`.
 
-See the section ["2. Design Application" > "Compile Design Token set"](../guides/create/design.mdx#compile-design-token-set) of our main guide ["Create your Design System"](../guides/create/index.mdx) to learn more about this setup.
+See the section ["2. Design Application" > "Compile Design Token set"](https://www.kickstartDS.com/docs/guides/create/design#compile-design-token-set) of our main guide ["Create your Design System"](https://www.kickstartDS.com/docs/guides/create/) to learn more about this setup.
 
 **Available options**:
 
@@ -307,20 +317,15 @@ See the section ["2. Design Application" > "Compile Design Token set"](../guides
 | ------------------------------------- | ---------------------- | -------------------------------------------------------- |
 | `--token-dictionary-path <directory>` | `src/token/dictionary` | relative path from project root to your token dictionary |
 
-Default values are in alignment with the [main guide](../guides/create/index.mdx), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
+Default values are in alignment with the [main guide](https://www.kickstartDS.com/docs/guides/create/), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
 
 #### `tokens tofigma`
 
-Takes your [**Design Token**](../foundations/token/design-token/index.md) set (a collection of **JSON** files in **Style Dictionary** format), and syncs them to a clone of our [**Figma** token file](https://www.figma.com/file/2nRO6XaRhIlRD9TEiCq1gP/kickstartDS-Design-Token-Blog-Example?node-id=0%3A1&t=qEYtlUYDCZKuM5mZ-1).
+Takes your [**Design Token**](https://www.kickstartDS.com/docs/foundations/token/design-token/) set (a collection of **JSON** files in **Style Dictionary** format), and syncs them to a clone of our [**Figma** token file](https://www.figma.com/file/2nRO6XaRhIlRD9TEiCq1gP/kickstartDS-Design-Token-Blog-Example?node-id=0%3A1&t=qEYtlUYDCZKuM5mZ-1).
 
 You can configure the location of your **Design Token** set by using `--token-dictionary-path`.
 
-<Admonition type="tip" title="Work in progress">
-This command is currently work in progress. It will support syncing your **Design Token** set / **Style Dictionary** to a copy of our **Design Token** template for **Figma**. When this command is finished, we'll add the other direction (`fromfigma`), too. This will enable you to always keep **Design Token** in sync between code and design!
-
-Status: [**JSON Schema** matching our **Figma** template](https://github.com/kickstartDS/kickstartDS-cli/blob/next/assets/tokens/figma/figma-tokens.schema.json) down to every label, layer and description. Can already be used to validate the structure of a **Figma** file. Next up will be pulling the values out from the **Figma** template instance, to transform and write them to your **Design Token** set.
-
-</Admonition>
+> :information_source: **Work in progress**: This command is currently work in progress. It will support syncing your **Design Token** set / **Style Dictionary** to a copy of our **Design Token** template for **Figma**. When this command is finished, we'll add the other direction (`fromfigma`), too. This will enable you to always keep **Design Token** in sync between code and design!<br><br>Status: [**JSON Schema** matching our **Figma** template](https://github.com/kickstartDS/kickstartDS-cli/blob/next/assets/tokens/figma/figma-tokens.schema.json) down to every label, layer and description. Can already be used to validate the structure of a **Figma** file. Next up will be pulling the values out from the **Figma** template instance, to transform and write them to your **Design Token** set.
 
 **Available options**:
 
@@ -328,21 +333,21 @@ Status: [**JSON Schema** matching our **Figma** template](https://github.com/kic
 | ------------------------------------- | ---------------------- | -------------------------------------------------------- |
 | `--token-dictionary-path <directory>` | `src/token/dictionary` | relative path from project root to your token dictionary |
 
-Default values are in alignment with the [main guide](../guides/create/index.mdx), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
+Default values are in alignment with the [main guide](https://www.kickstartDS.com/docs/guides/create/), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
 
-### JSON Schema commands
+### **JSON Schema** commands
 
-Every component based on **kickstartDS** includes a **JSON Schema** definition for its [component API](../foundations/components/component-api.md). Commands in the `schema` category help transform those definitions into other helpful formats like **TypeScript** types, or deferenced versions of the schema.
+Every component based on **kickstartDS** includes a **JSON Schema** definition for its [component API](https://www.kickstartDS.com/docs/foundations/components/component-api). Commands in the `schema` category help transform those definitions into other helpful formats like **TypeScript** types, or deferenced versions of the schema.
 
 #### `schema types`
 
 ![Screenshot of the kickstartDS CLI schema types subcommand](assets/screenshot-cli-schema-types.png)
 
-Generate **TypeScript** types for your components, matching your [component API](../foundations/components/component-api.md) / **JSON Schema** exactly. These types can then be used when implementing your **React** template, providing a stable base to rely upon. Generated type definitions are put alongside the **JSON Schema** files, into the components directory.
+Generate **TypeScript** types for your components, matching your [component API](https://www.kickstartDS.com/docs/foundations/components/component-api) / **JSON Schema** exactly. These types can then be used when implementing your **React** template, providing a stable base to rely upon. Generated type definitions are put alongside the **JSON Schema** files, into the components directory.
 
 You can set the path components are placed inside your Design System using `--components-path`, if you're not using the directory structure presumed in our guides, examples and starter. You'll always have to provide a domain that is used in your **JSON Schema** definitions by specifying `--schema-domain` (e.g. `--schema-domain schema.mydomain.com`).
 
-See our component example guide ["Adapt `Button` component"](../guides/examples/components/button.mdx), especially the end of section ["**JSON Schema** definition"](../guides/examples/components/button.mdx#json-schema-definition) and the subsequent section on the ["**React** template"](../guides/examples/components/button.mdx#react-template) for an example of this at work.
+See our component example guide ["Adapt `Button` component"](https://www.kickstartDS.com/docs/guides/examples/components/button), especially the end of section ["**JSON Schema** definition"](https://www.kickstartDS.com/docs/guides/examples/components/button#json-schema-definition) and the subsequent section on the ["**React** template"](https://www.kickstartDS.com/docs/guides/examples/components/button#react-template) for an example of this at work.
 
 **Available options**:
 
@@ -351,19 +356,19 @@ See our component example guide ["Adapt `Button` component"](../guides/examples/
 | `--components-path <path>` | `src/components`      | relative path from project root to your components directory |
 | `--schema-domain <domain>` | `schema.mydomain.com` | domain used in your JSON Schema $id fields                   |
 
-Default values are in alignment with the [main guide](../guides/create/index.mdx), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
+Default values are in alignment with the [main guide](https://www.kickstartDS.com/docs/guides/create/), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
 
 #### `schema dereference`
 
 ![Screenshot of the kickstartDS CLI schema dereference subcommand](assets/screenshot-cli-schema-dereference.png)
 
-**JSON Schema** definitions for [component API](../foundations/components/component-api.md)s can (and often do) include references to other component definitions. This is done by the way of using a `$ref` in one of the properties, or by using advanced workflows involving `allOf`, `anyOf`, `oneOf` and so forth.
+**JSON Schema** definitions for [component API](https://www.kickstartDS.com/docs/foundations/components/component-api)s can (and often do) include references to other component definitions. This is done by the way of using a `$ref` in one of the properties, or by using advanced workflows involving `allOf`, `anyOf`, `oneOf` and so forth.
 
 Because we generate **Storybook Controls** and documentation for all of the properties of a component (including the referenced ones), we use this command to "dereference" all of those keywords. This results in a dereferenced version of the **JSON Schema** with all references resolved and inlined. This can then be used then without involving complex, or computationally expensive, conversions on the client.
 
 You can set the path components are placed inside your Design System using `--components-path`, if you're not using the directory structure presumed in our guides, examples and starter. You'll always have to provide a domain that is used in your **JSON Schema** definitions by specifying `--schema-domain` (e.g. `--schema-domain schema.mydomain.com`).
 
-Follow the links to learn more about the integrations we provide [for **Storybook** in general](../integration/storybook/index.md), [or **Storybook Controls** specifically](../integration/storybook/controls.mdx). See [the following example on Github](https://github.com/kickstartDS/ds-starter/blob/main/src/components/button/Button.stories.jsx#L6) to see such a dereferenced schema at work.
+Follow the links to learn more about the integrations we provide [for **Storybook** in general](https://www.kickstartDS.com/docs/integration/storybook/), [or **Storybook Controls** specifically](https://www.kickstartDS.com/docs/integration/storybook/controls). See [the following example on Github](https://github.com/kickstartDS/ds-starter/blob/main/src/components/button/Button.stories.jsx#L6) to see such a dereferenced schema at work.
 
 **Available options**:
 
@@ -372,7 +377,7 @@ Follow the links to learn more about the integrations we provide [for **Storyboo
 | `--components-path <path>` | `src/components`      | relative path from project root to your components directory |
 | `--schema-domain <domain>` | `schema.mydomain.com` | domain used in your JSON Schema $id fields                   |
 
-Default values are in alignment with the [main guide](../guides/create/index.mdx), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
+Default values are in alignment with the [main guide](https://www.kickstartDS.com/docs/guides/create/), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
 
 ---
 
@@ -442,3 +447,16 @@ Building a **CLI** with this range of features wouldn't have been possible witho
 | **Nunjucks Templating** | [https://mozilla.github.io/nunjucks/templating.html](https://mozilla.github.io/nunjucks/templating.html) | This is the heart of **Nunjucks**, used for consistent and efficient templating of all kinds of templates.                                            |
 
 This can also serve as a great source of inspiration when trying to identify easy to implement extension opportunities for features, commands or options you feel currently missing!
+
+## License
+
+&copy; Copyright 2022 Jonas Ulrich, kickstartDS by ruhmesmeile GmbH [jonas.ulrich@kickstartds.com].
+
+This project is licensed under either of
+
+- [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) ([`LICENSE-APACHE`](LICENSE-APACHE))
+- [MIT license](https://opensource.org/licenses/MIT) ([`LICENSE-MIT`](LICENSE-MIT))
+
+at your option.
+
+The [SPDX](https://spdx.dev) license identifier for this project is `MIT OR Apache-2.0`.
