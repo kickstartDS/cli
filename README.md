@@ -1,5 +1,10 @@
 <p align="center">
-  <img src="https://www.kickstartDS.com/logo.svg" />
+  <a href="https://www.kickstartDS.com/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://www.kickstartds.com/docs/img/logo-light.svg">
+      <img src="https://www.kickstartDS.com/logo.svg" alt="kickstartDS" width="400" />
+    </picture>
+  </a>
 </p>
 
 # kickstartDS CLI
@@ -16,15 +21,35 @@ The **kickstartDS CLI** helps ease everyday tasks when working with Design Syste
 
 Skip ahead to:
 
-- [Installation](#installation)
-- [Getting started](#getting-started)
-- [Features](#features)
-- [Available commands](#available-commands)
-- [Usage in CI / CD](#usage-in-ci-cd)
-- [Tips, Tricks and Gotchas](#tips-tricks-and-gotchas)
-- [Getting support](#getting-support)
-- [Contributing](#contributing)
-- [References](#references)
+- [kickstartDS CLI](#kickstartds-cli)
+  - [About](#about)
+    - [Overview](#overview)
+  - [Installation](#installation)
+    - [Install globally with **npm** or **Yarn**](#install-globally-with-npm-or-yarn)
+    - [Install as a part of a **kickstartDS** Design System](#install-as-a-part-of-a-kickstartds-design-system)
+  - [Getting started](#getting-started)
+    - [General options](#general-options)
+    - [Setting up shell completions](#setting-up-shell-completions)
+  - [Features](#features)
+    - [Interactive prompts and `.rc` files](#interactive-prompts-and-rc-files)
+    - [Temporary folders](#temporary-folders)
+    - [Revertability](#revertability)
+  - [Available commands](#available-commands)
+    - [**Design Token** commands](#design-token-commands)
+      - [`tokens init`](#tokens-init)
+      - [`tokens compile`](#tokens-compile)
+      - [`tokens tofigma`](#tokens-tofigma)
+    - [**JSON Schema** commands](#json-schema-commands)
+      - [`schema types`](#schema-types)
+      - [`schema dereference`](#schema-dereference)
+  - [Usage in CI/CD](#usage-in-cicd)
+  - [Tips, Tricks and Gotchas](#tips-tricks-and-gotchas)
+    - [Recover from errors / problems](#recover-from-errors--problems)
+    - [Debug long running commands](#debug-long-running-commands)
+  - [Getting support](#getting-support)
+  - [Contributing](#contributing)
+  - [References](#references)
+  - [License](#license)
 
 ### Overview
 
@@ -61,7 +86,7 @@ npx tokens init
 
 Learn more about `npx` as an option to run commands globally, without installation, in the [npm Docs](https://docs.npmjs.com/cli/v9/commands/npx).
 
-### Install globally with npm or Yarn
+### Install globally with **npm** or **Yarn**
 
 [kickstartDS CLI is available as a npm package](https://www.npmjs.com/package/kickstartds). If you have **Node.js** available, you can install it by running:
 
@@ -251,7 +276,7 @@ As hinted at before, commands are generally split into categories by some shared
 
 Both categories and their subcommands will be described in a bit more detail below.
 
-### Design Token commands
+### **Design Token** commands
 
 Commands in this category are used to deal with every type of token present in your Design System. Namely [**Branding Token**](https://www.kickstartDS.com/docs/foundations/token/branding-token) for initial token set generation, [**Design Token**](https://www.kickstartDS.com/docs/foundations/token/design-token/) managed in **Style Dictionary**, and [**Component Token**](https://www.kickstartDS.com/docs/foundations/token/component-token) used by your components.
 
@@ -310,7 +335,7 @@ You can configure the location of your **Design Token** set by using `--token-di
 
 Default values are in alignment with the [main guide](https://www.kickstartDS.com/docs/guides/create/), its [corresponding repository](https://github.com/kickstartDS/ds-guide), and [the starter project](https://github.com/kickstartDS/ds-starter). Which means in those cases, or if just following our best practices, you'll be able to use the subcommand without specifying any special options.
 
-### JSON Schema commands
+### **JSON Schema** commands
 
 Every component based on **kickstartDS** includes a **JSON Schema** definition for its [component API](https://www.kickstartDS.com/docs/foundations/components/component-api). Commands in the `schema` category help transform those definitions into other helpful formats like **TypeScript** types, or deferenced versions of the schema.
 
