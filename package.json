@@ -1,10 +1,11 @@
 {
   "name": "kickstartds",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "kickstartDS CLI utility",
   "keywords": [],
-  "author": "Jonas Ulrich | ruhmesmeile GmbH",
-  "license": "UNLICENSED",
+  "license": "(MIT OR Apache-2.0)",
+  "author": "Jonas Ulrich <jonas.ulrich@kickstartds.com> (https://www.kickstartDS.com/)",
+  "homepage": "https://www.kickstartDS.com",
   "bin": {
     "kickstartDS": "bin/index.js",
     "ksDS": "bin/index.js"

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://schema.uniform.dev/storytelling.schema.json",
+  "$id": "http://schema.mydomain.com/storytelling.schema.json",
   "title": "Storytelling",
   "description": "Component to present rich combinations of text and media, best used sequentially",
   "type": "object",

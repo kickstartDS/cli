@@ -1,3 +1,46 @@
+# v1.0.4 (Sun Dec 11 2022)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, Franz ([@fleven-kds](https://github.com/fleven-kds)), for all your work!
+
+#### 🐛 Bug Fix
+
+- Fix README.md and add LICENSE [#26](https://github.com/kickstartDS/kickstartDS-cli/pull/26) ([@julrich](https://github.com/julrich) [@fleven-kds](https://github.com/fleven-kds))
+
+#### Authors: 2
+
+- Franz ([@fleven-kds](https://github.com/fleven-kds))
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v1.0.3 (Sun Dec 04 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:kickstartDS/kickstartDS-cli ([@julrich](https://github.com/julrich))
+- docs(readme): fix image paths ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
+# v1.0.2 (Sun Dec 04 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix(completions): update the currently available completions ([@julrich](https://github.com/julrich))
+- docs(readme): update README.md content ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v1.0.1 (Sun Nov 20 2022)
 
 #### 🐛 Bug Fix
