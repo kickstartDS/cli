@@ -17,6 +17,7 @@ import { promisify } from 'util';
 import { traverse as objectTraverse } from 'object-traversal';
 import { createRequire } from 'module';
 import * as Figma from 'figma-api';
+import colors from '../../assets/tokens/dictionary/color.json' assert { type: "json" };
 
 import { KickstartDSFigmaTokenStructure } from '../../assets/tokens/figma/figma-file.js';
 import promiseHelper from './promise.js';
@@ -25,6 +26,19 @@ import { StyleDictionaryObject, TokensUtil } from '../../types/index.js';
 const require = createRequire(import.meta.url);
 const tokens = require('@kickstartds/style-dictionary');
 const { config, writeTokens } = tokens;
+
+const backgroundColorSchema = require('@kickstartds/style-dictionary/templates/background-color/background-color.schema.json');
+const borderColorSchema = require('@kickstartds/style-dictionary/templates/border-color/border-color.schema.json');
+const borderSchema = require('@kickstartds/style-dictionary/templates/border/border.schema.json');
+const boxShadowSchema = require('@kickstartds/style-dictionary/templates/box-shadow/box-shadow.schema.json');
+const breakpointsSchema = require('@kickstartds/style-dictionary/templates/breakpoints/breakpoints.schema.json');
+const colorSchema = require('@kickstartds/style-dictionary/templates/color/color.schema.json');
+const depthSchema = require('@kickstartds/style-dictionary/templates/depth/depth.schema.json');
+const spacingSchema = require('@kickstartds/style-dictionary/templates/spacing/spacing.schema.json');
+const textColorSchema = require('@kickstartds/style-dictionary/templates/text-color/text-color.schema.json');
+const transitionSchema = require('@kickstartds/style-dictionary/templates/transition/transition.schema.json');
+const typoSchema = require('@kickstartds/style-dictionary/templates/typo/typo.schema.json');
+const deprecatedSchema = require('@kickstartds/style-dictionary/templates/deprecated/deprecated.schema.json');
 
 const fsReadFilePromise = promisify(readFile);
 const fsWriteFilePromise = promisify(writeFile);
@@ -363,6 +377,56 @@ export default (logger: winston.Logger): TokensUtil => {
 
     // TODO fix, readd this one:
     const parsedTokens: KickstartDSFigmaTokenStructure = {};
+
+    const categorySchemas = {
+      'background-color': backgroundColorSchema,
+      'border-color': borderColorSchema,
+      'border': borderSchema,
+      'box-shadow': boxShadowSchema,
+      'breakpoints': breakpointsSchema,
+      'color': colorSchema,
+      'depth': depthSchema,
+      'spacing': spacingSchema,
+      'text-color': textColorSchema,
+      'transition': transitionSchema,
+      'typo': typoSchema,
+      'deprecated': deprecatedSchema,
+    }
+
+    const ajvColors = new Ajv.default({
+      removeAdditional: true,
+      validateSchema: true,
+      schemaId: '$id',
+      allErrors: true,
+      strictTuples: false
+    });
+    const validateColors = ajvColors.compile(categorySchemas['color']);
+    const validColors = validateColors(colors);
+
+    const dereffedColors = await $RefParser.dereference(categorySchemas['color']);
+    const mergedColors = mergeAllOf(dereffedColors);
+    inlineDefinitions([categorySchemas['color']]);
+    delete mergedColors.definitions;
+
+    const colorTypes = await compile(mergedColors as JSONSchema4, 'ColorTokenSchema');
+    await fsWriteFilePromise(`${figmaTokenSchemaPath}/dictionary/colorToken.d.ts`, colorTypes);
+
+    await fsWriteFilePromise(
+      `${figmaTokenSchemaPath}/dictionary/color-token.schema.dereffed.json`,
+      JSON.stringify(mergedColors, null, 2)
+    );
+
+    if (validColors) {
+      objectTraverse(
+        colors.ks.color.primary,
+      ({ key, value, meta }) => {
+        console.log(key,value, meta.nodePath);
+      }
+    );
+    } else {
+      console.log(`Couldn't validate colors from dictionary`, validateColors.errors);
+    }
+
     // const parsedTokens: any = {};
     // traverse(merged, {
     //   cb: (

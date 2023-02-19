@@ -1,0 +1,2599 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://schema.kickstartds.com/tokens/color.schema.json",
+  "type": "object",
+  "required": [
+    "ks"
+  ],
+  "properties": {
+    "ks": {
+      "type": "object",
+      "required": [
+        "color"
+      ],
+      "properties": {
+        "color": {
+          "type": "object",
+          "required": [
+            "primary",
+            "primary-inverted",
+            "fg",
+            "fg-inverted",
+            "link",
+            "link-inverted",
+            "transparent"
+          ],
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "base",
+              "alpha",
+              "to-bg"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "base": {
+                "type": "object",
+                "properties": {
+                  "base": {
+                    "type": "object",
+                    "required": [
+                      "value",
+                      "attributes"
+                    ],
+                    "properties": {
+                      "value": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "number"
+                            }
+                          }
+                        ]
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "required": [
+                          "category"
+                        ],
+                        "properties": {
+                          "category": {
+                            "type": "string",
+                            "const": "color"
+                          }
+                        }
+                      },
+                      "token": {
+                        "type": "object",
+                        "required": [
+                          "category",
+                          "presenter"
+                        ],
+                        "properties": {
+                          "category": {
+                            "type": "string"
+                          },
+                          "presenter": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "alpha": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                  "^[1-9]$": {
+                    "type": "object",
+                    "properties": {
+                      "base": {
+                        "type": "object",
+                        "required": [
+                          "value",
+                          "attributes"
+                        ],
+                        "properties": {
+                          "value": {
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "number"
+                                }
+                              }
+                            ]
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "required": [
+                              "category"
+                            ],
+                            "properties": {
+                              "category": {
+                                "type": "string",
+                                "const": "color"
+                              }
+                            }
+                          },
+                          "token": {
+                            "type": "object",
+                            "required": [
+                              "category",
+                              "presenter"
+                            ],
+                            "properties": {
+                              "category": {
+                                "type": "string"
+                              },
+                              "presenter": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "to-bg": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                  "^[1-9]$": {
+                    "type": "object",
+                    "properties": {
+                      "base": {
+                        "type": "object",
+                        "required": [
+                          "value",
+                          "attributes"
+                        ],
+                        "properties": {
+                          "value": {
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "number"
+                                }
+                              }
+                            ]
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "required": [
+                              "category"
+                            ],
+                            "properties": {
+                              "category": {
+                                "type": "string",
+                                "const": "color"
+                              }
+                            }
+                          },
+                          "token": {
+                            "type": "object",
+                            "required": [
+                              "category",
+                              "presenter"
+                            ],
+                            "properties": {
+                              "category": {
+                                "type": "string"
+                              },
+                              "presenter": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "primary": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "primary-inverted": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "fg": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "fg-inverted": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "required": [
+                    "value",
+                    "attributes"
+                  ],
+                  "properties": {
+                    "value": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "number"
+                          }
+                        }
+                      ]
+                    },
+                    "attributes": {
+                      "type": "object",
+                      "required": [
+                        "category"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string",
+                          "const": "color"
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "category",
+                        "presenter"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string"
+                        },
+                        "presenter": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "link-inverted": {
+              "type": "object",
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "required": [
+                    "value",
+                    "attributes"
+                  ],
+                  "properties": {
+                    "value": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "number"
+                          }
+                        }
+                      ]
+                    },
+                    "attributes": {
+                      "type": "object",
+                      "required": [
+                        "category"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string",
+                          "const": "color"
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "category",
+                        "presenter"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string"
+                        },
+                        "presenter": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "transparent": {
+              "type": "object",
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "required": [
+                    "value",
+                    "attributes"
+                  ],
+                  "properties": {
+                    "value": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "number"
+                          }
+                        }
+                      ]
+                    },
+                    "attributes": {
+                      "type": "object",
+                      "required": [
+                        "category"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string",
+                          "const": "color"
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "object",
+                      "required": [
+                        "category",
+                        "presenter"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string"
+                        },
+                        "presenter": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "positive": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "positive-inverted": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "informative": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "informative-inverted": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "notice": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "notice-inverted": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "negative": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "negative-inverted": {
+              "type": "object",
+              "required": [
+                "base",
+                "alpha",
+                "to-bg"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "base": {
+                  "type": "object",
+                  "properties": {
+                    "base": {
+                      "type": "object",
+                      "required": [
+                        "value",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            }
+                          ]
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "required": [
+                            "category"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "const": "color"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "object",
+                          "required": [
+                            "category",
+                            "presenter"
+                          ],
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "presenter": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "alpha": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "to-bg": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[1-9]$": {
+                      "type": "object",
+                      "properties": {
+                        "base": {
+                          "type": "object",
+                          "required": [
+                            "value",
+                            "attributes"
+                          ],
+                          "properties": {
+                            "value": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "number"
+                                  }
+                                }
+                              ]
+                            },
+                            "attributes": {
+                              "type": "object",
+                              "required": [
+                                "category"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "const": "color"
+                                }
+                              }
+                            },
+                            "token": {
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "presenter"
+                              ],
+                              "properties": {
+                                "category": {
+                                  "type": "string"
+                                },
+                                "presenter": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

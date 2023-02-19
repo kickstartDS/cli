@@ -54,11 +54,6 @@
     "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
-    "@kickstartds/base": "1.6.0-canary.1092.5084.0",
-    "@kickstartds/content": "1.6.0-canary.1092.5084.0",
-    "@kickstartds/core": "1.6.0-canary.1092.5084.0",
-    "@kickstartds/style-dictionary": "1.6.0-canary.1092.5084.0",
-    "@kickstartds/jsonschema-utils": "2.2.0-canary.37.454.0",
     "ajv": "^8.11.0",
     "byline": "^5.0.0",
     "chalk": "^5.0.1",
@@ -107,7 +102,10 @@
     "@auto-it/released": "^10.36.5",
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
-    "@kickstartds/eslint-config": "^1.0.2",
+    "@kickstartds/core": "^2.0.3",
+    "@kickstartds/eslint-config": "^1.1.2",
+    "@kickstartds/jsonschema-utils": "^2.4.5",
+    "@kickstartds/style-dictionary": "^2.0.0",
     "@types/byline": "^4.2.33",
     "@types/dockerode": "^3.3.9",
     "@types/figlet": "^1.5.4",
@@ -131,6 +129,8 @@
     "prettier": "^2.6.2"
   },
   "peerDependencies": {
-    "@kickstartds/core": "*"
+    "@kickstartds/core": "^2.0.3",
+    "@kickstartds/jsonschema-utils": "^2.4.5",
+    "@kickstartds/style-dictionary": "^2.0.0"
   }
 }
