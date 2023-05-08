@@ -75,7 +75,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     componentsPath: string,
     schemaDomain: string,
   ) => {
-    const kdsUrlRegExp = new RegExp(`^http:\/\/schema\.kickstartds\.com\/([a-z-_]+)\/([a-z-_/]+)\.(?:schema|definitions)\.json$`, 'i');
+    const kdsUrlRegExp = new RegExp(`^http:\/\/schema\.kickstartds\.com\/([a-z-_]+)\/([a-z-_]+)\.(?:schema|definitions)\.json$`, 'i');
 
     const kdsResolver = {
       canRead: new RegExp(`^http:\/\/schema\.kickstartds\.com`, 'i'),
