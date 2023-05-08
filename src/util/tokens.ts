@@ -8,7 +8,6 @@ import mergeAllOf from 'json-schema-merge-allof';
 import $RefParser from '@apidevtools/json-schema-ref-parser';
 import jsonPointer from 'json-pointer';
 import chalkTemplate from 'chalk-template';
-import { capitalCase } from 'change-case';
 import { readFile, writeFile } from 'fs';
 import { JSONSchema4, JSONSchema7 } from 'json-schema';
 import { inlineDefinitions } from '@kickstartds/jsonschema-utils/dist/helpers.js';
@@ -20,7 +19,8 @@ import * as Figma from 'figma-api';
 
 import { KickstartDSFigmaTokenStructure } from '../../assets/tokens/figma/figma-file.js';
 import promiseHelper from './promise.js';
-import { StyleDictionaryObject, TokensUtil } from '../../types/index.js';
+import { TokensUtil } from '../../types/index.js';
+import { packagePath } from './package-path.js';
 
 const require = createRequire(import.meta.url);
 const tokens = require('@kickstartds/style-dictionary');
@@ -32,7 +32,7 @@ const fsWriteFilePromise = promisify(writeFile);
 export default (logger: winston.Logger): TokensUtil => {
   const subCmdLogger = logger.child({ utility: true });
   const {
-    helper: { forEach }
+    helper: { forEach },
   } = promiseHelper(logger);
 
   const ksDSTokenTemplate = {
@@ -47,87 +47,87 @@ export default (logger: winston.Logger): TokensUtil => {
           value: '4px',
           token: {
             category: 'Border Radius',
-            presenter: 'BorderRadius'
-          }
+            presenter: 'BorderRadius',
+          },
         },
         card: {
           value: '6px',
           token: {
             category: 'Border Radius',
-            presenter: 'BorderRadius'
-          }
+            presenter: 'BorderRadius',
+          },
         },
         surface: {
           value: '8px',
           token: {
             category: 'Border Radius',
-            presenter: 'BorderRadius'
-          }
+            presenter: 'BorderRadius',
+          },
         },
         pill: {
           value: '999px',
           token: {
             category: 'Border Radius',
-            presenter: 'BorderRadius'
-          }
+            presenter: 'BorderRadius',
+          },
         },
         circle: {
           value: '50%',
           token: {
             category: 'Border Radius',
-            presenter: 'BorderRadius'
-          }
-        }
-      }
+            presenter: 'BorderRadius',
+          },
+        },
+      },
     },
     'box-shadow': {},
     transition: {
       'timing-function': {
         bounce: {
-          value: 'cubic-bezier(0.17,1,0.5,1.5)'
+          value: 'cubic-bezier(0.17,1,0.5,1.5)',
         },
         'ease-out': {
-          value: 'ease-out'
+          value: 'ease-out',
         },
         'ease-in': {
-          value: 'ease-in'
+          value: 'ease-in',
         },
         'ease-in-out': {
-          value: 'ease-in-out'
+          value: 'ease-in-out',
         },
         linear: {
-          value: 'linear'
-        }
+          value: 'linear',
+        },
       },
       transition: {
         collapse: {
-          value: 'duration {ks.timing-function.ease-out}'
+          value: 'duration {ks.timing-function.ease-out}',
         },
         hover: {
-          value: 'duration {ks.timing-function.ease-in-out}'
+          value: 'duration {ks.timing-function.ease-in-out}',
         },
         fade: {
-          value: 'duration {ks.timing-function.ease-out}'
-        }
-      }
+          value: 'duration {ks.timing-function.ease-out}',
+        },
+      },
     },
     breakpoint: {
       phone: {
         value: '36em',
-        private: true
+        private: true,
       },
       tablet: {
         value: '48em',
-        private: true
+        private: true,
       },
       laptop: {
         value: '62em',
-        private: true
+        private: true,
       },
       desktop: {
         value: '75em',
-        private: true
-      }
+        private: true,
+      },
     },
     deprecated: {
       color: {
@@ -136,40 +136,40 @@ export default (logger: winston.Logger): TokensUtil => {
             r: 255,
             g: 255,
             b: 255,
-            a: 1
+            a: 1,
           },
           attributes: {
             category: 'color',
-            deprecated: true
-          }
+            deprecated: true,
+          },
         },
         error: {
           value: {
             r: 230,
             g: 2,
             b: 1,
-            a: 1
+            a: 1,
           },
           attributes: {
             category: 'color',
-            deprecated: true
-          }
-        }
+            deprecated: true,
+          },
+        },
       },
       g: {
         'header-height': {
           value: '0px',
           attributes: {
-            deprecated: true
-          }
+            deprecated: true,
+          },
         },
         'scroll-offset': {
           value: '{g.header-height.value}',
           attributes: {
-            deprecated: true
-          }
-        }
-      }
+            deprecated: true,
+          },
+        },
+      },
     },
     typo: {
       'font-family': {},
@@ -178,66 +178,66 @@ export default (logger: winston.Logger): TokensUtil => {
           value: 300,
           token: {
             category: 'Font Weights',
-            presenter: 'FontWeight'
-          }
+            presenter: 'FontWeight',
+          },
         },
         regular: {
           value: 400,
           token: {
             category: 'Font Weights',
-            presenter: 'FontWeight'
-          }
+            presenter: 'FontWeight',
+          },
         },
         'semi-bold': {
           value: 600,
           token: {
             category: 'Font Weights',
-            presenter: 'FontWeight'
-          }
+            presenter: 'FontWeight',
+          },
         },
         bold: {
           value: 700,
           token: {
             category: 'Font Weights',
-            presenter: 'FontWeight'
-          }
-        }
+            presenter: 'FontWeight',
+          },
+        },
       },
       'font-size': {
         display: {
           'bp-factor': {
             phone: {
-              value: 1.167
+              value: 1.167,
             },
             tablet: {
-              value: 1.333
-            }
-          }
+              value: 1.333,
+            },
+          },
         },
         copy: {
           'bp-factor': {
             tablet: {
-              value: 1.125
-            }
-          }
+              value: 1.125,
+            },
+          },
         },
         ui: {
           'bp-factor': {
             tablet: {
-              value: 1.125
-            }
-          }
+              value: 1.125,
+            },
+          },
         },
         mono: {
           'bp-factor': {
             tablet: {
-              value: 1.125
-            }
-          }
-        }
+              value: 1.125,
+            },
+          },
+        },
       },
-      'line-height': {}
-    }
+      'line-height': {},
+    },
   };
 
   const generateTokens = async (
@@ -315,7 +315,7 @@ export default (logger: winston.Logger): TokensUtil => {
       validateSchema: true,
       schemaId: '$id',
       allErrors: true,
-      strictTuples: false
+      strictTuples: false,
     });
 
     const figmaTokensSchema = JSON.parse(
@@ -410,7 +410,7 @@ export default (logger: winston.Logger): TokensUtil => {
                         value
                       );
                     }
-                  }
+                  },
                 });
               });
             }
@@ -424,7 +424,7 @@ export default (logger: winston.Logger): TokensUtil => {
             jsonPointer.set(parsedTokens, objectPointer, value);
           }
         }
-      }
+      },
     });
 
     await fsWriteFilePromise(
@@ -441,19 +441,19 @@ export default (logger: winston.Logger): TokensUtil => {
       source: [
         `${sourceDir}/*.json`,
         path.join(
-          path.dirname(require.resolve('@kickstartds/core/package.json')),
+          packagePath('@kickstartds/core', callingPath),
           'source/design-tokens/icons/*.svg'
         ),
-        path.join(callingPath, 'static/icons/*.svg')
+        path.join(callingPath, 'static/icons/*.svg'),
       ],
       platforms: {
         jsx: {
-          buildPath: '.storybook/'
+          buildPath: '.storybook/',
         },
         storybook: {
-          buildPath: '.storybook/'
-        }
-      }
+          buildPath: '.storybook/',
+        },
+      },
     });
 
   const getStyleDictionary = async (
@@ -478,7 +478,7 @@ export default (logger: winston.Logger): TokensUtil => {
       compileTokens,
       syncToFigma,
       getDefaultStyleDictionary,
-      getStyleDictionary
-    }
+      getStyleDictionary,
+    },
   };
 };
