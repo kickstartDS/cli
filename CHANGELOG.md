@@ -1,3 +1,19 @@
+# v2.0.0 (Thu Jun 29 2023)
+
+#### 💥 Breaking Change
+
+- Move internal dependencies to peerDependencies [#27](https://github.com/kickstartDS/kickstartDS-cli/pull/27) ([@lmestel](https://github.com/lmestel))
+
+#### 🐛 Bug Fix
+
+
+#### Authors: 2
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
 # v1.0.4 (Sun Dec 11 2022)
 
 :tada: This release contains work from a new contributor! :tada:
