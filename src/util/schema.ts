@@ -3,7 +3,6 @@ import chalkTemplate from 'chalk-template';
 import refParser, { FileInfo } from 'json-schema-ref-parser';
 import merge from 'json-schema-merge-allof';
 import traverse from 'json-schema-traverse';
-import { dirname, basename } from 'path';
 import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
 import { JSONSchema4, JSONSchema7 } from 'json-schema';
@@ -169,7 +168,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     schemas: Record<string, JSONSchema7>
   ) => {
     subCmdLogger.info(
-      chalkTemplate`generating component prop types for {bold ${schemas.length}} component schemas`
+      chalkTemplate`generating component prop types for {bold ${Object.keys(schemas).length}} component schemas`
     );
 
     const convertedTs: Record<string, string> = {};
@@ -184,8 +183,6 @@ export default (logger: winston.Logger): SchemaUtil => {
         )
           return;
         const schema = { ...dereffed } as JSONSchema4;
-        const base = basename(schemaPath, '.json');
-        const dir = dirname(schemaPath);
         schema.title += ' Props';
         removeUnsupportedProps(schema);
         const ts = await compile(schema, schema.title || '', options);
