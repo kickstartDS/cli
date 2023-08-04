@@ -9,7 +9,7 @@ import fsExtra from 'fs-extra';
 import { JSONSchema4, JSONSchema7 } from 'json-schema';
 import { compile } from 'json-schema-to-typescript';
 import { SchemaUtil } from '../../types/index.js';
-import { packagePath } from './package-path.js';
+import { packagePath, require } from './package-path.js';
 
 /* dereferenceSchemas */
 const readJSON = fsExtra.readJSON;
@@ -134,6 +134,23 @@ export default (logger: winston.Logger): SchemaUtil => {
       },
     };
 
+    const nodeResolverRegExp = new RegExp('^npm:(.*)$');
+
+    const nodeResolver = {
+      canRead: new RegExp(`^npm:`, 'i'),
+      async read(file: FileInfo) {
+        const result = nodeResolverRegExp.exec(file.url);
+        if (result && result.length > 1) {
+          const [, nodeModulesPath] = result;
+
+          const resolvedPath = require.resolve(nodeModulesPath, {
+            paths: [callingPath],
+          });
+          return readJSON(resolvedPath);
+        }
+      },
+    };
+
     const parseSchema = (schemaPath: string) =>
       new $RefParser().dereference(schemaPath, {
         resolve: {
@@ -144,6 +161,10 @@ export default (logger: winston.Logger): SchemaUtil => {
           custom: {
             order: 2,
             ...customResolver,
+          },
+          node: {
+            order: 3,
+            ...nodeResolver,
           },
         },
       }) as Promise<JSONSchema7>;
