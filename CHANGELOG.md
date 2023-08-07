@@ -1,3 +1,20 @@
+# v2.1.0 (Mon Aug 07 2023)
+
+#### 🚀 Enhancement
+
+- Add node resolver to schema dereferencing [#31](https://github.com/kickstartDS/kickstartDS-cli/pull/31) ([@julrich](https://github.com/julrich))
+
+#### 🐛 Bug Fix
+
+- Fix count of processed schemas in terminal logs [#32](https://github.com/kickstartDS/kickstartDS-cli/pull/32) ([@lmestel](https://github.com/lmestel))
+
+#### Authors: 2
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+- Lukas Mestel ([@lmestel](https://github.com/lmestel))
+
+---
+
 # v2.0.0 (Thu Jun 29 2023)
 
 #### 💥 Breaking Change
