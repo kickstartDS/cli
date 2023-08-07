@@ -1,3 +1,4 @@
+import { dirname } from 'path';
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
 import refParser, { FileInfo } from 'json-schema-ref-parser';
@@ -220,7 +221,9 @@ export default (logger: winston.Logger): SchemaUtil => {
     schemas: Record<string, JSONSchema7>
   ) => {
     subCmdLogger.info(
-      chalkTemplate`generating component prop types for {bold ${Object.keys(schemas).length}} component schemas`
+      chalkTemplate`generating component prop types for {bold ${
+        Object.keys(schemas).length
+      }} component schemas`
     );
 
     const convertedTs: Record<string, string> = {};
