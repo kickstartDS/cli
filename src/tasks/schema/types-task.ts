@@ -59,7 +59,7 @@ const run = async (
     const schemaPaths = await fg(`${callingPath}/${componentsPath}/**/*.schema.json`);
     const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath, schemaDomain);
 
-    logger.info(chalkTemplate`dereffed {bold ${dereffed.length} component definitions}`);
+    logger.info(chalkTemplate`dereffed {bold ${Object.keys(dereffed).length} component definitions}`);
 
     const types = await schemaGenerateComponentPropTypes(dereffed);
 
