@@ -248,10 +248,19 @@ export default (logger: winston.Logger): SchemaUtil => {
     return convertedTs;
   };
 
+  const layerComponentPropTypes = async (
+    schemas: Record<string, JSONSchema7>
+  ) => {
+    const convertedTs: Record<string, string> = {};
+
+    return convertedTs;
+  };
+
   return {
     helper: {
       dereferenceSchemas,
       generateComponentPropTypes,
+      layerComponentPropTypes,
     },
   };
 };
