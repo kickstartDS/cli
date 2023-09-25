@@ -10,6 +10,19 @@ import { JSONSchema4, JSONSchema7 } from 'json-schema';
 import { compile } from 'json-schema-to-typescript';
 import { SchemaUtil } from '../../types/index.js';
 import { packagePath, require } from './package-path.js';
+import {
+  getCustomSchemaIds,
+  getSchemaModule,
+  getSchemaName,
+  getSchemaRegistry,
+  getUniqueSchemaIds,
+  isLayering,
+  layeredSchemaId,
+  processSchemaGlob,
+  shouldLayer,
+} from '@kickstartds/jsonschema-utils';
+import { createTypes } from '@kickstartds/jsonschema2types';
+import Ajv from 'ajv';
 
 /* dereferenceSchemas */
 const readJSON = fsExtra.readJSON;
@@ -248,10 +261,39 @@ export default (logger: winston.Logger): SchemaUtil => {
     return convertedTs;
   };
 
-  const layerComponentPropTypes = async (
-    schemas: Record<string, JSONSchema7>
-  ) => {
-    const convertedTs: Record<string, string> = {};
+  const layerComponentPropTypes = async (schemaGlob: string) => {
+    const ajv = getSchemaRegistry();
+    const schemaIds = await processSchemaGlob(schemaGlob, ajv, false);
+    const kdsSchemaIds = schemaIds.filter((schemaId) =>
+      schemaId.includes('schema.kickstartds.com')
+    );
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const unlayeredSchemaIds = getUniqueSchemaIds(schemaIds).filter(
+      (schemaId) => !customSchemaIds.includes(schemaId)
+    );
+    const layeredSchemaIds = customSchemaIds.filter((schemaId) =>
+      kdsSchemaIds.some((kdsSchemaId) => shouldLayer(schemaId, kdsSchemaId))
+    );
+
+    const convertedTs = await createTypes(
+      [...unlayeredSchemaIds, ...layeredSchemaIds],
+      ajv
+    );
+    for (const schemaId of Object.keys(convertedTs)) {
+      const layeredId = isLayering(schemaId, kdsSchemaIds)
+        ? layeredSchemaId(schemaId, kdsSchemaIds)
+        : schemaId;
+
+      const content = `declare module "@kickstartds/${getSchemaModule(
+        layeredId
+      )}/lib/${getSchemaName(layeredId)}/typing" {
+${convertedTs[schemaId]}
+}
+      `;
+
+      delete convertedTs[schemaId];
+      convertedTs[layeredId] = content;
+    }
 
     return convertedTs;
   };

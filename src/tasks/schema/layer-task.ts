@@ -1,29 +1,17 @@
 import winston from 'winston';
-import fsExtra, { writeFileSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
+import { dirname } from 'path';
 import shell from 'shelljs';
-import { basename, dirname } from 'path';
 import chalkTemplate from 'chalk-template';
 import { pascalCase } from 'change-case';
-import {
-  getCustomSchemaIds,
-  getSchemaModule,
-  getSchemaName,
-  getSchemaRegistry,
-  getUniqueSchemaIds,
-  isLayering,
-  layeredSchemaId,
-  processSchemaGlob,
-  shouldLayer,
-} from '@kickstartds/jsonschema-utils';
-import { createTypes } from '@kickstartds/jsonschema2types';
+import { getSchemaName } from '@kickstartds/jsonschema-utils';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import { JSONSchema7 } from 'json-schema';
 
-const writeFile = fsExtra.writeFile;
+const writeFileSync = fsExtra.writeFileSync;
 
 const moduleName = 'schema';
-const command = 'types';
+const command = 'layer';
 const requiredCommands: string[] = [];
 
 const {
@@ -39,11 +27,7 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: {
-    generateComponentPropTypes: schemaGenerateComponentPropTypes,
-    dereferenceSchemas: schemaDereferenceSchemas,
-    layerComponentPropTypes: schemaLayerComponentPropTypes,
-  },
+  helper: { layerComponentPropTypes: schemaLayerComponentPropTypes },
 } = taskUtilSchema;
 
 const run = async (
@@ -68,49 +52,25 @@ const run = async (
   const layer = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold layer} subtask`);
 
-    const customGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
+    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
+    const layeredTypes = await schemaLayerComponentPropTypes(customSchemaGlob);
 
-    const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(customGlob, ajv, false);
-    const kdsSchemaIds = schemaIds.filter((schemaId) =>
-      schemaId.includes('schema.kickstartds.com')
-    );
-
-    const customSchemaIds = getCustomSchemaIds(schemaIds);
-    const unlayeredSchemaIds = getUniqueSchemaIds(schemaIds).filter(
-      (schemaId) => !customSchemaIds.includes(schemaId)
-    );
-    const layeredSchemaIds = customSchemaIds.filter((schemaId) =>
-      kdsSchemaIds.some((kdsSchemaId) => shouldLayer(schemaId, kdsSchemaId))
-    );
-
-    const layeredTypes = await createTypes(
-      [...unlayeredSchemaIds, ...layeredSchemaIds],
-      ajv
-    );
-
-    shell.mkdir('-p', typesPath);
+    shell.mkdir('-p', `${shell.pwd()}/${typesPath}/`);
 
     for (const schemaId of Object.keys(layeredTypes)) {
-      const schema = ajv.getSchema(schemaId)?.schema as JSONSchema7;
-
-      if (!schema) throw new Error("Can't find schema for layered type");
-      if (!schema.$id) throw new Error('Found schema without $id property');
-
-      const layeredId = isLayering(schema.$id, kdsSchemaIds)
-        ? layeredSchemaId(schema.$id, kdsSchemaIds)
-        : schema.$id;
-
       writeFileSync(
-        `${typesPath}/${pascalCase(getSchemaName(layeredId))}Props.ts`,
-        `declare module "@kickstartds/${getSchemaModule(
-          layeredId
-        )}/lib/${getSchemaName(layeredId)}/typing" {
-  ${layeredTypes[schemaId]}
-  }
-          `
+        `${shell.pwd()}/${typesPath}/${pascalCase(
+          getSchemaName(schemaId)
+        )}Props.ts`,
+        layeredTypes[schemaId]
       );
     }
+
+    shell.cp(
+      `-r`,
+      `${shell.pwd()}/${typesPath}`,
+      `${callingPath}/${dirname(typesPath)}/`
+    );
 
     logger.info(
       chalkTemplate`finished running the {bold layer} subtask successfully`

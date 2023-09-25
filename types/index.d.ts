@@ -204,7 +204,7 @@ interface SchemaUtil {
       schemas: Record<string, JSONSchema7>
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
-      schemas: Record<string, JSONSchema7>
+      schemaGlob: string
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
       schemaPaths: string[],
