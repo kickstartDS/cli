@@ -2,9 +2,9 @@ import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/schema/layer-task.js';
 
-const types = new Command('types')
+const types = new Command('layer')
   .description(
-    chalkTemplate`Generates {bold TypeScript} type definitions from your {bold JSON Schema} component definitions`
+    chalkTemplate`Layers kickstartDS {bold TypeScript} type definitions using your {bold JSON Schema} component definitions`
   )
   .option(
     '--components-path <path>',
