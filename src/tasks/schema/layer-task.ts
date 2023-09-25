@@ -61,7 +61,7 @@ const run = async (
       writeFileSync(
         `${shell.pwd()}/${typesPath}/${pascalCase(
           getSchemaName(schemaId)
-        )}Props.ts`,
+        )}Props.d.ts`,
         layeredTypes[schemaId]
       );
     }

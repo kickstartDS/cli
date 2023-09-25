@@ -708,10 +708,10 @@
     eslint-plugin-import "^2.25.4"
     find-up "^5.0.0"
 
-"@kickstartds/json-schema-to-typescript@~13.1.16":
-  version "13.1.17"
-  resolved "https://registry.npmjs.org/@kickstartds/json-schema-to-typescript/-/json-schema-to-typescript-13.1.17.tgz#13e6288d71d3d26075bd68424161b2ade53034db"
-  integrity sha512-7g2z9hUER8x6xGyn1QKg/cIrJjxcC9ch7Nzh1MCbWJFdrZ5ju89pUCVYI2Q0S3oXiVD+am0ZPS67qUKCQTlymA==
+"@kickstartds/json-schema-to-typescript@~13.1.20":
+  version "13.1.20"
+  resolved "https://registry.npmjs.org/@kickstartds/json-schema-to-typescript/-/json-schema-to-typescript-13.1.20.tgz#35342eeb3a0654e9fc4f6660902572782a0923cf"
+  integrity sha512-do4QWO27yULWjRTv0+tKKZlLVoQp98J35YURKUWhNTUq81REGqOYT8v0OD16tGGrVh8CQ0FILmsLQVRvQSIrbg==
   dependencies:
     "@bcherny/json-schema-ref-parser" "10.0.5-fork"
     "@types/json-schema" "^7.0.11"
@@ -741,12 +741,12 @@
     ramda "^0.28.0"
     uppercamelcase "^3.0.0"
 
-"@kickstartds/jsonschema2types@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.1.4.tgz#2cefa83d41960d99ac04c62634c49194b4fe8556"
-  integrity sha512-tskEsrIWllNH/deQfXFY11G+2Ikiw3f9nxLNXQNLYxaylEVgia/zfZC34WXCEQ6CCrqUxbExUTz32FAMbCF9hw==
+"@kickstartds/jsonschema2types@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.1.5.tgz#85e8c3171a4c594f95623cb8513a734ab57b0aeb"
+  integrity sha512-GnYX5OItbbUeNhKzHUeAbrN7Vq26lXDQljUsQKGxIOTEn8Yi8JuQ+DwmxLZ4hfA6P9vcqDDfr0QMNmAFSW1+KQ==
   dependencies:
-    "@kickstartds/json-schema-to-typescript" "~13.1.16"
+    "@kickstartds/json-schema-to-typescript" "~13.1.20"
     "@kickstartds/jsonschema-utils" "2.4.12"
     ajv "^8.12.0"
     object-traversal "^1.0.1"

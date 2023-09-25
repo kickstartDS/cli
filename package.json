@@ -56,7 +56,7 @@
     "@influxdata/influxdb-client-apis": "^1.25.0",
     "@kickstartds/style-dictionary": "^2.0.0",
     "@kickstartds/jsonschema-utils": "^2.4.12",
-    "@kickstartds/jsonschema2types": "^1.1.4",
+    "@kickstartds/jsonschema2types": "^1.1.5",
     "ajv": "^8.11.0",
     "byline": "^5.0.0",
     "chalk": "^5.0.1",

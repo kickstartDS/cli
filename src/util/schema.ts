@@ -23,6 +23,7 @@ import {
 } from '@kickstartds/jsonschema-utils';
 import { createTypes } from '@kickstartds/jsonschema2types';
 import Ajv from 'ajv';
+import { pascalCase } from 'change-case';
 
 /* dereferenceSchemas */
 const readJSON = fsExtra.readJSON;
@@ -261,6 +262,16 @@ export default (logger: winston.Logger): SchemaUtil => {
     return convertedTs;
   };
 
+  const renderImportName = (schemaId: string) =>
+    `${pascalCase(getSchemaName(schemaId))}Props`;
+
+  const renderImportStatement = (schemaId: string) =>
+    `import type { ${pascalCase(
+      getSchemaName(schemaId)
+    )}Props } from '@kickstartds/${getSchemaModule(
+      schemaId
+    )}/lib/${getSchemaName(schemaId)}/typing'`;
+
   const layerComponentPropTypes = async (schemaGlob: string) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv, false);
@@ -277,6 +288,8 @@ export default (logger: winston.Logger): SchemaUtil => {
 
     const convertedTs = await createTypes(
       [...unlayeredSchemaIds, ...layeredSchemaIds],
+      renderImportName,
+      renderImportStatement,
       ajv
     );
     for (const schemaId of Object.keys(convertedTs)) {
