@@ -290,7 +290,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       return `import type { ${
         schemaId.includes('text-media')
           ? schemaId.includes('media-lazyimage.interface.json')
-            ? 'TextMediaLazyImageProps'
+            ? 'TextMediaLazyImage'
             : `Text${importedName}`
           : importedName
       }Props } from '@kickstartds/${getSchemaModule(
