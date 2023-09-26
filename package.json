@@ -129,6 +129,6 @@
     "prettier": "^2.6.2"
   },
   "peerDependencies": {
-    "@kickstartds/core": "^2.0.0"
+    "@kickstartds/core": "^2.2.0"
   }
 }

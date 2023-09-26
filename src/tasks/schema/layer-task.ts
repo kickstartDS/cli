@@ -8,7 +8,7 @@ import { getSchemaName } from '@kickstartds/jsonschema-utils';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
 
-const writeFileSync = fsExtra.writeFileSync;
+const writeFile = fsExtra.writeFile;
 
 const moduleName = 'schema';
 const command = 'layer';
@@ -57,14 +57,16 @@ const run = async (
 
     shell.mkdir('-p', `${shell.pwd()}/${typesPath}/`);
 
-    for (const schemaId of Object.keys(layeredTypes)) {
-      writeFileSync(
-        `${shell.pwd()}/${typesPath}/${pascalCase(
-          getSchemaName(schemaId)
-        )}Props.d.ts`,
-        layeredTypes[schemaId]
-      );
-    }
+    await Promise.all(
+      Object.keys(layeredTypes).map(async (schemaId) => {
+        return writeFile(
+          `${shell.pwd()}/${typesPath}/${pascalCase(
+            getSchemaName(schemaId)
+          )}Props.d.ts`,
+          layeredTypes[schemaId]
+        );
+      })
+    );
 
     shell.cp(
       `-r`,

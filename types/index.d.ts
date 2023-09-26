@@ -201,7 +201,7 @@ interface ShellUtil {
 interface SchemaUtil {
   helper: {
     generateComponentPropTypes: (
-      schemas: Record<string, JSONSchema7>
+      schemaGlob: string
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
       schemaGlob: string

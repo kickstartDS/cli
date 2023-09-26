@@ -15,6 +15,7 @@ import {
   getSchemaModule,
   getSchemaName,
   getSchemaRegistry,
+  getSchemasForIds,
   getUniqueSchemaIds,
   isLayering,
   layeredSchemaId,
@@ -101,6 +102,16 @@ function resolve(possibleFileNames: string[], options: { paths: string[] }) {
 
   throw error;
 }
+
+const renderImportName = (schemaId: string) =>
+  `${pascalCase(getSchemaName(schemaId))}Props`;
+
+const renderImportStatement = (schemaId: string) =>
+  `import type { ${pascalCase(
+    getSchemaName(schemaId)
+  )}Props } from '@kickstartds/${getSchemaModule(schemaId)}/lib/${getSchemaName(
+    schemaId
+  )}/typing'`;
 
 function escapeRegex(string: string) {
   return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -231,48 +242,30 @@ export default (logger: winston.Logger): SchemaUtil => {
     return mergedSchemas;
   };
 
-  const generateComponentPropTypes = async (
-    schemas: Record<string, JSONSchema7>
-  ) => {
+  const generateComponentPropTypes = async (schemaGlob: string) => {
     subCmdLogger.info(
-      chalkTemplate`generating component prop types for {bold ${
-        Object.keys(schemas).length
-      }} component schemas`
+      chalkTemplate`generating component prop types for component schemas`
     );
 
-    const convertedTs: Record<string, string> = {};
-    await Promise.all(
-      Object.keys(schemas).map(async (schemaPath) => {
-        const dereffed = schemas[schemaPath];
-        if (
-          !(
-            dereffed.title &&
-            (dereffed.properties || dereffed.allOf || dereffed.$ref)
-          )
-        )
-          return;
-        const schema = { ...dereffed } as JSONSchema4;
-        schema.title += ' Props';
-        removeUnsupportedProps(schema);
-        const ts = await compile(schema, schema.title || '', options);
-        convertedTs[schemaPath] = ts;
-      })
+    const ajv = getSchemaRegistry();
+    const schemaIds = await processSchemaGlob(schemaGlob, ajv, false);
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+
+    const convertedTs = await createTypes(
+      customSchemaIds,
+      renderImportName,
+      renderImportStatement,
+      ajv
     );
 
     return convertedTs;
   };
 
-  const renderImportName = (schemaId: string) =>
-    `${pascalCase(getSchemaName(schemaId))}Props`;
-
-  const renderImportStatement = (schemaId: string) =>
-    `import type { ${pascalCase(
-      getSchemaName(schemaId)
-    )}Props } from '@kickstartds/${getSchemaModule(
-      schemaId
-    )}/lib/${getSchemaName(schemaId)}/typing'`;
-
   const layerComponentPropTypes = async (schemaGlob: string) => {
+    subCmdLogger.info(
+      chalkTemplate`layering component prop types for component schemas`
+    );
+
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv, false);
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
