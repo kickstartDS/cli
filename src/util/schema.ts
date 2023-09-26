@@ -294,7 +294,7 @@ export default (logger: winston.Logger): SchemaUtil => {
             : `Text${importedName}`
           : importedName
       }Props${
-        schemaId.includes('text-media') ? ` as ${importedName}` : ''
+        schemaId.includes('text-media') ? ` as ${importedName}Props` : ''
       } } from '@kickstartds/${getSchemaModule(layeredId)}/lib/${getSchemaName(
         layeredId
       )}/typing'`;
