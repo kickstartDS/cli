@@ -284,10 +284,14 @@ export default (logger: winston.Logger): SchemaUtil => {
       const layeredId = isLayering(schemaId, kdsSchemaIds)
         ? layeredSchemaId(schemaId, kdsSchemaIds)
         : schemaId;
-
-      return `import type { ${pascalCase(
-        getSchemaName(layeredId)
-      )}Props } from '@kickstartds/${getSchemaModule(
+      // TODO remove, this is a hack needed because of "broken" conventions
+      // in this case of automatic interface schema generation
+      const importedName = pascalCase(getSchemaName(layeredId));
+      return `import type { ${
+        importedName.startsWith('Media') && importedName.endsWith('Props')
+          ? `Text${importedName}`
+          : importedName
+      }Props } from '@kickstartds/${getSchemaModule(
         layeredId
       )}/lib/${getSchemaName(layeredId)}/typing'`;
     };
