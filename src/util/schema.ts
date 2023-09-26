@@ -280,12 +280,17 @@ export default (logger: winston.Logger): SchemaUtil => {
       kdsSchemaIds.some((kdsSchemaId) => shouldLayer(schemaId, kdsSchemaId))
     );
 
-    const renderImportStatement = (schemaId: string) =>
-      `import type { ${pascalCase(
-        getSchemaName(schemaId)
+    const renderImportStatement = (schemaId: string) => {
+      const layeredId = isLayering(schemaId, kdsSchemaIds)
+        ? layeredSchemaId(schemaId, kdsSchemaIds)
+        : schemaId;
+
+      return `import type { ${pascalCase(
+        getSchemaName(layeredId)
       )}Props } from '@kickstartds/${getSchemaModule(
-        schemaId
-      )}/lib/${getSchemaName(schemaId)}/typing'`;
+        layeredId
+      )}/lib/${getSchemaName(layeredId)}/typing'`;
+    };
 
     const convertedTs = await createTypes(
       [...unlayeredSchemaIds, ...layeredSchemaIds],
