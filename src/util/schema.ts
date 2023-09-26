@@ -288,7 +288,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       // in this case of automatic interface schema generation
       const importedName = pascalCase(getSchemaName(layeredId));
       return `import type { ${
-        importedName.startsWith('Media') && importedName.endsWith('Props')
+        schemaId.includes('text-media.schema.json')
           ? `Text${importedName}`
           : importedName
       }Props } from '@kickstartds/${getSchemaModule(
