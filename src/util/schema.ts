@@ -293,9 +293,11 @@ export default (logger: winston.Logger): SchemaUtil => {
             ? 'TextMediaLazyImage'
             : `Text${importedName}`
           : importedName
-      }Props } from '@kickstartds/${getSchemaModule(
+      }Props${
+        schemaId.includes('text-media') ? ` as ${importedName}` : ''
+      } } from '@kickstartds/${getSchemaModule(layeredId)}/lib/${getSchemaName(
         layeredId
-      )}/lib/${getSchemaName(layeredId)}/typing'`;
+      )}/typing'`;
     };
 
     const convertedTs = await createTypes(
