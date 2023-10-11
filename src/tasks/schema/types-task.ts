@@ -16,31 +16,25 @@ const requiredCommands: string[] = [];
 const {
   init: taskInit,
   start: taskStart,
-  util: taskUtil
+  util: taskUtil,
 } = createTask(moduleName, command);
 
 const { shell: taskUtilShell, schema: taskUtilSchema, getLogger } = taskUtil;
 
 const {
-  helper: {
-    requireCommands: shellRequireCommands,
-  }
+  helper: { requireCommands: shellRequireCommands },
 } = taskUtilShell;
 
 const {
-  helper: {
-    generateComponentPropTypes: schemaGenerateComponentPropTypes,
-    dereferenceSchemas: schemaDereferenceSchemas,
-  }
+  helper: { generateComponentPropTypes: schemaGenerateComponentPropTypes },
 } = taskUtilSchema;
 
 const run = async (
   componentsPath: string = 'src/components',
-  schemaDomain: string,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
-  debugActive: boolean,
+  debugActive: boolean
 ): Promise<void> => {
   const callingPath: string = process.cwd();
 
@@ -56,26 +50,29 @@ const run = async (
   const types = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold types} subtask`);
 
-    const schemaPaths = await fg(`${callingPath}/${componentsPath}/**/*.schema.json`);
-    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath, schemaDomain);
+    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
+    const customSchemaPaths = await fg(customSchemaGlob);
 
-    logger.info(chalkTemplate`dereffed {bold ${Object.keys(dereffed).length} component definitions}`);
+    const types = await schemaGenerateComponentPropTypes(customSchemaGlob);
 
-    const types = await schemaGenerateComponentPropTypes(dereffed);
+    await Promise.all(
+      Object.keys(types).map(async (schemaId) => {
+        const schemaPath = customSchemaPaths.find((schemaPath) =>
+          schemaPath.endsWith(schemaId.split('/').pop() || 'NO MATCH')
+        );
+        if (!schemaPath)
+          throw new Error("Couldn't find matching schema path for schema $id");
+        const base = basename(schemaPath, '.json');
+        const dir = dirname(schemaPath);
 
-    await Promise.all(Object.keys(types).map(async (schemaPath) => {
-      const schema = dereffed[schemaPath];
-      const base = basename(schemaPath, ".json");
-      const dir = dirname(schemaPath);
-      schema.title += " Props";
-
-      return writeFile(
-        `${dir}/${pascalCase(
-          base.replace(/\.(schema|definitions)$/, "")
-        )}Props.ts`,
-        types[schemaPath]
-      );
-    }));
+        return writeFile(
+          `${dir}/${pascalCase(
+            base.replace(/\.(schema|definitions)$/, '')
+          )}Props.ts`,
+          types[schemaId]
+        );
+      })
+    );
 
     logger.info(
       chalkTemplate`finished running the {bold types} subtask successfully`
@@ -103,13 +100,13 @@ const run = async (
     revert: StepFunction[];
   } = {
     run: [types],
-    revert: [typesRevert]
+    revert: [typesRevert],
   };
 
   const typesVariable = 'types-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
-    command
+    command,
   });
   if (isRevert)
     cmdLogger.info(

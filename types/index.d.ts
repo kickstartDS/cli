@@ -1,4 +1,4 @@
-import { JSONSchema7 } from "json-schema";
+import { JSONSchema7 } from 'json-schema';
 
 // TODO add correct namespace
 interface ErrorLogEntry {
@@ -54,16 +54,14 @@ interface DockerUtil {
       command: string[],
       binds: string[],
       envFile: boolean,
-      autoRemove: boolean,
+      autoRemove: boolean
     ) => Promise<void>;
   };
 }
 
 interface ExampleUtil {
   helper: {
-    demo: (
-      outout: string,
-    ) => void;
+    demo: (outout: string) => void;
   };
 }
 
@@ -202,9 +200,19 @@ interface ShellUtil {
 
 interface SchemaUtil {
   helper: {
-    generateComponentPropTypes: (schemas: Record<string, JSONSchema7>) => Promise<Record<string, string>>;
-    dereferenceSchemas: (schemaPaths: string[], callingPath: string, componentsPath: string, schemaDomain: string) => Promise<Record<string, JSONSchema7>>;
-  }
+    generateComponentPropTypes: (
+      schemaGlob: string
+    ) => Promise<Record<string, string>>;
+    layerComponentPropTypes: (
+      schemaGlob: string
+    ) => Promise<Record<string, string>>;
+    dereferenceSchemas: (
+      schemaPaths: string[],
+      callingPath: string,
+      componentsPath: string,
+      schemaDomain: string
+    ) => Promise<Record<string, JSONSchema7>>;
+  };
 }
 
 interface TemplateUtil {

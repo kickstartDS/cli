@@ -1,15 +1,20 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
-import runTask from '../../tasks/schema/types-task.js';
+import runTask from '../../tasks/schema/layer-task.js';
 
-const types = new Command('types')
+const types = new Command('layer')
   .description(
-    chalkTemplate`Generates {bold TypeScript} type definitions from your {bold JSON Schema} component definitions`
+    chalkTemplate`Layers kickstartDS {bold TypeScript} type definitions using your {bold JSON Schema} component definitions`
   )
   .option(
     '--components-path <path>',
     chalkTemplate`relative path from project root to your components directory, default {bold ./src/components}`,
     'src/components'
+  )
+  .option(
+    '--types-path <path>',
+    chalkTemplate`relative path from project root to your types directory, default {bold ./src/types}`,
+    'src/types'
   )
   .option(
     '--rc-only',
@@ -26,6 +31,7 @@ const types = new Command('types')
   .action((options) => {
     runTask(
       options.componentsPath,
+      options.typesPath,
       options.rcOnly,
       options.revert,
       options.cleanup,
