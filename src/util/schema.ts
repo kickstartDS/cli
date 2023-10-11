@@ -6,8 +6,7 @@ import merge from 'json-schema-merge-allof';
 import traverse from 'json-schema-traverse';
 import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
-import { JSONSchema4, JSONSchema7 } from 'json-schema';
-import { compile } from 'json-schema-to-typescript';
+import { JSONSchema7 } from 'json-schema';
 import { SchemaUtil } from '../../types/index.js';
 import { packagePath, require } from './package-path.js';
 import {
@@ -15,7 +14,6 @@ import {
   getSchemaModule,
   getSchemaName,
   getSchemaRegistry,
-  getSchemasForIds,
   getUniqueSchemaIds,
   isLayering,
   layeredSchemaId,
@@ -23,7 +21,6 @@ import {
   shouldLayer,
 } from '@kickstartds/jsonschema-utils';
 import { createTypes } from '@kickstartds/jsonschema2types';
-import Ajv from 'ajv';
 import { pascalCase } from 'change-case';
 
 /* dereferenceSchemas */
