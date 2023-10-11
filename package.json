@@ -54,9 +54,9 @@
     "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
-    "@kickstartds/style-dictionary": "^2.0.0",
-    "@kickstartds/jsonschema-utils": "^2.4.12",
-    "@kickstartds/jsonschema2types": "^1.1.5",
+    "@kickstartds/style-dictionary": "^3.0.0-next.0",
+    "@kickstartds/jsonschema-utils": "^2.5.1",
+    "@kickstartds/jsonschema2types": "^1.1.14",
     "ajv": "^8.11.0",
     "byline": "^5.0.0",
     "chalk": "^5.0.1",
@@ -129,6 +129,6 @@
     "prettier": "^2.6.2"
   },
   "peerDependencies": {
-    "@kickstartds/core": "^2.2.0"
+    "@kickstartds/core": "^3.0.0-next.1"
   }
 }
