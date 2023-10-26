@@ -17,6 +17,11 @@ const types = new Command('layer')
     'src/types'
   )
   .option(
+    '--merge-schemas',
+    chalkTemplate`merge allOf declarations in processed {bold JSON Schemas} / {bold component APIs}`,
+    false
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -32,6 +37,7 @@ const types = new Command('layer')
     runTask(
       options.componentsPath,
       options.typesPath,
+      options.mergeSchemas,
       options.rcOnly,
       options.revert,
       options.cleanup,

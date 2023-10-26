@@ -227,13 +227,19 @@ export default (logger: winston.Logger): SchemaUtil => {
     return mergedSchemas;
   };
 
-  const generateComponentPropTypes = async (schemaGlob: string) => {
+  const generateComponentPropTypes = async (
+    schemaGlob: string,
+    mergeAllOf: boolean
+  ) => {
     subCmdLogger.info(
       chalkTemplate`generating component prop types for component schemas`
     );
 
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv, false);
+    const schemaIds = await processSchemaGlob(schemaGlob, ajv, {
+      typeResolution: false,
+      mergeAllOf: mergeAllOf,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const renderImportStatement = (schemaId: string) =>
@@ -259,13 +265,19 @@ export default (logger: winston.Logger): SchemaUtil => {
     return convertedTs;
   };
 
-  const layerComponentPropTypes = async (schemaGlob: string) => {
+  const layerComponentPropTypes = async (
+    schemaGlob: string,
+    mergeAllOf: boolean
+  ) => {
     subCmdLogger.info(
       chalkTemplate`layering component prop types for component schemas`
     );
 
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv, false);
+    const schemaIds = await processSchemaGlob(schemaGlob, ajv, {
+      typeResolution: false,
+      mergeAllOf: mergeAllOf,
+    });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')
     );

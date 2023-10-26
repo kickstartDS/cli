@@ -54,9 +54,9 @@
     "@babel/preset-react": "^7.17.12",
     "@influxdata/influxdb-client": "^1.25.0",
     "@influxdata/influxdb-client-apis": "^1.25.0",
-    "@kickstartds/style-dictionary": "^3.0.0-next.0",
-    "@kickstartds/jsonschema-utils": "^2.5.1",
-    "@kickstartds/jsonschema2types": "^1.1.14",
+    "@kickstartds/style-dictionary": "^3.0.0-next.1",
+    "@kickstartds/jsonschema-utils": "^2.7.0",
+    "@kickstartds/jsonschema2types": "^1.1.17",
     "ajv": "^8.11.0",
     "byline": "^5.0.0",
     "chalk": "^5.0.1",
@@ -91,7 +91,7 @@
     "strip-ansi": "^7.0.1",
     "style-dictionary": "^3.7.0",
     "ts-deepmerge": "^2.0.1",
-    "typescript": "^4.8.0-dev.20220512",
+    "typescript": "^5.0.4",
     "uppercamelcase": "^3.0.0",
     "uuid": "^8.3.2",
     "winston": "^3.7.2",
@@ -129,6 +129,6 @@
     "prettier": "^2.6.2"
   },
   "peerDependencies": {
-    "@kickstartds/core": "^3.0.0-next.1"
+    "@kickstartds/core": "^3.0.0-next.4"
   }
 }

@@ -12,6 +12,11 @@ const types = new Command('types')
     'src/components'
   )
   .option(
+    '--merge-schemas',
+    chalkTemplate`merge allOf declarations in processed {bold JSON Schemas} / {bold component APIs}`,
+    false
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -26,6 +31,7 @@ const types = new Command('types')
   .action((options) => {
     runTask(
       options.componentsPath,
+      options.mergeSchemas,
       options.rcOnly,
       options.revert,
       options.cleanup,
