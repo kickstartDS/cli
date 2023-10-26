@@ -201,10 +201,12 @@ interface ShellUtil {
 interface SchemaUtil {
   helper: {
     generateComponentPropTypes: (
-      schemaGlob: string
+      schemaGlob: string,
+      mergeAllOf: boolean
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
-      schemaGlob: string
+      schemaGlob: string,
+      mergeAllOf: boolean
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
       schemaPaths: string[],

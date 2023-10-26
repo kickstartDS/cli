@@ -31,6 +31,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  mergeSchemas: boolean,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -53,7 +54,10 @@ const run = async (
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
     const customSchemaPaths = await fg(customSchemaGlob);
 
-    const types = await schemaGenerateComponentPropTypes(customSchemaGlob);
+    const types = await schemaGenerateComponentPropTypes(
+      customSchemaGlob,
+      mergeSchemas
+    );
 
     await Promise.all(
       Object.keys(types).map(async (schemaId) => {
