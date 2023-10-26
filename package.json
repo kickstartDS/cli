@@ -30,8 +30,7 @@
     "husky-pre-commit": "lint-staged",
     "husky-install": "husky install",
     "lint": "run-p eslint",
-    "patch-package": "patch-package",
-    "prepare": "run-p husky-install patch-package git-config copy-env-file",
+    "prepare": "run-p husky-install git-config copy-env-file",
     "staged": "git diff --name-only --cached | grep 'kickstartds' | cut -d / -f 3 | awk '!seen[$0]++'",
     "start": "tsc && node dist/index.js"
   },
@@ -81,8 +80,6 @@
     "nunjucks": "^3.2.3",
     "object-traversal": "^1.0.1",
     "omelette": "^0.4.17",
-    "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0",
     "pretty-ms": "^7.0.1",
     "progress": "^2.0.3",
     "rxjs": "^7.5.5",
