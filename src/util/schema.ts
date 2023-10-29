@@ -187,7 +187,7 @@ ${convertedTs[schemaId]}
       ajv,
     });
 
-    subCmdLogger.info(chalkTemplate`creating Storyblok elements}`);
+    subCmdLogger.info(chalkTemplate`creating {bold Storyblok} elements`);
     return elements;
   };
 
@@ -201,7 +201,7 @@ ${convertedTs[schemaId]}
       ajv,
     });
 
-    subCmdLogger.info(chalkTemplate`creating Uniform elements}`);
+    subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
     return elements;
   };
 
