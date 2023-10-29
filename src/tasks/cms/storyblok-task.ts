@@ -50,7 +50,7 @@ const run = async (
   const storyblok = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold storyblok} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
+    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
     const storyblokElements = await schemaToStoryblok(customSchemaGlob);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
