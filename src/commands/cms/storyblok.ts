@@ -1,10 +1,10 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
-import runTask from '../../tasks/schema/layer-task.js';
+import runTask from '../../tasks/cms/storyblok-task.js';
 
-const types = new Command('layer')
+const types = new Command('storyblok')
   .description(
-    chalkTemplate`Layers kickstartDS {bold TypeScript} type definitions using your {bold JSON Schema} component definitions`
+    chalkTemplate`Generates {bold Storyblok} configuration from your {bold JSON Schema} component definitions`
   )
   .option(
     '--components-path <path>',
@@ -12,14 +12,9 @@ const types = new Command('layer')
     'src/components'
   )
   .option(
-    '--types-path <path>',
-    chalkTemplate`relative path from project root to your types directory, default {bold ./src/types}`,
-    'src/types'
-  )
-  .option(
-    '--merge-schemas',
-    chalkTemplate`merge allOf declarations in processed {bold JSON Schemas} / {bold component APIs}, default {bold false}`,
-    false
+    '--configuration-path <path>',
+    chalkTemplate`relative path from project root to the folder where your generated configuration should be stored, default {bold ./src/cms}`,
+    'src/cms'
   )
   .option(
     '--rc-only',
@@ -36,8 +31,7 @@ const types = new Command('layer')
   .action((options) => {
     runTask(
       options.componentsPath,
-      options.typesPath,
-      options.mergeSchemas,
+      options.configurationPath,
       options.rcOnly,
       options.revert,
       options.cleanup,

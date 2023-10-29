@@ -798,10 +798,10 @@
     mkdirp "^1.0.4"
     prettier "^2.6.2"
 
-"@kickstartds/jsonschema-utils@2.7.0", "@kickstartds/jsonschema-utils@^2.7.0":
-  version "2.7.0"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-2.7.0.tgz#5789e87cf4a8168e7c727ac22eabe215273a151a"
-  integrity sha512-/YwBogI5JutyX2ZA5xP252Aeg3brEBOLp6tCJNZ7YSeoACrYZfm8FJOVZA12s1Zqc+9RBGB/OEn0v7E0myhT1w==
+"@kickstartds/jsonschema-utils@2.8.0", "@kickstartds/jsonschema-utils@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-2.8.0.tgz#6012579ddb9b612922747531ffcfb1a7fbfd6a7e"
+  integrity sha512-qarjmTEr1zcKYXz7v7ccptZrxpx5IA0BAEqdIEPJHHPjuFHIfL39dCfaiiwKrSdVOiKWguItNjQCZJNuL37bVg==
   dependencies:
     "@bcherny/json-schema-ref-parser" "10.0.5-fork"
     ajv "^8.12.0"
@@ -814,15 +814,38 @@
     ramda "^0.28.0"
     typescript-graph "^0.3.0"
 
-"@kickstartds/jsonschema2types@^1.1.17":
-  version "1.1.17"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.1.17.tgz#959147d7aa6721f403ab731fad877605d85335bb"
-  integrity sha512-XvcIMwn0ulGfS4o9o/vgVuLKS3o5RBa2WFximvBZGdLkmo2EtCJaodXhuc0/XQDFcAuwv9KPBKjTm9a9FQHjhw==
+"@kickstartds/jsonschema2storyblok@^1.0.20":
+  version "1.0.20"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.0.20.tgz#11978fc8db2207029e0b19ef016258c7c95a08bf"
+  integrity sha512-xcok/nTWnp4uko1Soh6NYwfDJaelU7hMTl3WM9c1qUlIVYAu25/fvJSTll7HYPGMRPeD0lzP42qZyUDfiulrHg==
+  dependencies:
+    "@kickstartds/jsonschema-utils" "2.8.0"
+    ajv "^8.12.0"
+    lodash "^4.17.21"
+    object-traversal "^1.0.1"
+    uuid "~9.0.0"
+
+"@kickstartds/jsonschema2types@^1.1.19":
+  version "1.1.19"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.1.19.tgz#0e8e50983bdc9ff5c8accf3e044717b1ab9912ec"
+  integrity sha512-PYTunWbv9vN6zMNVMjreYlHOa6vpvopud+RPGTDipQ/77QuBTkcrzH+2YeeM7X+z+MsHchvUnZQevW1dcV70Uw==
   dependencies:
     "@kickstartds/json-schema-to-typescript" "~13.1.20"
-    "@kickstartds/jsonschema-utils" "2.7.0"
+    "@kickstartds/jsonschema-utils" "2.8.0"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
+
+"@kickstartds/jsonschema2uniform@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2uniform/-/jsonschema2uniform-1.0.4.tgz#c5c8205a404475c211bf38c0516fffe35c8c9ba5"
+  integrity sha512-yHt+0XuN9P11OEqBarm8oAxXlNBl20ailNgSqDdtKaroo+LTediwE4Z5jUADJeS7IKEAb15+qnnk16/emDtuLg==
+  dependencies:
+    "@kickstartds/jsonschema-utils" "2.8.0"
+    ajv "^8.12.0"
+    change-case "^5.0.2"
+    lodash "^4.17.21"
+    object-traversal "^1.0.1"
+    uuid "~9.0.0"
 
 "@kickstartds/style-dictionary@^3.0.0-next.1":
   version "3.0.0-next.1"
@@ -3937,10 +3960,10 @@ json-schema-traverse@^1.0.0:
   resolved "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz#ae7bcb3656ab77a73ba5c49bf654f38e6b6860e2"
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
-json-schema@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/json-schema/-/json-schema-0.4.0.tgz#f7de4cf6efab838ebaeb3236474cbba5a1930ab5"
-  integrity sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==
+json-schema-typed@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/json-schema-typed/-/json-schema-typed-8.0.1.tgz#826ee39e3b6cef536f85412ff048d3ff6f19dfa0"
+  integrity sha512-XQmWYj2Sm4kn4WeTYvmpKEbyPsL7nBsb647c7pMe6l02/yx2+Jfc4dT6UZkEXnIUb5LhD55r2HPsJ1milQ4rDg==
 
 json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
@@ -6014,6 +6037,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@~9.0.0:
+  version "9.0.1"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 v8-compile-cache-lib@^3.0.1:
   version "3.0.1"

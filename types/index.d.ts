@@ -1,4 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { type JSONSchema } from 'json-schema-typed/draft-07';
+import { StoryblokElement } from '@kickstartds/jsonschema2storyblok';
+import { UniformElement } from '@kickstartds/jsonschema2uniform';
 
 // TODO add correct namespace
 interface ErrorLogEntry {
@@ -209,11 +211,10 @@ interface SchemaUtil {
       mergeAllOf: boolean
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
-      schemaPaths: string[],
-      callingPath: string,
-      componentsPath: string,
-      schemaDomain: string
-    ) => Promise<Record<string, JSONSchema7>>;
+      schemaGlob: string
+    ) => Promise<Record<string, JSONSchema.Interface>>;
+    toStoryblok: (schemaGlob: string) => Promise<StoryblokElement[]>;
+    toUniform: (schemaGlob: string) => Promise<UniformElement[]>;
   };
 }
 

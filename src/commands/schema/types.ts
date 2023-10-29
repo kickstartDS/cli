@@ -13,7 +13,7 @@ const types = new Command('types')
   )
   .option(
     '--merge-schemas',
-    chalkTemplate`merge allOf declarations in processed {bold JSON Schemas} / {bold component APIs}`,
+    chalkTemplate`merge allOf declarations in processed {bold JSON Schemas} / {bold component APIs}, default {bold false}`,
     false
   )
   .option(
