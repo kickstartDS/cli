@@ -5,8 +5,13 @@ import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
+import {
+  IStoryblokBlock,
+  StoryblokElement,
+} from '@kickstartds/jsonschema2storyblok';
 
 const writeFile = fsExtra.writeFile;
+const readJSON = fsExtra.readJSON;
 
 const moduleName = 'cms';
 const command = 'storyblok';
@@ -31,6 +36,7 @@ const {
 const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
+  updateConfig: boolean = true,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -56,10 +62,24 @@ const run = async (
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
     const configStringStoryblok = JSON.stringify(
-      { storyblokElements },
+      { components: storyblokElements },
       null,
       2
     );
+
+    if (updateConfig) {
+      const currentConfig: { components: IStoryblokBlock[] } = await readJSON(
+        `${callingPath}/${configurationPath}/components.123456.json`
+      );
+
+      for (const element of storyblokElements) {
+        const component = currentConfig.components.find(
+          (component) => component.name === (element as IStoryblokBlock).name
+        );
+        console.log('updateConfig', component?.name);
+      }
+    }
+
     await writeFile(
       `${shell.pwd()}/${configurationPath}/components.123456.json`,
       configStringStoryblok

@@ -17,6 +17,11 @@ const types = new Command('storyblok')
     'src/cms'
   )
   .option(
+    '--update-config',
+    chalkTemplate`whether to update existing config if it exists, or overwrite it, default {bold true}`,
+    true
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -32,6 +37,7 @@ const types = new Command('storyblok')
     runTask(
       options.componentsPath,
       options.configurationPath,
+      options.updateConfig,
       options.rcOnly,
       options.revert,
       options.cleanup,
