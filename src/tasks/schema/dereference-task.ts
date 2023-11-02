@@ -71,7 +71,10 @@ const run = async (
         const base = basename(schemaPath, '.json');
         const dir = dirname(schemaPath);
 
-        return writeFile(`${dir}/${base}.dereffed.json`, dereffed[schemaId]);
+        return writeFile(
+          `${dir}/${base}.dereffed.json`,
+          JSON.stringify(dereffed[schemaId], null, 2)
+        );
       })
     );
 
