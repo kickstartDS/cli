@@ -55,7 +55,7 @@
     "@influxdata/influxdb-client-apis": "^1.25.0",
     "@kickstartds/style-dictionary": "^3.0.0-next.1",
     "@kickstartds/jsonschema-utils": "^2.8.0",
-    "@kickstartds/jsonschema2storyblok": "^1.0.24",
+    "@kickstartds/jsonschema2storyblok": "^1.0.25",
     "@kickstartds/jsonschema2types": "^1.1.19",
     "@kickstartds/jsonschema2uniform": "^1.0.4",
     "ajv": "^8.11.0",

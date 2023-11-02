@@ -814,10 +814,10 @@
     ramda "^0.28.0"
     typescript-graph "^0.3.0"
 
-"@kickstartds/jsonschema2storyblok@^1.0.24":
-  version "1.0.24"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.0.24.tgz#573b5f904f7d1905c2082f03d265a4c8e171f1a7"
-  integrity sha512-SbqzDdwkbO8ycsI+itcNw3dL3brGs6mUUjoM7FrAM8ja7MpZv6hvIT/e8QW7rTlHkEtZR44QBhgjIUXd7TyhOQ==
+"@kickstartds/jsonschema2storyblok@^1.0.25":
+  version "1.0.25"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.0.25.tgz#c8b3db0662b853ae32f2ef588b139247cc85a193"
+  integrity sha512-2jqieS/hws1LG74a6MiwnJ8nE4cSk+hNEacK5ENfqtPjWOK1lnDBLdIHXmNLG0vD93XSHbNCcQ3z9xX32dFOlQ==
   dependencies:
     "@kickstartds/jsonschema-utils" "2.8.0"
     ajv "^8.12.0"
