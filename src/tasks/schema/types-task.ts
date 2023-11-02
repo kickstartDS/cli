@@ -62,7 +62,7 @@ const run = async (
     await Promise.all(
       Object.keys(types).map(async (schemaId) => {
         const schemaPath = customSchemaPaths.find((schemaPath) =>
-          schemaPath.endsWith(schemaId.split('/').pop() || 'NO MATCH')
+          schemaPath.endsWith(`/${schemaId.split('/').pop()}` || 'NO MATCH')
         );
         if (!schemaPath)
           throw new Error("Couldn't find matching schema path for schema $id");
