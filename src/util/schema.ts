@@ -27,6 +27,13 @@ import { pascalCase } from 'change-case';
 const readJSON = fsExtra.readJSON;
 const $RefParser = refParser.default;
 
+const deepValue = (obj: any, path: string) => {
+  for (const key of path.split('/')) {
+    obj = obj[key];
+  }
+  return obj;
+};
+
 // TODO this one, too, is a poor mans version of @kickstartds/jsonschema-utils mergeAnyOfEnums
 // which is also used inside the kickstartDS-schema-toolkit for the same purpose
 // Should vanish with the rest of the duplicated JSON Schema stuff here
@@ -36,8 +43,12 @@ const mergeAnyOfEnums = (schema: JSONSchema7) => {
   traverse(schema, {
     cb: (subSchema, pointer, rootSchema) => {
       const propertyName = pointer.split('/').pop();
+      const targetPath = pointer.replace(/^\/allOf\/\d+\//, '');
+      const targetSchemaIsTypeString = (obj: any) =>
+        deepValue(obj, targetPath)?.type === 'string';
 
       if (
+        propertyName &&
         subSchema.anyOf &&
         subSchema.anyOf.length === 2 &&
         subSchema.anyOf.every(
@@ -45,10 +56,7 @@ const mergeAnyOfEnums = (schema: JSONSchema7) => {
         ) &&
         rootSchema.allOf &&
         rootSchema.allOf.length === 2 &&
-        rootSchema.allOf.some(
-          (allOf: any) =>
-            allOf.properties[propertyName || '']?.type === 'string'
-        )
+        rootSchema.allOf.some(targetSchemaIsTypeString)
       ) {
         subSchema.type = subSchema.anyOf[0].type;
         subSchema.default = subSchema.anyOf[0].default;
@@ -63,12 +71,13 @@ const mergeAnyOfEnums = (schema: JSONSchema7) => {
           []
         );
 
-        delete rootSchema.allOf[
-          rootSchema.allOf.findIndex(
-            (allOf: any) =>
-              allOf.properties[propertyName || '']?.type === 'string'
-          )
-        ].properties[propertyName || ''];
+        const targetParentToDelete = deepValue(
+          rootSchema.allOf[
+            rootSchema.allOf.findIndex(targetSchemaIsTypeString)
+          ],
+          targetPath.replace(new RegExp(`/${propertyName}$`), '')
+        );
+        delete targetParentToDelete[propertyName];
         delete subSchema.anyOf;
       }
     },
