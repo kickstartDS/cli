@@ -198,7 +198,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const elements = await convertToUniform({
+    const { components: elements } = await convertToUniform({
       schemaIds: customSchemaIds,
       ajv,
     });
@@ -226,7 +226,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const elements = await convertToNetlifycms({
+    const { components: elements } = await convertToNetlifycms({
       schemaIds: customSchemaIds,
       ajv,
     });
