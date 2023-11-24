@@ -5,13 +5,13 @@ import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
+import { ObjectModel } from '@stackbit/types';
 
 const writeFile = fsExtra.writeFile;
 const readJSON = fsExtra.readJSON;
 
 const moduleName = 'cms';
-const command = 'storyblok';
+const command = 'stackbit';
 const requiredCommands: string[] = [];
 
 const {
@@ -27,7 +27,7 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { toStoryblok: schemaToStoryblok },
+  helper: { toStackbit: schemaToStackbit },
 } = taskUtilSchema;
 
 const run = async (
@@ -50,36 +50,36 @@ const run = async (
     return true;
   };
 
-  const storyblok = async (logger: winston.Logger): Promise<boolean> => {
-    logger.info(chalkTemplate`running the {bold storyblok} subtask`);
+  const stackbit = async (logger: winston.Logger): Promise<boolean> => {
+    logger.info(chalkTemplate`running the {bold stackbit} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const storyblokElements = await schemaToStoryblok(customSchemaGlob);
+    const stackbitComponents = await schemaToStackbit(customSchemaGlob);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
-    const configStringStoryblok = JSON.stringify(
-      { components: storyblokElements },
+    const configStringStackbit = JSON.stringify(
+      { components: stackbitComponents },
       null,
       2
     );
 
     if (updateConfig) {
-      const currentConfig: { components: IStoryblokBlock[] } = await readJSON(
+      const currentConfig: { components: ObjectModel[] } = await readJSON(
         `${callingPath}/${configurationPath}/components.123456.json`
       );
 
-      for (const element of storyblokElements) {
+      for (const element of stackbitComponents) {
         const component = currentConfig.components.find(
-          (component) => component.name === (element as IStoryblokBlock).name
+          (component) => component.name === (element as ObjectModel).name
         );
         console.log('updateConfig', component?.name);
       }
     }
 
     await writeFile(
-      `${shell.pwd()}/${configurationPath}/components.123456.json`,
-      configStringStoryblok
+      `${shell.pwd()}/${configurationPath}/models.json`,
+      configStringStackbit
     );
 
     shell.cp(
@@ -89,20 +89,20 @@ const run = async (
     );
 
     logger.info(
-      chalkTemplate`finished running the {bold storyblok} subtask successfully`
+      chalkTemplate`finished running the {bold stackbit} subtask successfully`
     );
     return true;
   };
 
-  const storyblokRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const stackbitRevert = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold storyblok} subtask`
+      chalkTemplate`{bold reverting} running the {bold stackbit} subtask`
     );
 
     // TODO implement revert subtask
 
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold storyblok} subtask finished successfully`
+      chalkTemplate`{bold reverting} running the {bold stackbit} subtask finished successfully`
     );
     return true;
   };
@@ -113,22 +113,22 @@ const run = async (
     run: StepFunction[];
     revert: StepFunction[];
   } = {
-    run: [storyblok],
-    revert: [storyblokRevert],
+    run: [stackbit],
+    revert: [stackbitRevert],
   };
 
-  const typesVariable = 'storyblok-task';
+  const typesVariable = 'stackbit-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command,
   });
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`starting: {bold reverting} storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`starting: {bold reverting} stackbit command with types variable {bold ${typesVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`starting: storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`starting: stackbit command with types variable {bold ${typesVariable}}`
     );
 
   await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
@@ -136,11 +136,11 @@ const run = async (
 
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`finished: {bold reverting} storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`finished: {bold reverting} stackbit command with types variable {bold ${typesVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`finished: storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`finished: stackbit command with types variable {bold ${typesVariable}}`
     );
 };
 

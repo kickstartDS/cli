@@ -16,6 +16,8 @@ import {
 import { createTypes } from '@kickstartds/jsonschema2types';
 import { convert as convertToStoryblok } from '@kickstartds/jsonschema2storyblok';
 import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
+import { convert as convertToStackbit } from '@kickstartds/jsonschema2stackbit';
+import { convert as convertToNetlifycms } from '@kickstartds/jsonschema2netlifycms';
 import { pascalCase } from 'change-case';
 
 const renderImportName = (schemaId: string) =>
@@ -182,7 +184,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const elements = await convertToStoryblok({
+    const { components: elements } = await convertToStoryblok({
       schemaIds: customSchemaIds,
       ajv,
     });
@@ -205,6 +207,34 @@ ${convertedTs[schemaId]}
     return elements;
   };
 
+  const toStackbit = async (schemaGlob: string) => {
+    const ajv = getSchemaRegistry();
+    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+
+    const { components: elements } = await convertToStackbit({
+      schemaIds: customSchemaIds,
+      ajv,
+    });
+
+    subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
+    return elements;
+  };
+
+  const toNetlifycms = async (schemaGlob: string) => {
+    const ajv = getSchemaRegistry();
+    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+
+    const elements = await convertToNetlifycms({
+      schemaIds: customSchemaIds,
+      ajv,
+    });
+
+    subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
+    return elements;
+  };
+
   return {
     helper: {
       dereferenceSchemas,
@@ -212,6 +242,8 @@ ${convertedTs[schemaId]}
       layerComponentPropTypes,
       toStoryblok,
       toUniform,
+      toStackbit,
+      toNetlifycms,
     },
   };
 };

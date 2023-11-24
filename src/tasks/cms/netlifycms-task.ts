@@ -5,13 +5,17 @@ import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
+import {
+  INetlifyCmsConfig,
+  createConfig,
+} from '@kickstartds/jsonschema2netlifycms';
+import { dump as yamlDump } from 'js-yaml';
 
 const writeFile = fsExtra.writeFile;
 const readJSON = fsExtra.readJSON;
 
 const moduleName = 'cms';
-const command = 'storyblok';
+const command = 'netlifycms';
 const requiredCommands: string[] = [];
 
 const {
@@ -27,7 +31,7 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { toStoryblok: schemaToStoryblok },
+  helper: { toNetlifycms: schemaToNetlifycms },
 } = taskUtilSchema;
 
 const run = async (
@@ -50,36 +54,26 @@ const run = async (
     return true;
   };
 
-  const storyblok = async (logger: winston.Logger): Promise<boolean> => {
-    logger.info(chalkTemplate`running the {bold storyblok} subtask`);
+  const netlifycms = async (logger: winston.Logger): Promise<boolean> => {
+    logger.info(chalkTemplate`running the {bold netlifycms} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const storyblokElements = await schemaToStoryblok(customSchemaGlob);
+    const netlifycmsComponents = await schemaToNetlifycms(customSchemaGlob);
+    const netlifyConfig = createConfig(
+      netlifycmsComponents || [],
+      [],
+      undefined,
+      'pages',
+      'settings'
+    );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
-    const configStringStoryblok = JSON.stringify(
-      { components: storyblokElements },
-      null,
-      2
-    );
-
-    if (updateConfig) {
-      const currentConfig: { components: IStoryblokBlock[] } = await readJSON(
-        `${callingPath}/${configurationPath}/components.123456.json`
-      );
-
-      for (const element of storyblokElements) {
-        const component = currentConfig.components.find(
-          (component) => component.name === (element as IStoryblokBlock).name
-        );
-        console.log('updateConfig', component?.name);
-      }
-    }
+    const configStringNetlifycms = yamlDump(netlifyConfig);
 
     await writeFile(
-      `${shell.pwd()}/${configurationPath}/components.123456.json`,
-      configStringStoryblok
+      `${shell.pwd()}/${configurationPath}/config.yml`,
+      configStringNetlifycms
     );
 
     shell.cp(
@@ -89,20 +83,20 @@ const run = async (
     );
 
     logger.info(
-      chalkTemplate`finished running the {bold storyblok} subtask successfully`
+      chalkTemplate`finished running the {bold netlifycms} subtask successfully`
     );
     return true;
   };
 
-  const storyblokRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const netlifycmsRevert = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold storyblok} subtask`
+      chalkTemplate`{bold reverting} running the {bold netlifycms} subtask`
     );
 
     // TODO implement revert subtask
 
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold storyblok} subtask finished successfully`
+      chalkTemplate`{bold reverting} running the {bold netlifycms} subtask finished successfully`
     );
     return true;
   };
@@ -113,22 +107,22 @@ const run = async (
     run: StepFunction[];
     revert: StepFunction[];
   } = {
-    run: [storyblok],
-    revert: [storyblokRevert],
+    run: [netlifycms],
+    revert: [netlifycmsRevert],
   };
 
-  const typesVariable = 'storyblok-task';
+  const typesVariable = 'netlifycms-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command,
   });
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`starting: {bold reverting} storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`starting: {bold reverting} netlifycms command with types variable {bold ${typesVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`starting: storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`starting: netlifycms command with types variable {bold ${typesVariable}}`
     );
 
   await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
@@ -136,11 +130,11 @@ const run = async (
 
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`finished: {bold reverting} storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`finished: {bold reverting} netlifycms command with types variable {bold ${typesVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`finished: storyblok command with types variable {bold ${typesVariable}}`
+      chalkTemplate`finished: netlifycms command with types variable {bold ${typesVariable}}`
     );
 };
 

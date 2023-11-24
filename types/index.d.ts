@@ -1,6 +1,10 @@
 import { type JSONSchema } from 'json-schema-typed/draft-07';
-import { StoryblokElement } from '@kickstartds/jsonschema2storyblok';
+import { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import { UniformElement } from '@kickstartds/jsonschema2uniform';
+import { INetlifyCmsConfig } from '@kickstartds/jsonschema2netlifycms';
+import { ObjectModel } from '@stackbit/types';
+
+type NetlifycmsComponents = INetlifyCmsConfig['collections'][number]['fields'];
 
 // TODO add correct namespace
 interface ErrorLogEntry {
@@ -213,8 +217,10 @@ interface SchemaUtil {
     dereferenceSchemas: (
       schemaGlob: string
     ) => Promise<Record<string, JSONSchema.Interface>>;
-    toStoryblok: (schemaGlob: string) => Promise<StoryblokElement[]>;
+    toStoryblok: (schemaGlob: string) => Promise<IStoryblokBlock[]>;
     toUniform: (schemaGlob: string) => Promise<UniformElement[]>;
+    toStackbit: (schemaGlob: string) => Promise<ObjectModel[]>;
+    toNetlifycms: (schemaGlob: string) => Promise<NetlifycmsComponents>;
   };
 }
 
