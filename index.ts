@@ -22,11 +22,11 @@ console.log(
   chalkTemplate`{#ecff00.bold ${figlet.textSync('kickstartDS', {
     font: 'Standard',
     horizontalLayout: 'default',
-    verticalLayout: 'default'
+    verticalLayout: 'default',
   })}}\n{rgb(44,124,143).bold ${figlet.textSync('.CLI.', {
     font: 'Slant Relief',
     horizontalLayout: 'default',
-    verticalLayout: 'default'
+    verticalLayout: 'default',
   })}}\n\nVersion: {bold ${
     packageJson.version
   }}\n{green For more information visit: }\n{blue https://www.kickstartds.com/docs/intro/cli/}\n\nStarting...`
@@ -44,16 +44,27 @@ program
 
 // TODO completions are not working, yet
 program.command('tokens', 'initialize, build and convert your design tokens', {
-  executableFile: `${cliRoot}/dist/src/commands/tokens.js`
+  executableFile: `${cliRoot}/dist/src/commands/tokens.js`,
 });
-program.command('schema', 'generate types or dereference component JSON Schema', {
-  executableFile: `${cliRoot}/dist/src/commands/schema.js`
-});
+program.command(
+  'schema',
+  'generate / layer types or dereference component JSON Schema',
+  {
+    executableFile: `${cliRoot}/dist/src/commands/schema.js`,
+  }
+);
+program.command(
+  'cms',
+  'convert component JSON Schema to headless CMS configuration',
+  {
+    executableFile: `${cliRoot}/dist/src/commands/cms.js`,
+  }
+);
 program.command('completion', 'kickstartDS CLI shell autocompletion', {
-  executableFile: `${cliRoot}/dist/src/commands/completion.js`
+  executableFile: `${cliRoot}/dist/src/commands/completion.js`,
 });
 program.command('example', 'example commands as orientation', {
-  executableFile: `${cliRoot}/dist/src/commands/example.js`
+  executableFile: `${cliRoot}/dist/src/commands/example.js`,
 });
 
 // TODO currently not working?!

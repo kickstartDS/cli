@@ -4,9 +4,9 @@ import fg from 'fast-glob';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import fsExtra from "fs-extra";
+import fsExtra from 'fs-extra';
 
-const outputJSON = fsExtra.outputJSON;
+const writeFile = fsExtra.writeFile;
 
 const moduleName = 'schema';
 const command = 'dereference';
@@ -15,21 +15,17 @@ const requiredCommands: string[] = [];
 const {
   init: taskInit,
   start: taskStart,
-  util: taskUtil
+  util: taskUtil,
 } = createTask(moduleName, command);
 
 const { shell: taskUtilShell, schema: taskUtilSchema, getLogger } = taskUtil;
 
 const {
-  helper: {
-    requireCommands: shellRequireCommands,
-  }
+  helper: { requireCommands: shellRequireCommands },
 } = taskUtilShell;
 
 const {
-  helper: {
-    dereferenceSchemas: schemaDereferenceSchemas,
-  }
+  helper: { dereferenceSchemas: schemaDereferenceSchemas },
 } = taskUtilSchema;
 
 const run = async (
@@ -38,7 +34,7 @@ const run = async (
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
-  debugActive: boolean,
+  debugActive: boolean
 ): Promise<void> => {
   const callingPath: string = process.cwd();
 
@@ -54,19 +50,33 @@ const run = async (
   const dereference = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold dereference} subtask`);
 
-    const schemaPaths = await fg(`${callingPath}/${componentsPath}/**/*.schema.json`);
-    const dereffed = await schemaDereferenceSchemas(schemaPaths, callingPath, componentsPath, schemaDomain);
+    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
+    const customSchemaPaths = await fg(customSchemaGlob);
 
-    logger.info(chalkTemplate`dereffed {bold ${Object.keys(dereffed).length} component definitions}`);
+    const dereffed = await schemaDereferenceSchemas(customSchemaGlob);
 
-    schemaPaths.forEach(async (schemaPath) => {
-      const dir = dirname(schemaPath);
-      const base = basename(schemaPath, ".json");
+    logger.info(
+      chalkTemplate`dereffed {bold ${
+        Object.keys(dereffed).length
+      } component definitions}`
+    );
 
-      await outputJSON(`${dir}/${base}.dereffed.json`, dereffed[schemaPath], {
-        spaces: 2,
-      });
-    });
+    await Promise.all(
+      Object.keys(dereffed).map(async (schemaId) => {
+        const schemaPath = customSchemaPaths.find((schemaPath) =>
+          schemaPath.endsWith(`/${schemaId.split('/').pop()}` || 'NO MATCH')
+        );
+        if (!schemaPath)
+          throw new Error("Couldn't find matching schema path for schema $id");
+        const base = basename(schemaPath, '.json');
+        const dir = dirname(schemaPath);
+
+        return writeFile(
+          `${dir}/${base}.dereffed.json`,
+          JSON.stringify(dereffed[schemaId], null, 2)
+        );
+      })
+    );
 
     logger.info(
       chalkTemplate`finished running the {bold dereference} subtask successfully`
@@ -74,7 +84,9 @@ const run = async (
     return true;
   };
 
-  const dereferenceRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const dereferenceRevert = async (
+    logger: winston.Logger
+  ): Promise<boolean> => {
     logger.info(
       chalkTemplate`{bold reverting} running the {bold dereference} subtask`
     );
@@ -94,13 +106,13 @@ const run = async (
     revert: StepFunction[];
   } = {
     run: [dereference],
-    revert: [dereferenceRevert]
+    revert: [dereferenceRevert],
   };
 
   const dereferenceVariable = 'dereference-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
-    command
+    command,
   });
   if (isRevert)
     cmdLogger.info(
