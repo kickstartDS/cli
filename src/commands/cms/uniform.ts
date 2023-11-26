@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/cms/uniform-task.js';
 
-const types = new Command('uniform')
+const uniform = new Command('uniform')
   .description(
     chalkTemplate`Generates {bold Uniform} configuration from your {bold JSON Schema} component definitions`
   )
@@ -18,12 +18,12 @@ const types = new Command('uniform')
   )
   .option(
     '--rc-only',
-    chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
+    chalkTemplate`only read configuration from {bold .schema-uniformrc.json}, skip prompts`,
     true
   )
   .option(
     '--revert',
-    chalkTemplate`revert command defined by {bold .schema-typesrc.json}, implies {bold --rc-only}`,
+    chalkTemplate`revert command defined by {bold .schema-uniformrc.json}, implies {bold --rc-only}`,
     false
   )
   .option('--cleanup', 'clean up tmp dirs before running', true)
@@ -39,4 +39,4 @@ const types = new Command('uniform')
     );
   });
 
-export default types;
+export default uniform;

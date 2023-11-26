@@ -217,7 +217,7 @@ ${convertedTs[schemaId]}
       ajv,
     });
 
-    subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
+    subCmdLogger.info(chalkTemplate`creating {bold Stackbit} elements`);
     return elements;
   };
 
@@ -231,7 +231,7 @@ ${convertedTs[schemaId]}
       ajv,
     });
 
-    subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
+    subCmdLogger.info(chalkTemplate`creating {bold Netlify CMS} elements`);
     return elements;
   };
 

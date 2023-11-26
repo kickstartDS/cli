@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/cms/storyblok-task.js';
 
-const types = new Command('storyblok')
+const storyblok = new Command('storyblok')
   .description(
     chalkTemplate`Generates {bold Storyblok} configuration from your {bold JSON Schema} component definitions`
   )
@@ -23,12 +23,12 @@ const types = new Command('storyblok')
   )
   .option(
     '--rc-only',
-    chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
+    chalkTemplate`only read configuration from {bold .schema-storyblokrc.json}, skip prompts`,
     true
   )
   .option(
     '--revert',
-    chalkTemplate`revert command defined by {bold .schema-typesrc.json}, implies {bold --rc-only}`,
+    chalkTemplate`revert command defined by {bold .schema-storyblokrc.json}, implies {bold --rc-only}`,
     false
   )
   .option('--cleanup', 'clean up tmp dirs before running', true)
@@ -45,4 +45,4 @@ const types = new Command('storyblok')
     );
   });
 
-export default types;
+export default storyblok;

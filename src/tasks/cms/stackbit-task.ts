@@ -66,7 +66,7 @@ const run = async (
 
     if (updateConfig) {
       const currentConfig: { components: ObjectModel[] } = await readJSON(
-        `${callingPath}/${configurationPath}/components.123456.json`
+        `${callingPath}/${configurationPath}/models.json`
       );
 
       for (const element of stackbitComponents) {

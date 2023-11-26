@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/cms/stackbit-task.js';
 
-const types = new Command('stackbit')
+const stackbit = new Command('stackbit')
   .description(
     chalkTemplate`Generates {bold Stackbit} configuration from your {bold JSON Schema} component definitions`
   )
@@ -23,12 +23,12 @@ const types = new Command('stackbit')
   )
   .option(
     '--rc-only',
-    chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
+    chalkTemplate`only read configuration from {bold .schema-stackbitrc.json}, skip prompts`,
     true
   )
   .option(
     '--revert',
-    chalkTemplate`revert command defined by {bold .schema-typesrc.json}, implies {bold --rc-only}`,
+    chalkTemplate`revert command defined by {bold .schema-stackbitrc.json}, implies {bold --rc-only}`,
     false
   )
   .option('--cleanup', 'clean up tmp dirs before running', true)
@@ -45,4 +45,4 @@ const types = new Command('stackbit')
     );
   });
 
-export default types;
+export default stackbit;
