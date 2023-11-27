@@ -13,7 +13,7 @@ const requiredCommands: string[] = [];
 const {
   init: taskInit,
   start: taskStart,
-  util: taskUtil
+  util: taskUtil,
 } = createTask(moduleName, command);
 
 const { shell: taskUtilShell, tokens: taskUtilTokens, getLogger } = taskUtil;
@@ -22,20 +22,21 @@ const {
   helper: {
     requireCommands: shellRequireCommands,
     dirExistsInCwd: shellDirExistsInCwd,
-    fileExistsInCwd: shellFileExistsInCwd
-  }
+    fileExistsInCwd: shellFileExistsInCwd,
+  },
 } = taskUtilShell;
 
 const {
   helper: {
     getDefaultStyleDictionary: tokensGetDefaultStyleDictionary,
     getStyleDictionary: tokensGetStyleDictionary,
-    compileTokens: tokensCompileTokens
-  }
+    compileTokens: tokensCompileTokens,
+  },
 } = taskUtilTokens;
 
 const run = async (
   tokenDictionaryPath: string = 'src/token/dictionary',
+  sdConfigPath: string = 'sd.config.cjs',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -65,21 +66,28 @@ const run = async (
     logger.info(chalkTemplate`running the {bold compile} subtask`);
 
     shell.mkdir('-p', `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`);
-    shell.cp('-r', `${callingPath}/${tokenDictionaryPath}`, `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`);
+    shell.cp(
+      '-r',
+      `${callingPath}/${tokenDictionaryPath}`,
+      `${shell.pwd()}/${dirname(tokenDictionaryPath)}/`
+    );
 
     logger.info(
       chalkTemplate`getting {bold Style Dictionary} from token files`
     );
 
     let styleDictionary: StyleDictionary.Core;
-    if (shellFileExistsInCwd(`${callingPath}/sd.config.cjs`)) {
+    if (shellFileExistsInCwd(`${callingPath}/${sdConfigPath}`)) {
       styleDictionary = await tokensGetStyleDictionary(
         callingPath,
         tokenDictionaryPath,
-        `${callingPath}/sd.config.cjs`
+        `${callingPath}/${sdConfigPath}`
       );
     } else {
-      styleDictionary = tokensGetDefaultStyleDictionary(callingPath, tokenDictionaryPath);
+      styleDictionary = tokensGetDefaultStyleDictionary(
+        callingPath,
+        tokenDictionaryPath
+      );
     }
 
     logger.info(
@@ -87,7 +95,9 @@ const run = async (
     );
     await tokensCompileTokens(
       styleDictionary,
-      Object.keys(styleDictionary.options.platforms).filter((platform) => styleDictionary.options.platforms[platform].buildPath)
+      Object.keys(styleDictionary.options.platforms).filter(
+        (platform) => styleDictionary.options.platforms[platform].buildPath
+      )
     );
 
     logger.info(
@@ -142,13 +152,13 @@ const run = async (
     revert: StepFunction[];
   } = {
     run: [compile],
-    revert: [compileRevert]
+    revert: [compileRevert],
   };
 
   const compileVariable = 'compile-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
-    command
+    command,
   });
   if (isRevert)
     cmdLogger.info(
