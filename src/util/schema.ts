@@ -189,7 +189,11 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToStoryblok({
+    const {
+      components: storyblokComponents,
+      templates: storyblokTemplates,
+      globals: storyblokGlobals,
+    } = await convertToStoryblok({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -205,7 +209,7 @@ ${convertedTs[schemaId]}
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Storyblok} elements`);
-    return elements;
+    return [...storyblokComponents, ...storyblokTemplates, ...storyblokGlobals];
   };
 
   const toUniform = async (
@@ -245,7 +249,11 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToStackbit({
+    const {
+      components: stackbitComponents,
+      templates: stackbitTemplates,
+      globals: stackbitGlobals,
+    } = await convertToStackbit({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -261,7 +269,7 @@ ${convertedTs[schemaId]}
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Stackbit} elements`);
-    return elements;
+    return [...stackbitComponents, ...stackbitTemplates, ...stackbitGlobals];
   };
 
   const toNetlifycms = async (
