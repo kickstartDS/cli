@@ -53,16 +53,22 @@ const run = async (
     logger.info(chalkTemplate`running the {bold uniform} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
-    const uniformElements = await schemaToUniform(
-      customSchemaGlob,
-      templates,
-      globals
-    );
+    const {
+      components: uniformComponents,
+      templates: uniformTemplates,
+      globals: uniformGlobals,
+    } = await schemaToUniform(customSchemaGlob, templates, globals);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
     const configStringUniform = JSON.stringify(
-      { components: uniformElements },
+      {
+        components: [
+          ...uniformComponents,
+          ...uniformTemplates,
+          ...uniformGlobals,
+        ],
+      },
       null,
       2
     );

@@ -56,16 +56,22 @@ const run = async (
     logger.info(chalkTemplate`running the {bold storyblok} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const storyblokElements = await schemaToStoryblok(
-      customSchemaGlob,
-      templates,
-      globals
-    );
+    const {
+      components: storyblokComponents,
+      templates: storyblokTemplates,
+      globals: storyblokGlobals,
+    } = await schemaToStoryblok(customSchemaGlob, templates, globals);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
     const configStringStoryblok = JSON.stringify(
-      { components: storyblokElements },
+      {
+        components: [
+          ...storyblokComponents,
+          ...storyblokTemplates,
+          ...storyblokGlobals,
+        ],
+      },
       null,
       2
     );
@@ -75,7 +81,7 @@ const run = async (
         `${callingPath}/${configurationPath}/components.123456.json`
       );
 
-      for (const element of storyblokElements) {
+      for (const element of storyblokComponents) {
         const component = currentConfig.components.find(
           (component) => component.name === (element as IStoryblokBlock).name
         );

@@ -56,16 +56,22 @@ const run = async (
     logger.info(chalkTemplate`running the {bold stackbit} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const stackbitComponents = await schemaToStackbit(
-      customSchemaGlob,
-      templates,
-      globals
-    );
+    const {
+      components: stackbitComponents,
+      templates: stackbitTemplates,
+      globals: stackbitGlobals,
+    } = await schemaToStackbit(customSchemaGlob, templates, globals);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
     const configStringStackbit = JSON.stringify(
-      { components: stackbitComponents },
+      {
+        components: [
+          ...stackbitComponents,
+          ...stackbitTemplates,
+          ...stackbitGlobals,
+        ],
+      },
       null,
       2
     );

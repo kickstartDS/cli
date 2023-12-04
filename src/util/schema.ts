@@ -189,11 +189,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const {
-      components: storyblokComponents,
-      templates: storyblokTemplates,
-      globals: storyblokGlobals,
-    } = await convertToStoryblok({
+    const result = await convertToStoryblok({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -209,7 +205,7 @@ ${convertedTs[schemaId]}
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Storyblok} elements`);
-    return [...storyblokComponents, ...storyblokTemplates, ...storyblokGlobals];
+    return result;
   };
 
   const toUniform = async (
@@ -221,7 +217,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToUniform({
+    const result = await convertToUniform({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -237,7 +233,7 @@ ${convertedTs[schemaId]}
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
-    return elements;
+    return result;
   };
 
   const toStackbit = async (
@@ -249,11 +245,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const {
-      components: stackbitComponents,
-      templates: stackbitTemplates,
-      globals: stackbitGlobals,
-    } = await convertToStackbit({
+    const result = await convertToStackbit({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -269,7 +261,7 @@ ${convertedTs[schemaId]}
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Stackbit} elements`);
-    return [...stackbitComponents, ...stackbitTemplates, ...stackbitGlobals];
+    return result;
   };
 
   const toNetlifycms = async (
@@ -281,7 +273,11 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToNetlifycms({
+    const {
+      components: netlifycmsComponents,
+      templates: netlifycmsTemplates,
+      globals: netlifycmsGlobals,
+    } = await convertToNetlifycms({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -297,7 +293,11 @@ ${convertedTs[schemaId]}
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Netlify CMS} elements`);
-    return elements;
+    return [
+      ...netlifycmsComponents,
+      ...netlifycmsTemplates,
+      ...netlifycmsGlobals,
+    ];
   };
 
   return {
