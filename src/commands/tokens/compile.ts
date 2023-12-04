@@ -4,7 +4,7 @@ import runTask from '../../tasks/tokens/compile-task.js';
 
 const init = new Command('compile')
   .description(
-    chalkTemplate`compiles kickstartDS compatible Style Dictionary configuration to css and assets, ready to use in your {#ecff00.bold kickstartDS} Design System`
+    chalkTemplate`compiles {#ecff00.bold kickstartDS} compatible Style Dictionary configuration to css and assets, ready to use in your {#ecff00.bold kickstartDS} Design System`
   )
   .option(
     '--token-dictionary-path <directory>',
