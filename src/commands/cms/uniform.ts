@@ -17,6 +17,16 @@ const uniform = new Command('uniform')
     'src/cms'
   )
   .option(
+    '--templates <templateNames...>',
+    chalkTemplate`components to classify as page templates`,
+    ['page']
+  )
+  .option(
+    '--globals <globalNames...>',
+    chalkTemplate`components to classify as global components`,
+    ['header', 'footer']
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-uniformrc.json}, skip prompts`,
     true
@@ -32,6 +42,8 @@ const uniform = new Command('uniform')
     runTask(
       options.componentsPath,
       options.configurationPath,
+      options.templates,
+      options.globals,
       options.rcOnly,
       options.revert,
       options.cleanup,

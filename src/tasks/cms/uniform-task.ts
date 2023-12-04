@@ -31,6 +31,8 @@ const {
 const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
+  templates: string[] = ['page'],
+  globals: string[] = ['header', 'footer'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -51,7 +53,11 @@ const run = async (
     logger.info(chalkTemplate`running the {bold uniform} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
-    const uniformElements = await schemaToUniform(customSchemaGlob);
+    const uniformElements = await schemaToUniform(
+      customSchemaGlob,
+      templates,
+      globals
+    );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 

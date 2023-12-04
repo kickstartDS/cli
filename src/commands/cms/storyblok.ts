@@ -22,6 +22,16 @@ const storyblok = new Command('storyblok')
     true
   )
   .option(
+    '--templates <templateNames...>',
+    chalkTemplate`components to classify as page templates`,
+    ['page']
+  )
+  .option(
+    '--globals <globalNames...>',
+    chalkTemplate`components to classify as global components`,
+    ['header', 'footer']
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-storyblokrc.json}, skip prompts`,
     true
@@ -38,6 +48,8 @@ const storyblok = new Command('storyblok')
       options.componentsPath,
       options.configurationPath,
       options.updateConfig,
+      options.templates,
+      options.globals,
       options.rcOnly,
       options.revert,
       options.cleanup,

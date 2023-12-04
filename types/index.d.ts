@@ -217,10 +217,26 @@ interface SchemaUtil {
     dereferenceSchemas: (
       schemaGlob: string
     ) => Promise<Record<string, JSONSchema.Interface>>;
-    toStoryblok: (schemaGlob: string) => Promise<IStoryblokBlock[]>;
-    toUniform: (schemaGlob: string) => Promise<UniformElement[]>;
-    toStackbit: (schemaGlob: string) => Promise<ObjectModel[]>;
-    toNetlifycms: (schemaGlob: string) => Promise<NetlifycmsComponents>;
+    toStoryblok: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<IStoryblokBlock[]>;
+    toUniform: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<UniformElement[]>;
+    toStackbit: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<ObjectModel[]>;
+    toNetlifycms: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<NetlifycmsComponents>;
   };
 }
 

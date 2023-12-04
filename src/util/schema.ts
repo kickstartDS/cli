@@ -12,6 +12,7 @@ import {
   processSchemaGlob,
   shouldLayer,
   dereference,
+  IClassifierResult,
 } from '@kickstartds/jsonschema-utils';
 import { createTypes } from '@kickstartds/jsonschema2types';
 import { convert as convertToStoryblok } from '@kickstartds/jsonschema2storyblok';
@@ -179,7 +180,11 @@ ${convertedTs[schemaId]}
     return convertedTs;
   };
 
-  const toStoryblok = async (schemaGlob: string) => {
+  const toStoryblok = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
@@ -187,13 +192,27 @@ ${convertedTs[schemaId]}
     const { components: elements } = await convertToStoryblok({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Storyblok} elements`);
     return elements;
   };
 
-  const toUniform = async (schemaGlob: string) => {
+  const toUniform = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
@@ -201,13 +220,27 @@ ${convertedTs[schemaId]}
     const { components: elements } = await convertToUniform({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
     return elements;
   };
 
-  const toStackbit = async (schemaGlob: string) => {
+  const toStackbit = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
@@ -215,13 +248,27 @@ ${convertedTs[schemaId]}
     const { components: elements } = await convertToStackbit({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Stackbit} elements`);
     return elements;
   };
 
-  const toNetlifycms = async (schemaGlob: string) => {
+  const toNetlifycms = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
@@ -229,6 +276,16 @@ ${convertedTs[schemaId]}
     const { components: elements } = await convertToNetlifycms({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Netlify CMS} elements`);

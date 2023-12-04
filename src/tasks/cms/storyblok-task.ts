@@ -34,6 +34,8 @@ const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
+  templates: string[] = ['page'],
+  globals: string[] = ['header', 'footer'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -54,7 +56,11 @@ const run = async (
     logger.info(chalkTemplate`running the {bold storyblok} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const storyblokElements = await schemaToStoryblok(customSchemaGlob);
+    const storyblokElements = await schemaToStoryblok(
+      customSchemaGlob,
+      templates,
+      globals
+    );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 

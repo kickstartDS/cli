@@ -38,6 +38,8 @@ const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
+  templates: string[] = ['page'],
+  globals: string[] = ['header', 'footer'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -58,7 +60,11 @@ const run = async (
     logger.info(chalkTemplate`running the {bold netlifycms} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const netlifycmsComponents = await schemaToNetlifycms(customSchemaGlob);
+    const netlifycmsComponents = await schemaToNetlifycms(
+      customSchemaGlob,
+      templates,
+      globals
+    );
     const netlifyConfig = createConfig(
       netlifycmsComponents || [],
       [],
