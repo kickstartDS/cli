@@ -35,7 +35,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     const dereffedSchemas = await dereference(customSchemaIds, ajv);
 
     subCmdLogger.info(
-      chalkTemplate`dereferencing {bold ${dereffedSchemas.length} component definitions}`
+      chalkTemplate`dereferencing {bold ${Object.keys(dereffedSchemas).length} component definitions}`
     );
     return dereffedSchemas;
   };
