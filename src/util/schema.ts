@@ -1,6 +1,6 @@
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
-import { SchemaUtil } from '../../types/index.js';
+import { CMSResult, SchemaUtil } from '../../types/index.js';
 import {
   getCustomSchemaIds,
   getSchemaModule,
@@ -15,7 +15,11 @@ import {
   IClassifierResult,
 } from '@kickstartds/jsonschema-utils';
 import { createTypes } from '@kickstartds/jsonschema2types';
-import { convert as convertToStoryblok } from '@kickstartds/jsonschema2storyblok';
+import {
+  IStoryblokBlock,
+  configuration,
+  convert as convertToStoryblok,
+} from '@kickstartds/jsonschema2storyblok';
 import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
 import { convert as convertToStackbit } from '@kickstartds/jsonschema2stackbit';
 import { convert as convertToNetlifycms } from '@kickstartds/jsonschema2netlifycms';
@@ -35,7 +39,9 @@ export default (logger: winston.Logger): SchemaUtil => {
     const dereffedSchemas = await dereference(customSchemaIds, ajv);
 
     subCmdLogger.info(
-      chalkTemplate`dereferencing {bold ${Object.keys(dereffedSchemas).length} component definitions}`
+      chalkTemplate`dereferencing {bold ${
+        Object.keys(dereffedSchemas).length
+      } component definitions}`
     );
     return dereffedSchemas;
   };
@@ -208,6 +214,9 @@ ${convertedTs[schemaId]}
     return result;
   };
 
+  const toStoryblokConfig = (elements: CMSResult<IStoryblokBlock>) =>
+    configuration(elements);
+
   const toUniform = async (
     schemaGlob: string,
     templates: string[],
@@ -218,7 +227,9 @@ ${convertedTs[schemaId]}
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await convertToUniform({
-      schemaIds: customSchemaIds,
+      schemaIds: customSchemaIds.filter((customSchemaId) =>
+        templates.includes(getSchemaName(customSchemaId))
+      ),
       ajv,
       schemaClassifier: (schemaId: string) => {
         const name = getSchemaName(schemaId);
@@ -306,6 +317,7 @@ ${convertedTs[schemaId]}
       generateComponentPropTypes,
       layerComponentPropTypes,
       toStoryblok,
+      toStoryblokConfig,
       toUniform,
       toStackbit,
       toNetlifycms,

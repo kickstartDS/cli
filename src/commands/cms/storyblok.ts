@@ -24,12 +24,12 @@ const storyblok = new Command('storyblok')
   .option(
     '--templates <templateNames...>',
     chalkTemplate`components to classify as page templates`,
-    ['page']
+    ['page', 'settings']
   )
   .option(
     '--globals <globalNames...>',
     chalkTemplate`components to classify as global components`,
-    ['header', 'footer']
+    ['header', 'footer', 'seo']
   )
   .option(
     '--rc-only',
