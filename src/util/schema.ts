@@ -196,7 +196,9 @@ ${convertedTs[schemaId]}
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await convertToStoryblok({
-      schemaIds: customSchemaIds,
+      schemaIds: customSchemaIds.filter((customSchemaId) =>
+        templates.includes(getSchemaName(customSchemaId))
+      ),
       ajv,
       schemaClassifier: (schemaId: string) => {
         const name = getSchemaName(schemaId);
@@ -227,9 +229,7 @@ ${convertedTs[schemaId]}
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await convertToUniform({
-      schemaIds: customSchemaIds.filter((customSchemaId) =>
-        templates.includes(getSchemaName(customSchemaId))
-      ),
+      schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
         const name = getSchemaName(schemaId);
