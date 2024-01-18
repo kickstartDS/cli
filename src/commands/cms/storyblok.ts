@@ -24,7 +24,7 @@ const storyblok = new Command('storyblok')
   .option(
     '--templates <templateNames...>',
     chalkTemplate`components to classify as page templates`,
-    ['page', 'settings']
+    ['page', 'blog-post', 'blog-overview', 'settings']
   )
   .option(
     '--globals <globalNames...>',

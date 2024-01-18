@@ -5,14 +5,10 @@ import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import {
-  INetlifyCmsConfig,
-  createConfig,
-} from '@kickstartds/jsonschema2netlifycms';
+import { createConfig } from '@kickstartds/jsonschema2netlifycms';
 import { dump as yamlDump } from 'js-yaml';
 
 const writeFile = fsExtra.writeFile;
-const readJSON = fsExtra.readJSON;
 
 const moduleName = 'cms';
 const command = 'netlifycms';
@@ -38,8 +34,8 @@ const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
-  templates: string[] = ['page'],
-  globals: string[] = ['header', 'footer'],
+  templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
+  globals: string[] = ['header', 'footer', 'seo'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,

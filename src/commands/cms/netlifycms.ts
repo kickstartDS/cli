@@ -24,12 +24,12 @@ const netlifycms = new Command('netlifycms')
   .option(
     '--templates <templateNames...>',
     chalkTemplate`components to classify as page templates`,
-    ['page']
+    ['page', 'blog-post', 'blog-overview', 'settings']
   )
   .option(
     '--globals <globalNames...>',
     chalkTemplate`components to classify as global components`,
-    ['header', 'footer']
+    ['header', 'footer', 'seo']
   )
   .option(
     '--rc-only',

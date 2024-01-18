@@ -31,8 +31,8 @@ const {
 const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
-  templates: string[] = ['page'],
-  globals: string[] = ['header', 'footer'],
+  templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
+  globals: string[] = ['header', 'footer', 'seo'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
