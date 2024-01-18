@@ -34,6 +34,8 @@ const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
+  templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
+  globals: string[] = ['header', 'footer', 'seo'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -54,12 +56,22 @@ const run = async (
     logger.info(chalkTemplate`running the {bold stackbit} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const stackbitComponents = await schemaToStackbit(customSchemaGlob);
+    const {
+      components: stackbitComponents,
+      templates: stackbitTemplates,
+      globals: stackbitGlobals,
+    } = await schemaToStackbit(customSchemaGlob, templates, globals);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
     const configStringStackbit = JSON.stringify(
-      { components: stackbitComponents },
+      {
+        components: [
+          ...stackbitComponents,
+          ...stackbitTemplates,
+          ...stackbitGlobals,
+        ],
+      },
       null,
       2
     );

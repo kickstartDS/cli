@@ -22,6 +22,16 @@ const stackbit = new Command('stackbit')
     true
   )
   .option(
+    '--templates <templateNames...>',
+    chalkTemplate`components to classify as page templates`,
+    ['page', 'blog-post', 'blog-overview', 'settings']
+  )
+  .option(
+    '--globals <globalNames...>',
+    chalkTemplate`components to classify as global components`,
+    ['header', 'footer', 'seo']
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-stackbitrc.json}, skip prompts`,
     true
@@ -38,6 +48,8 @@ const stackbit = new Command('stackbit')
       options.componentsPath,
       options.configurationPath,
       options.updateConfig,
+      options.templates,
+      options.globals,
       options.rcOnly,
       options.revert,
       options.cleanup,

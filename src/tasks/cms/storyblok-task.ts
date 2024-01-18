@@ -27,13 +27,18 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { toStoryblok: schemaToStoryblok },
+  helper: {
+    toStoryblok: schemaToStoryblok,
+    toStoryblokConfig: schemaToStoryblokConfig,
+  },
 } = taskUtilSchema;
 
 const run = async (
   componentsPath: string = 'src/components',
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
+  templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
+  globals: string[] = ['header', 'footer', 'seo'],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -54,28 +59,32 @@ const run = async (
     logger.info(chalkTemplate`running the {bold storyblok} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const storyblokElements = await schemaToStoryblok(customSchemaGlob);
+    const elements = await schemaToStoryblok(
+      customSchemaGlob,
+      templates,
+      globals
+    );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
-    const configStringStoryblok = JSON.stringify(
-      { components: storyblokElements },
-      null,
-      2
-    );
-
+    // the following `if` section is only a stub for now, not actually doing anything yet
     if (updateConfig) {
       const currentConfig: { components: IStoryblokBlock[] } = await readJSON(
         `${callingPath}/${configurationPath}/components.123456.json`
       );
 
-      for (const element of storyblokElements) {
+      for (const element of [
+        ...elements.components,
+        ...elements.globals,
+        ...elements.templates,
+      ]) {
         const component = currentConfig.components.find(
           (component) => component.name === (element as IStoryblokBlock).name
         );
-        console.log('updateConfig', component?.name);
       }
     }
+
+    const configStringStoryblok = schemaToStoryblokConfig(elements);
 
     await writeFile(
       `${shell.pwd()}/${configurationPath}/components.123456.json`,

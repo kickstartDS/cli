@@ -22,6 +22,16 @@ const netlifycms = new Command('netlifycms')
     true
   )
   .option(
+    '--templates <templateNames...>',
+    chalkTemplate`components to classify as page templates`,
+    ['page', 'blog-post', 'blog-overview', 'settings']
+  )
+  .option(
+    '--globals <globalNames...>',
+    chalkTemplate`components to classify as global components`,
+    ['header', 'footer', 'seo']
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-netlifycmsrc.json}, skip prompts`,
     true
@@ -38,6 +48,8 @@ const netlifycms = new Command('netlifycms')
       options.componentsPath,
       options.configurationPath,
       options.updateConfig,
+      options.templates,
+      options.globals,
       options.rcOnly,
       options.revert,
       options.cleanup,

@@ -2,7 +2,7 @@ import { type JSONSchema } from 'json-schema-typed/draft-07';
 import { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import { UniformElement } from '@kickstartds/jsonschema2uniform';
 import { INetlifyCmsConfig } from '@kickstartds/jsonschema2netlifycms';
-import { ObjectModel } from '@stackbit/types';
+import { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 
 type NetlifycmsComponents = INetlifyCmsConfig['collections'][number]['fields'];
 
@@ -204,6 +204,12 @@ interface ShellUtil {
   };
 }
 
+interface CMSResult<Component, Template = Component, Global = Component> {
+  components: Component[];
+  templates: Template[];
+  globals: Global[];
+}
+
 interface SchemaUtil {
   helper: {
     generateComponentPropTypes: (
@@ -217,10 +223,27 @@ interface SchemaUtil {
     dereferenceSchemas: (
       schemaGlob: string
     ) => Promise<Record<string, JSONSchema.Interface>>;
-    toStoryblok: (schemaGlob: string) => Promise<IStoryblokBlock[]>;
-    toUniform: (schemaGlob: string) => Promise<UniformElement[]>;
-    toStackbit: (schemaGlob: string) => Promise<ObjectModel[]>;
-    toNetlifycms: (schemaGlob: string) => Promise<NetlifycmsComponents>;
+    toStoryblok: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<CMSResult<IStoryblokBlock>>;
+    toStoryblokConfig: (elements: CMSResult<IStoryblokBlock>) => string;
+    toUniform: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<CMSResult<UniformElement>>;
+    toStackbit: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<CMSResult<ObjectModel, PageModel, DataModel>>;
+    toNetlifycms: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<NetlifycmsComponents>;
   };
 }
 

@@ -1,6 +1,6 @@
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
-import { SchemaUtil } from '../../types/index.js';
+import { CMSResult, SchemaUtil } from '../../types/index.js';
 import {
   getCustomSchemaIds,
   getSchemaModule,
@@ -12,9 +12,14 @@ import {
   processSchemaGlob,
   shouldLayer,
   dereference,
+  IClassifierResult,
 } from '@kickstartds/jsonschema-utils';
 import { createTypes } from '@kickstartds/jsonschema2types';
-import { convert as convertToStoryblok } from '@kickstartds/jsonschema2storyblok';
+import {
+  IStoryblokBlock,
+  configuration,
+  convert as convertToStoryblok,
+} from '@kickstartds/jsonschema2storyblok';
 import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
 import { convert as convertToStackbit } from '@kickstartds/jsonschema2stackbit';
 import { convert as convertToNetlifycms } from '@kickstartds/jsonschema2netlifycms';
@@ -34,7 +39,9 @@ export default (logger: winston.Logger): SchemaUtil => {
     const dereffedSchemas = await dereference(customSchemaIds, ajv);
 
     subCmdLogger.info(
-      chalkTemplate`dereferencing {bold ${Object.keys(dereffedSchemas).length} component definitions}`
+      chalkTemplate`dereferencing {bold ${
+        Object.keys(dereffedSchemas).length
+      } component definitions}`
     );
     return dereffedSchemas;
   };
@@ -179,60 +186,129 @@ ${convertedTs[schemaId]}
     return convertedTs;
   };
 
-  const toStoryblok = async (schemaGlob: string) => {
+  const toStoryblok = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToStoryblok({
-      schemaIds: customSchemaIds,
+    const result = await convertToStoryblok({
+      schemaIds: customSchemaIds.filter((customSchemaId) =>
+        templates.includes(getSchemaName(customSchemaId))
+      ),
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Storyblok} elements`);
-    return elements;
+    return result;
   };
 
-  const toUniform = async (schemaGlob: string) => {
+  const toStoryblokConfig = (elements: CMSResult<IStoryblokBlock>) =>
+    configuration(elements);
+
+  const toUniform = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToUniform({
+    const result = await convertToUniform({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Uniform} elements`);
-    return elements;
+    return result;
   };
 
-  const toStackbit = async (schemaGlob: string) => {
+  const toStackbit = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToStackbit({
+    const result = await convertToStackbit({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Stackbit} elements`);
-    return elements;
+    return result;
   };
 
-  const toNetlifycms = async (schemaGlob: string) => {
+  const toNetlifycms = async (
+    schemaGlob: string,
+    templates: string[],
+    globals: string[]
+  ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const { components: elements } = await convertToNetlifycms({
+    const {
+      components: netlifycmsComponents,
+      templates: netlifycmsTemplates,
+      globals: netlifycmsGlobals,
+    } = await convertToNetlifycms({
       schemaIds: customSchemaIds,
       ajv,
+      schemaClassifier: (schemaId: string) => {
+        const name = getSchemaName(schemaId);
+        if (templates && templates.includes(name)) {
+          return IClassifierResult.Template;
+        } else if (globals && globals.includes(name)) {
+          return IClassifierResult.Global;
+        } else {
+          return IClassifierResult.Component;
+        }
+      },
     });
 
     subCmdLogger.info(chalkTemplate`creating {bold Netlify CMS} elements`);
-    return elements;
+    return [
+      ...netlifycmsComponents,
+      ...netlifycmsTemplates,
+      ...netlifycmsGlobals,
+    ];
   };
 
   return {
@@ -241,6 +317,7 @@ ${convertedTs[schemaId]}
       generateComponentPropTypes,
       layerComponentPropTypes,
       toStoryblok,
+      toStoryblokConfig,
       toUniform,
       toStackbit,
       toNetlifycms,
