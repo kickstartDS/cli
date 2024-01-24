@@ -223,6 +223,7 @@ interface SchemaUtil {
     dereferenceSchemas: (
       schemaGlob: string
     ) => Promise<Record<string, JSONSchema.Interface>>;
+    extractPresets: (schemaGlob: string) => Promise<Record<string, unknown>>;
     toStoryblok: (
       schemaGlob: string,
       templates: string[],

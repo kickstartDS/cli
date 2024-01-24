@@ -1,5 +1,6 @@
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
+import fg from 'fast-glob';
 import { CMSResult, SchemaUtil } from '../../types/index.js';
 import {
   getCustomSchemaIds,
@@ -186,6 +187,15 @@ ${convertedTs[schemaId]}
     return convertedTs;
   };
 
+  const extractPresets = async (storiesGlob: string) => {
+    subCmdLogger.info(chalkTemplate`extracting presets for component schemas`);
+
+    const paths = await fg(storiesGlob);
+    console.log('paths', paths);
+
+    return {};
+  };
+
   const toStoryblok = async (
     schemaGlob: string,
     templates: string[],
@@ -316,6 +326,7 @@ ${convertedTs[schemaId]}
       dereferenceSchemas,
       generateComponentPropTypes,
       layerComponentPropTypes,
+      extractPresets,
       toStoryblok,
       toStoryblokConfig,
       toUniform,

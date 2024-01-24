@@ -11,7 +11,7 @@ import { StepFunction } from '../../../types/index.js';
 const writeFile = fsExtra.writeFile;
 
 const moduleName = 'schema';
-const command = 'layer';
+const command = 'presets';
 const requiredCommands: string[] = [];
 
 const {
@@ -27,13 +27,12 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { layerComponentPropTypes: schemaLayerComponentPropTypes },
+  helper: { extractPresets: schemaExtractPresets },
 } = taskUtilSchema;
 
 const run = async (
   componentsPath: string = 'src/components',
-  typesPath: string = 'src/types',
-  mergeSchemas: boolean,
+  presetsPath: string = 'src/presets',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -50,49 +49,49 @@ const run = async (
     return true;
   };
 
-  const layer = async (logger: winston.Logger): Promise<boolean> => {
-    logger.info(chalkTemplate`running the {bold layer} subtask`);
+  const presets = async (logger: winston.Logger): Promise<boolean> => {
+    logger.info(chalkTemplate`running the {bold presets} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
-    const layeredTypes = await schemaLayerComponentPropTypes(
-      customSchemaGlob,
-      mergeSchemas
-    );
+    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.stories.(tsx|jsx)`;
+    const componentPresets = await schemaExtractPresets(customSchemaGlob);
 
-    shell.mkdir('-p', `${shell.pwd()}/${typesPath}/`);
+    // shell.mkdir('-p', `${shell.pwd()}/${presetsPath}/`);
 
     await Promise.all(
-      Object.keys(layeredTypes).map(async (schemaId) => {
-        return writeFile(
-          `${shell.pwd()}/${typesPath}/${pascalCase(
-            getSchemaName(schemaId)
-          )}Props.d.ts`,
-          layeredTypes[schemaId]
-        );
+      Object.keys(componentPresets).map(async (preset) => {
+        console.log('preset', preset);
+        return true;
+
+        // return writeFile(
+        //   `${shell.pwd()}/${typesPath}/${pascalCase(
+        //     getSchemaName(schemaId)
+        //   )}Props.d.ts`,
+        //   layeredTypes[schemaId]
+        // );
       })
     );
 
-    shell.cp(
-      `-r`,
-      `${shell.pwd()}/${typesPath}`,
-      `${callingPath}/${dirname(typesPath)}/`
-    );
+    // shell.cp(
+    //   `-r`,
+    //   `${shell.pwd()}/${typesPath}`,
+    //   `${callingPath}/${dirname(typesPath)}/`
+    // );
 
     logger.info(
-      chalkTemplate`finished running the {bold layer} subtask successfully`
+      chalkTemplate`finished running the {bold presets} subtask successfully`
     );
     return true;
   };
 
-  const layerRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const presetsRevert = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold layer} subtask`
+      chalkTemplate`{bold reverting} running the {bold presets} subtask`
     );
 
     // TODO implement revert subtask
 
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold layer} subtask finished successfully`
+      chalkTemplate`{bold reverting} running the {bold presets} subtask finished successfully`
     );
     return true;
   };
@@ -103,34 +102,34 @@ const run = async (
     run: StepFunction[];
     revert: StepFunction[];
   } = {
-    run: [layer],
-    revert: [layerRevert],
+    run: [presets],
+    revert: [presetsRevert],
   };
 
-  const layerVariable = 'layer-task';
+  const presetsVariable = 'presets-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command,
   });
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`starting: {bold reverting} layer command with types variable {bold ${layerVariable}}`
+      chalkTemplate`starting: {bold reverting} presets command with types variable {bold ${presetsVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`starting: layer command with types variable {bold ${layerVariable}}`
+      chalkTemplate`starting: presets command with types variable {bold ${presetsVariable}}`
     );
 
   await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
-  await taskStart(layerVariable, checks, tasks.run, tasks.revert);
+  await taskStart(presetsVariable, checks, tasks.run, tasks.revert);
 
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`finished: {bold reverting} layer command with types variable {bold ${layerVariable}}`
+      chalkTemplate`finished: {bold reverting} presets command with types variable {bold ${presetsVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`finished: layer command with types variable {bold ${layerVariable}}`
+      chalkTemplate`finished: presets command with types variable {bold ${presetsVariable}}`
     );
 };
 
