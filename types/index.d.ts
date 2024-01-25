@@ -36,6 +36,14 @@ declare const StyleDictionaryObject: {
   [key: string]: string | StyleDictionaryObject;
 };
 
+declare global {
+  interface Window {
+    matchMedia: (query: string) => MediaQueryList;
+    addEventListener: typeof window.addEventListener;
+  }
+  const window: Window;
+}
+
 interface AnalyticsUtil {
   analyticsActive: boolean;
   helper: {
@@ -223,7 +231,13 @@ interface SchemaUtil {
     dereferenceSchemas: (
       schemaGlob: string
     ) => Promise<Record<string, JSONSchema.Interface>>;
-    extractPresets: (schemaGlob: string) => Promise<Record<string, unknown>>;
+    extractPresets: (callingPath: string) => Promise<
+      {
+        group: any;
+        name: any;
+        code: string;
+      }[]
+    >;
     toStoryblok: (
       schemaGlob: string,
       templates: string[],

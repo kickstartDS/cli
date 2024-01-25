@@ -52,8 +52,7 @@ const run = async (
   const presets = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold presets} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.stories.(tsx|jsx)`;
-    const componentPresets = await schemaExtractPresets(customSchemaGlob);
+    const componentPresets = await schemaExtractPresets(callingPath);
 
     // shell.mkdir('-p', `${shell.pwd()}/${presetsPath}/`);
 

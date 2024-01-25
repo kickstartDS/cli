@@ -1,3 +1,20 @@
+import { basename } from 'node:path';
+import { mkdirSync, renameSync, writeFileSync } from 'node:fs';
+import babelRegister from '@babel/register';
+import { registerRequireContextHook } from '@storybook/babel-plugin-require-context-hook/register';
+import registerGlobalJSDOM from 'global-jsdom';
+import esbuild from 'esbuild';
+import reactElementToJSXString from 'react-element-to-jsx-string';
+import { normalizeStories } from '@storybook/core-common';
+import { toRequireContext } from '@storybook/core-webpack';
+import ResizeObserver from 'resize-observer-polyfill';
+import {
+  setProjectAnnotations,
+  configure,
+  raw,
+  StoryContext,
+  ReactRenderer,
+} from '@storybook/react';
 import winston from 'winston';
 import chalkTemplate from 'chalk-template';
 import fg from 'fast-glob';
@@ -187,13 +204,169 @@ ${convertedTs[schemaId]}
     return convertedTs;
   };
 
-  const extractPresets = async (storiesGlob: string) => {
+  const extractPresets = async (callingPath: string) => {
     subCmdLogger.info(chalkTemplate`extracting presets for component schemas`);
 
-    const paths = await fg(storiesGlob);
-    console.log('paths', paths);
+    babelRegister({
+      extensions: ['.ts', '.tsx', '.jsx', '.js', '.mjs'],
+      cache: true,
+    });
+    registerRequireContextHook();
+    registerGlobalJSDOM();
 
-    return {};
+    // JSDOM Polyfills & mocks
+    (global as any).ResizeObserver = ResizeObserver;
+    (global as any).addEventListener = window.addEventListener;
+    window.matchMedia = () => ({ addEventListener() {} });
+
+    const workingDir = `${callingPath}/tmp`;
+    const configDir = workingDir + '/.storybook';
+
+    const main = require(`${callingPath}/.storybook/main.ts`);
+    const filteredStoriesGlob = main.default.stories.filter(
+      (storyGlob: string) => !storyGlob.endsWith('.mdx')
+    );
+
+    const bundle = async () => {
+      const entryPoints = fg.sync(filteredStoriesGlob, {
+        cwd: `${callingPath}/.storybook`,
+        absolute: true,
+      });
+      entryPoints.push(
+        `${callingPath}/.storybook/preview.tsx`,
+        `${callingPath}/.storybook/main.ts`,
+        `${callingPath}/node_modules/@kickstartds/core/lib/storybook/index.js`
+      );
+
+      await esbuild.build({
+        entryPoints,
+        platform: 'node',
+        format: 'esm',
+        outdir: workingDir,
+        loader: {
+          '.mdx': 'empty',
+          '.scss': 'empty',
+          '.css': 'empty',
+        },
+        external: ['react', 'react-dom'],
+        bundle: true,
+        splitting: true,
+      });
+
+      // babelRegister ignores `node_modules` folder
+      mkdirSync(
+        `${callingPath}/tmp/_node_modules/@kickstartds/core/lib/storybook`,
+        {
+          recursive: true,
+        }
+      );
+      renameSync(
+        `${callingPath}/tmp/node_modules/@kickstartds/core/lib/storybook/index.js`,
+        `${callingPath}/tmp/_node_modules/@kickstartds/core/lib/storybook/index.js`
+      );
+    };
+
+    const configureStorybook = () => {
+      const {
+        unpack,
+      } = require(`${callingPath}/tmp/_node_modules/@kickstartds/core/lib/storybook/index.js`);
+      const preview =
+        require(`${callingPath}/tmp/.storybook/preview.js`).default;
+      setProjectAnnotations(preview);
+
+      const normalizedStories = normalizeStories(filteredStoriesGlob, {
+        configDir,
+        workingDir,
+      });
+      const storyLoaders = normalizedStories.map((specifier) => {
+        const {
+          path: basePath,
+          recursive,
+          match,
+        } = toRequireContext(specifier);
+        return (global as any).__requireContext(
+          workingDir,
+          basePath,
+          recursive,
+          match
+        );
+      });
+      configure(storyLoaders, module);
+      return (story: StoryContext): ReactRenderer['storyResult'] =>
+        story.storyFn({ ...story, args: unpack(story.initialArgs) });
+    };
+
+    const findComponent = (
+      components: Map<string, Set<string>>,
+      story: StoryContext
+    ) => {
+      const componentName = basename(story.parameters.fileName, '.stories.js');
+      const componentFileName = story.parameters.fileName.replace(
+        /\.stories\.js$/,
+        'Component'
+      );
+      const fullComponentFileName = fg.sync(componentFileName + '.[tj]sx')[0];
+      if (fullComponentFileName) {
+        if (!components.has(componentFileName)) {
+          components.set(componentFileName, new Set());
+        }
+        components.get(componentFileName)!.add(componentName);
+        return true;
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`⚠️  Component file not found: ${componentFileName}`
+        );
+        return false;
+      }
+    };
+
+    await bundle();
+    const renderSnippet = configureStorybook();
+    const snippets = [];
+    const components = new Map();
+    for (const story of raw()) {
+      const { kind: group, name, parameters: { playroom = {} } = {} } = story;
+      if (
+        playroom?.disable ||
+        story.title.startsWith('Pages/') ||
+        !story.component
+      )
+        continue;
+
+      subCmdLogger.info(
+        chalkTemplate`Generating ${[group, name].join('/')} snippet...`
+      );
+      const found = findComponent(components, story);
+
+      if (!found) {
+        continue;
+      }
+
+      const snippet = renderSnippet(story);
+      const renderFunction = snippet.type.render || snippet.type;
+      if (
+        renderFunction &&
+        (renderFunction.name || renderFunction.displayName)
+      ) {
+        const code = reactElementToJSXString(snippet);
+        snippets.push({ group, name, code });
+      } else {
+        subCmdLogger.warn(chalkTemplate`⚠️  Component has no 'displayName'`);
+      }
+    }
+
+    // writeFileSync(
+    //   "components.ts",
+    //   [...components.entries()]
+    //     .map(
+    //       ([componentFileName, imports]) =>
+    //         `export {${[...imports].join(",")}} from "${componentFileName}"; `
+    //     )
+    //     .join("\n")
+    // );
+    // writeFileSync("snippets.json", JSON.stringify(snippets, null, 2));
+
+    return snippets;
   };
 
   const toStoryblok = async (
