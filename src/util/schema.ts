@@ -1,7 +1,7 @@
 import { basename } from 'node:path';
 import { mkdirSync, renameSync } from 'node:fs';
 import babelRegister from '@babel/register';
-import { registerRequireContextHook } from '@storybook/babel-plugin-require-context-hook/register.js';
+import pkg from '@storybook/babel-plugin-require-context-hook/register.js';
 import registerGlobalJSDOM from 'global-jsdom';
 import esbuild from 'esbuild';
 import reactElementToJSXString from 'react-element-to-jsx-string';
@@ -42,6 +42,8 @@ import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
 import { convert as convertToStackbit } from '@kickstartds/jsonschema2stackbit';
 import { convert as convertToNetlifycms } from '@kickstartds/jsonschema2netlifycms';
 import { pascalCase } from 'change-case';
+
+const { registerRequireContextHook } = pkg;
 
 const renderImportName = (schemaId: string) =>
   `${pascalCase(getSchemaName(schemaId))}Props`;
