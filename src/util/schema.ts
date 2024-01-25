@@ -1,7 +1,7 @@
 import { basename } from 'node:path';
-import { mkdirSync, renameSync, writeFileSync } from 'node:fs';
+import { mkdirSync, renameSync } from 'node:fs';
 import babelRegister from '@babel/register';
-import { registerRequireContextHook } from '@storybook/babel-plugin-require-context-hook/register';
+import { registerRequireContextHook } from '@storybook/babel-plugin-require-context-hook/register.js';
 import registerGlobalJSDOM from 'global-jsdom';
 import esbuild from 'esbuild';
 import reactElementToJSXString from 'react-element-to-jsx-string';
