@@ -189,7 +189,8 @@ ${convertedTs[schemaId]}
   const toStoryblok = async (
     schemaGlob: string,
     templates: string[],
-    globals: string[]
+    globals: string[],
+    components: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
@@ -206,8 +207,10 @@ ${convertedTs[schemaId]}
           return IClassifierResult.Template;
         } else if (globals && globals.includes(name)) {
           return IClassifierResult.Global;
-        } else {
+        } else if (components && components.includes(name)) {
           return IClassifierResult.Component;
+        } else {
+          return IClassifierResult.Object;
         }
       },
     });

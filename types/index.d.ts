@@ -226,7 +226,8 @@ interface SchemaUtil {
     toStoryblok: (
       schemaGlob: string,
       templates: string[],
-      globals: string[]
+      globals: string[],
+      components: string[]
     ) => Promise<CMSResult<IStoryblokBlock>>;
     toStoryblokConfig: (elements: CMSResult<IStoryblokBlock>) => string;
     toUniform: (

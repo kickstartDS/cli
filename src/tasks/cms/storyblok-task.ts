@@ -39,6 +39,18 @@ const run = async (
   updateConfig: boolean = true,
   templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
   globals: string[] = ['header', 'footer', 'seo'],
+  components: string[] = [
+    'cta',
+    'faq',
+    'features',
+    'gallery',
+    'image-text',
+    'logos',
+    'stats',
+    'teaser-card',
+    'testimonials',
+    'text',
+  ],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -62,7 +74,8 @@ const run = async (
     const elements = await schemaToStoryblok(
       customSchemaGlob,
       templates,
-      globals
+      globals,
+      components
     );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);

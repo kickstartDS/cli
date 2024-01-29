@@ -32,6 +32,22 @@ const storyblok = new Command('storyblok')
     ['header', 'footer', 'seo']
   )
   .option(
+    '--components <componentNames...>',
+    chalkTemplate`components to classify as bloks`,
+    [
+      'cta',
+      'faq',
+      'features',
+      'gallery',
+      'image-text',
+      'logos',
+      'stats',
+      'teaser-card',
+      'testimonials',
+      'text',
+    ]
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-storyblokrc.json}, skip prompts`,
     true
@@ -50,6 +66,7 @@ const storyblok = new Command('storyblok')
       options.updateConfig,
       options.templates,
       options.globals,
+      options.components,
       options.rcOnly,
       options.revert,
       options.cleanup,
