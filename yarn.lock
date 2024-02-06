@@ -925,6 +925,20 @@
     jsonpointer "~5.0.1"
     typescript-graph "^0.3.0"
 
+"@kickstartds/jsonschema-utils@2.12.1":
+  version "2.12.1"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-2.12.1.tgz#04f721c587e67e84517d41461059196d8d9a95e5"
+  integrity sha512-his+z5d3iPShdXzVqp+Ivv7xylV5kspNnT3ClgxWnFD4OzhP1ze12LOLQi0hl7L//TCcEIOxj1xG9BC/EfkAAw==
+  dependencies:
+    "@bcherny/json-schema-ref-parser" "10.0.5-fork"
+    ajv "^8.12.0"
+    change-case "^5.0.2"
+    fast-glob "^3.2.12"
+    import-meta-resolve "~3.0.0"
+    json-schema-traverse "^1.0.0"
+    jsonpointer "~5.0.1"
+    typescript-graph "^0.3.0"
+
 "@kickstartds/jsonschema2netlifycms@^2.8.1":
   version "2.8.1"
   resolved "https://registry.npmjs.org/@kickstartds/jsonschema2netlifycms/-/jsonschema2netlifycms-2.8.1.tgz#f6016b75d5a657e4060b54d412b70131080f1278"
@@ -945,12 +959,12 @@
     lodash "^4.17.21"
     object-traversal "^1.0.1"
 
-"@kickstartds/jsonschema2storyblok@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.3.1.tgz#8a7efbd4dcd652e8ff96a3728a440848ebfc00fe"
-  integrity sha512-jMyeCnsCCG6s9YTZ+bG0knkTo8uXdTZ+w7EM1d7fv4erTKfC2Kmgw6HQkxgOrflJbND6EYjmG1URzoz5P4hSjg==
+"@kickstartds/jsonschema2storyblok@^1.5.6":
+  version "1.5.6"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.5.6.tgz#09fd9e14857ce2ac30bde8e5e206fb278898f425"
+  integrity sha512-glPOzLoE4UOgUdT7VQdSRW164j36PiKZmR6eaH6QaM2t/3fQZfGms1Xof85341gy2LD5d0IqlAhLsC+2b7TpFg==
   dependencies:
-    "@kickstartds/jsonschema-utils" "2.11.1"
+    "@kickstartds/jsonschema-utils" "2.12.1"
     ajv "^8.12.0"
     lodash "^4.17.21"
     object-traversal "^1.0.1"
