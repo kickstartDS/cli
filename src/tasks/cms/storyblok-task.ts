@@ -50,6 +50,7 @@ const run = async (
     'teaser-card',
     'testimonials',
     'text',
+    'blog-teaser',
   ],
   rcOnly: boolean,
   isRevert: boolean,

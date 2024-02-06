@@ -45,6 +45,7 @@ const storyblok = new Command('storyblok')
       'teaser-card',
       'testimonials',
       'text',
+      'blog-teaser',
     ]
   )
   .option(
