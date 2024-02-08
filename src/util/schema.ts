@@ -17,13 +17,17 @@ import {
 import { createTypes } from '@kickstartds/jsonschema2types';
 import {
   IStoryblokBlock,
-  configuration,
+  configuration as configurationStoryblok,
   convert as convertToStoryblok,
 } from '@kickstartds/jsonschema2storyblok';
 import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
-import { convert as convertToStackbit } from '@kickstartds/jsonschema2stackbit';
+import {
+  convert as convertToStackbit,
+  configuration as configurationStackbit,
+} from '@kickstartds/jsonschema2stackbit';
 import { convert as convertToNetlifycms } from '@kickstartds/jsonschema2netlifycms';
 import { pascalCase } from 'change-case';
+import { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 
 const renderImportName = (schemaId: string) =>
   `${pascalCase(getSchemaName(schemaId))}Props`;
@@ -220,7 +224,7 @@ ${convertedTs[schemaId]}
   };
 
   const toStoryblokConfig = (elements: CMSResult<IStoryblokBlock>) =>
-    configuration(elements);
+    configurationStoryblok(elements);
 
   const toUniform = async (
     schemaGlob: string,
@@ -253,14 +257,17 @@ ${convertedTs[schemaId]}
   const toStackbit = async (
     schemaGlob: string,
     templates: string[],
-    globals: string[]
+    globals: string[],
+    components: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await convertToStackbit({
-      schemaIds: customSchemaIds,
+      schemaIds: customSchemaIds.filter((customSchemaId) =>
+        templates.includes(getSchemaName(customSchemaId))
+      ),
       ajv,
       schemaClassifier: (schemaId: string) => {
         const name = getSchemaName(schemaId);
@@ -268,8 +275,10 @@ ${convertedTs[schemaId]}
           return IClassifierResult.Template;
         } else if (globals && globals.includes(name)) {
           return IClassifierResult.Global;
-        } else {
+        } else if (components && components.includes(name)) {
           return IClassifierResult.Component;
+        } else {
+          return IClassifierResult.Object;
         }
       },
     });
@@ -277,6 +286,10 @@ ${convertedTs[schemaId]}
     subCmdLogger.info(chalkTemplate`creating {bold Stackbit} elements`);
     return result;
   };
+
+  const toStackbitConfig = (
+    elements: CMSResult<ObjectModel, PageModel, DataModel>
+  ) => configurationStackbit(elements);
 
   const toNetlifycms = async (
     schemaGlob: string,
@@ -323,6 +336,7 @@ ${convertedTs[schemaId]}
       toStoryblokConfig,
       toUniform,
       toStackbit,
+      toStackbitConfig,
       toNetlifycms,
     },
   };

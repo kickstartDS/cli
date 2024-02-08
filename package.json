@@ -103,7 +103,7 @@
     "@kickstartds/style-dictionary": "^3.0.0-next.1",
     "@kickstartds/jsonschema-utils": "^2.11.1",
     "@kickstartds/jsonschema2netlifycms": "^2.8.1",
-    "@kickstartds/jsonschema2stackbit": "^1.2.1",
+    "@kickstartds/jsonschema2stackbit": "^1.3.0",
     "@kickstartds/jsonschema2storyblok": "^1.5.6",
     "@kickstartds/jsonschema2types": "^1.1.23",
     "@kickstartds/jsonschema2uniform": "^1.3.1",

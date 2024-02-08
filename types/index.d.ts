@@ -238,8 +238,12 @@ interface SchemaUtil {
     toStackbit: (
       schemaGlob: string,
       templates: string[],
-      globals: string[]
+      globals: string[],
+      components: string[]
     ) => Promise<CMSResult<ObjectModel, PageModel, DataModel>>;
+    toStackbitConfig: (
+      elements: CMSResult<ObjectModel, PageModel, DataModel>
+    ) => string;
     toNetlifycms: (
       schemaGlob: string,
       templates: string[],

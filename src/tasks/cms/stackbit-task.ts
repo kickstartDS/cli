@@ -27,7 +27,10 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { toStackbit: schemaToStackbit },
+  helper: {
+    toStackbit: schemaToStackbit,
+    toStackbitConfig: schemaToStackbitConfig,
+  },
 } = taskUtilSchema;
 
 const run = async (
@@ -36,6 +39,19 @@ const run = async (
   updateConfig: boolean = true,
   templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
   globals: string[] = ['header', 'footer', 'seo'],
+  components: string[] = [
+    'cta',
+    'faq',
+    'features',
+    'gallery',
+    'image-text',
+    'logos',
+    'stats',
+    'teaser-card',
+    'testimonials',
+    'text',
+    'blog-teaser',
+  ],
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -56,38 +72,32 @@ const run = async (
     logger.info(chalkTemplate`running the {bold stackbit} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const {
-      components: stackbitComponents,
-      templates: stackbitTemplates,
-      globals: stackbitGlobals,
-    } = await schemaToStackbit(customSchemaGlob, templates, globals);
+    const elements = await schemaToStackbit(
+      customSchemaGlob,
+      templates,
+      globals,
+      components
+    );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
-
-    const configStringStackbit = JSON.stringify(
-      {
-        components: [
-          ...stackbitComponents,
-          ...stackbitTemplates,
-          ...stackbitGlobals,
-        ],
-      },
-      null,
-      2
-    );
 
     if (updateConfig) {
       const currentConfig: { components: ObjectModel[] } = await readJSON(
         `${callingPath}/${configurationPath}/models.json`
       );
 
-      for (const element of stackbitComponents) {
+      for (const element of [
+        ...elements.components,
+        ...elements.globals,
+        ...elements.templates,
+      ]) {
         const component = currentConfig.components.find(
           (component) => component.name === (element as ObjectModel).name
         );
-        console.log('updateConfig', component?.name);
       }
     }
+
+    const configStringStackbit = schemaToStackbitConfig(elements);
 
     await writeFile(
       `${shell.pwd()}/${configurationPath}/models.json`,

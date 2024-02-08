@@ -949,12 +949,12 @@
     lodash "^4.17.21"
     object-traversal "^1.0.1"
 
-"@kickstartds/jsonschema2stackbit@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2stackbit/-/jsonschema2stackbit-1.2.1.tgz#c099cfcef5ad87998265d7e674eb1581b94c6035"
-  integrity sha512-albZZLy5qnknaYKdSTacGtKawfCZv1W7OruQoz2AzGzc/PMVCMeGDPXUoASwtOuGtTppLIsimoqB5wuHIvNSOQ==
+"@kickstartds/jsonschema2stackbit@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2stackbit/-/jsonschema2stackbit-1.3.0.tgz#490d28f466c627abe9664b948b6b494792abf416"
+  integrity sha512-+Vs4We0GMDuFEWHOC0sIZ/IDUxIcNA3HHlvx7Hg2r15PsL4Nx5PbUhZz/8weATWS13CI1pki09Mu3Qs+uqc7IA==
   dependencies:
-    "@kickstartds/jsonschema-utils" "2.11.1"
+    "@kickstartds/jsonschema-utils" "2.12.1"
     ajv "^8.12.0"
     lodash "^4.17.21"
     object-traversal "^1.0.1"
