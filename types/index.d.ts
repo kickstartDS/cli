@@ -1,10 +1,11 @@
 import { type JSONSchema } from 'json-schema-typed/draft-07';
 import { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import { UniformElement } from '@kickstartds/jsonschema2uniform';
-import { INetlifyCmsConfig } from '@kickstartds/jsonschema2netlifycms';
+import { IStaticCmsConfig } from '@kickstartds/jsonschema2statIccms';
 import { DataModel, ObjectModel, PageModel } from '@stackbit/types';
+import { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
 
-type NetlifycmsComponents = INetlifyCmsConfig['collections'][number]['fields'];
+type StaticcmsComponents = IStaticCmsConfig['collections'][number]['fields'];
 
 // TODO add correct namespace
 interface ErrorLogEntry {
@@ -244,11 +245,16 @@ interface SchemaUtil {
     toStackbitConfig: (
       elements: CMSResult<ObjectModel, PageModel, DataModel>
     ) => string;
-    toNetlifycms: (
+    toStaticcms: (
       schemaGlob: string,
       templates: string[],
-      globals: string[]
-    ) => Promise<NetlifycmsComponents>;
+      globals: string[],
+      components: string[]
+    ) => Promise<CMSResult<IStaticCmsField>>;
+    toStaticcmsConfig: (
+      elements: CMSResult<IStaticCmsField>,
+      config?: IStaticCmsConfig
+    ) => string;
   };
 }
 

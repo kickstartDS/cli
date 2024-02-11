@@ -25,7 +25,11 @@ import {
   convert as convertToStackbit,
   configuration as configurationStackbit,
 } from '@kickstartds/jsonschema2stackbit';
-import { convert as convertToNetlifycms } from '@kickstartds/jsonschema2netlifycms';
+import {
+  convert as convertToStaticcms,
+  configuration as configurationStaticcms,
+  IStaticCmsField,
+} from '@kickstartds/jsonschema2staticcms';
 import { pascalCase } from 'change-case';
 import { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 
@@ -291,7 +295,7 @@ ${convertedTs[schemaId]}
     elements: CMSResult<ObjectModel, PageModel, DataModel>
   ) => configurationStackbit(elements);
 
-  const toNetlifycms = async (
+  const toStaticcms = async (
     schemaGlob: string,
     templates: string[],
     globals: string[]
@@ -300,11 +304,7 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const {
-      components: netlifycmsComponents,
-      templates: netlifycmsTemplates,
-      globals: netlifycmsGlobals,
-    } = await convertToNetlifycms({
+    const result = await convertToStaticcms({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -319,13 +319,12 @@ ${convertedTs[schemaId]}
       },
     });
 
-    subCmdLogger.info(chalkTemplate`creating {bold Netlify CMS} elements`);
-    return [
-      ...netlifycmsComponents,
-      ...netlifycmsTemplates,
-      ...netlifycmsGlobals,
-    ];
+    subCmdLogger.info(chalkTemplate`creating {bold Static CMS} elements`);
+    return result;
   };
+
+  const toStaticcmsConfig = (elements: CMSResult<IStaticCmsField>) =>
+    configurationStaticcms(elements);
 
   return {
     helper: {
@@ -337,7 +336,8 @@ ${convertedTs[schemaId]}
       toUniform,
       toStackbit,
       toStackbitConfig,
-      toNetlifycms,
+      toStaticcms,
+      toStaticcmsConfig,
     },
   };
 };
