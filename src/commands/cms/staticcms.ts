@@ -1,10 +1,10 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
-import runTask from '../../tasks/cms/netlifycms-task.js';
+import runTask from '../../tasks/cms/staticcms-task.js';
 
-const netlifycms = new Command('netlifycms')
+const staticcms = new Command('staticcms')
   .description(
-    chalkTemplate`Generates {bold Netlify CMS} configuration from your {bold JSON Schema} component definitions`
+    chalkTemplate`Generates {bold Static CMS} configuration from your {bold JSON Schema} component definitions`
   )
   .option(
     '--components-path <path>',
@@ -24,21 +24,38 @@ const netlifycms = new Command('netlifycms')
   .option(
     '--templates <templateNames...>',
     chalkTemplate`components to classify as page templates`,
-    ['page', 'blog-post', 'blog-overview', 'settings']
+    ['page', 'blog-post']
   )
   .option(
     '--globals <globalNames...>',
     chalkTemplate`components to classify as global components`,
-    ['header', 'footer', 'seo']
+    ['header', 'footer', 'seo', 'settings', 'blog-overview']
+  )
+  .option(
+    '--components <componentNames...>',
+    chalkTemplate`components to classify as bloks`,
+    [
+      'cta',
+      'faq',
+      'features',
+      'gallery',
+      'image-text',
+      'logos',
+      'stats',
+      'teaser-card',
+      'testimonials',
+      'text',
+      'blog-teaser',
+    ]
   )
   .option(
     '--rc-only',
-    chalkTemplate`only read configuration from {bold .schema-netlifycmsrc.json}, skip prompts`,
+    chalkTemplate`only read configuration from {bold .schema-staticcmsrc.json}, skip prompts`,
     true
   )
   .option(
     '--revert',
-    chalkTemplate`revert command defined by {bold .schema-netlifycmsrc.json}, implies {bold --rc-only}`,
+    chalkTemplate`revert command defined by {bold .schema-staticcmsrc.json}, implies {bold --rc-only}`,
     false
   )
   .option('--cleanup', 'clean up tmp dirs before running', true)
@@ -50,6 +67,7 @@ const netlifycms = new Command('netlifycms')
       options.updateConfig,
       options.templates,
       options.globals,
+      options.components,
       options.rcOnly,
       options.revert,
       options.cleanup,
@@ -57,4 +75,4 @@ const netlifycms = new Command('netlifycms')
     );
   });
 
-export default netlifycms;
+export default staticcms;

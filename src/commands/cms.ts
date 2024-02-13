@@ -3,7 +3,7 @@ import { getLogger } from '../logging.js';
 import storyblok from './cms/storyblok.js';
 import uniform from './cms/uniform.js';
 import stackbit from './cms/stackbit.js';
-import netlifycms from './cms/netlifycms.js';
+import staticcms from './cms/staticcms.js';
 
 const logger = getLogger('cms');
 
@@ -13,5 +13,5 @@ program
   .addCommand(storyblok)
   .addCommand(uniform)
   .addCommand(stackbit)
-  .addCommand(netlifycms)
+  .addCommand(staticcms)
   .parse(process.argv);
