@@ -948,10 +948,10 @@
     ajv "^8.12.0"
     object-traversal "^1.0.1"
 
-"@kickstartds/jsonschema2staticcms@^2.9.0":
-  version "2.9.0"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2staticcms/-/jsonschema2staticcms-2.9.0.tgz#bdfa35d76a254c5b11e39390f0b874cb41231945"
-  integrity sha512-0mmiqwbnVQwr7iRhA+kOqVoKLnCf9YF9Wdp2DTNh/+bTYIKSiM9eNCF+3YH3Vvgj75XVmKX1bN9va7y4Lfu7wg==
+"@kickstartds/jsonschema2staticcms@^2.9.1":
+  version "2.9.1"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2staticcms/-/jsonschema2staticcms-2.9.1.tgz#c128b8dea0bec8de3c00f9c365af5b1630a4f996"
+  integrity sha512-eaR4u+d2v2qMLuMAFgf01bNEUMvH27G+EIqThhBvwNKovp5mXk/iE7OCryJlzv4YGZQW7ah0kZZGeT33BmhXRw==
   dependencies:
     "@kickstartds/jsonschema-utils" "2.12.1"
     ajv "^8.12.0"

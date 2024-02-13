@@ -29,7 +29,7 @@ const staticcms = new Command('staticcms')
   .option(
     '--globals <globalNames...>',
     chalkTemplate`components to classify as global components`,
-    ['header', 'footer', 'seo', 'settings', 'blog-overview']
+    ['settings', 'blog-overview']
   )
   .option(
     '--components <componentNames...>',
@@ -45,6 +45,9 @@ const staticcms = new Command('staticcms')
       'teaser-card',
       'testimonials',
       'text',
+      'header',
+      'footer',
+      'seo',
       'blog-teaser',
     ]
   )
