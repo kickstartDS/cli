@@ -1,3 +1,27 @@
+# v3.0.0 (Fri Apr 12 2024)
+
+#### 💥 Breaking Change
+
+- Add cms conversions [#41](https://github.com/kickstartDS/cli/pull/41) ([@julrich](https://github.com/julrich))
+- Add type layering capabilities [#37](https://github.com/kickstartDS/cli/pull/37) ([@julrich](https://github.com/julrich))
+
+#### 🚀 Enhancement
+
+- Migrate Netlify CMS to Static CMS, update to current standards [#47](https://github.com/kickstartDS/cli/pull/47) ([@julrich](https://github.com/julrich))
+- Configuration options for templates and globals [#44](https://github.com/kickstartDS/cli/pull/44) ([@julrich](https://github.com/julrich))
+- Add `sd.config.cjs` path option to token compile task [#43](https://github.com/kickstartDS/cli/pull/43) ([@julrich](https://github.com/julrich))
+- Add allof merge options to schema tasks where applicable [#40](https://github.com/kickstartDS/cli/pull/40) ([@julrich](https://github.com/julrich))
+
+#### 🐛 Bug Fix
+
+- Fix `undefined` count for dereffed schemas in schema dereference task [#45](https://github.com/kickstartDS/cli/pull/45) ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v2.1.0 (Mon Aug 07 2023)
 
 #### 🚀 Enhancement
