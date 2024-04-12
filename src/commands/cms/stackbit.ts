@@ -60,19 +60,21 @@ const stackbit = new Command('stackbit')
   )
   .option('--cleanup', 'clean up tmp dirs before running', true)
   .option('--debug', 'show debugging output', false)
-  .action((options) => {
-    runTask(
-      options.componentsPath,
-      options.configurationPath,
-      options.updateConfig,
-      options.templates,
-      options.globals,
-      options.components,
-      options.rcOnly,
-      options.revert,
-      options.cleanup,
-      options.debug
-    );
-  });
+  .action((options) =>
+    import('./../../tasks/cms/stackbit-task.js').then((runTask) => {
+      runTask.default(
+        options.componentsPath,
+        options.configurationPath,
+        options.updateConfig,
+        options.templates,
+        options.globals,
+        options.components,
+        options.rcOnly,
+        options.revert,
+        options.cleanup,
+        options.debug
+      );
+    })
+  );
 
 export default stackbit;

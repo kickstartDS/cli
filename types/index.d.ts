@@ -230,7 +230,9 @@ interface SchemaUtil {
       globals: string[],
       components: string[]
     ) => Promise<CMSResult<IStoryblokBlock>>;
-    toStoryblokConfig: (elements: CMSResult<IStoryblokBlock>) => string;
+    toStoryblokConfig: (
+      elements: CMSResult<IStoryblokBlock>
+    ) => Promise<string>;
     toUniform: (
       schemaGlob: string,
       templates: string[],
@@ -244,7 +246,7 @@ interface SchemaUtil {
     ) => Promise<CMSResult<ObjectModel, PageModel, DataModel>>;
     toStackbitConfig: (
       elements: CMSResult<ObjectModel, PageModel, DataModel>
-    ) => string;
+    ) => Promise<string>;
     toStaticcms: (
       schemaGlob: string,
       templates: string[],
@@ -254,7 +256,7 @@ interface SchemaUtil {
     toStaticcmsConfig: (
       elements: CMSResult<IStaticCmsField>,
       config?: IStaticCmsConfig
-    ) => string;
+    ) => Promise<string>;
   };
 }
 

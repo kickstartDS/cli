@@ -98,7 +98,7 @@ const run = async (
       }
     }
 
-    const configStringStoryblok = schemaToStoryblokConfig(elements);
+    const configStringStoryblok = await schemaToStoryblokConfig(elements);
 
     await writeFile(
       `${shell.pwd()}/${configurationPath}/components.123456.json`,

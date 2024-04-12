@@ -14,24 +14,24 @@ import {
   dereference,
   IClassifierResult,
 } from '@kickstartds/jsonschema-utils';
-import { createTypes } from '@kickstartds/jsonschema2types';
-import {
+// import { createTypes } from '@kickstartds/jsonschema2types';
+import type {
   IStoryblokBlock,
-  configuration as configurationStoryblok,
-  convert as convertToStoryblok,
+  // configuration as configurationStoryblok,
+  // convert as convertToStoryblok,
 } from '@kickstartds/jsonschema2storyblok';
-import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
-import {
-  convert as convertToStackbit,
-  configuration as configurationStackbit,
-} from '@kickstartds/jsonschema2stackbit';
-import {
-  convert as convertToStaticcms,
-  configuration as configurationStaticcms,
+// import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
+// import {
+//   convert as convertToStackbit,
+//   configuration as configurationStackbit,
+// } from '@kickstartds/jsonschema2stackbit';
+import type {
+  // convert as convertToStaticcms,
+  // configuration as configurationStaticcms,
   IStaticCmsField,
 } from '@kickstartds/jsonschema2staticcms';
 import { pascalCase } from 'change-case';
-import { DataModel, ObjectModel, PageModel } from '@stackbit/types';
+import type { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 
 const renderImportName = (schemaId: string) =>
   `${pascalCase(getSchemaName(schemaId))}Props`;
@@ -115,7 +115,9 @@ export default (logger: winston.Logger): SchemaUtil => {
             getSchemaName(schemaId)
           )}Props'`;
 
-    const convertedTs = await createTypes(
+    const convertedTs = await (
+      await import('@kickstartds/jsonschema2types')
+    ).createTypes(
       customSchemaIds,
       renderImportName,
       renderImportStatement,
@@ -169,7 +171,9 @@ export default (logger: winston.Logger): SchemaUtil => {
       )}/typing'`;
     };
 
-    const convertedTs = await createTypes(
+    const convertedTs = await (
+      await import('@kickstartds/jsonschema2types')
+    ).createTypes(
       [...unlayeredSchemaIds, ...layeredSchemaIds],
       renderImportName,
       renderImportStatement,
@@ -204,7 +208,9 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const result = await convertToStoryblok({
+    const result = await (
+      await import('@kickstartds/jsonschema2storyblok')
+    ).convert({
       schemaIds: customSchemaIds.filter((customSchemaId) =>
         templates.includes(getSchemaName(customSchemaId))
       ),
@@ -227,8 +233,8 @@ ${convertedTs[schemaId]}
     return result;
   };
 
-  const toStoryblokConfig = (elements: CMSResult<IStoryblokBlock>) =>
-    configurationStoryblok(elements);
+  const toStoryblokConfig = async (elements: CMSResult<IStoryblokBlock>) =>
+    (await import('@kickstartds/jsonschema2storyblok')).configuration(elements);
 
   const toUniform = async (
     schemaGlob: string,
@@ -239,7 +245,9 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const result = await convertToUniform({
+    const result = await (
+      await import('@kickstartds/jsonschema2uniform')
+    ).convert({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -268,7 +276,9 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const result = await convertToStackbit({
+    const result = await (
+      await import('@kickstartds/jsonschema2stackbit')
+    ).convert({
       schemaIds: customSchemaIds.filter((customSchemaId) =>
         templates.includes(getSchemaName(customSchemaId))
       ),
@@ -291,9 +301,10 @@ ${convertedTs[schemaId]}
     return result;
   };
 
-  const toStackbitConfig = (
+  const toStackbitConfig = async (
     elements: CMSResult<ObjectModel, PageModel, DataModel>
-  ) => configurationStackbit(elements);
+  ) =>
+    (await import('@kickstartds/jsonschema2stackbit')).configuration(elements);
 
   const toStaticcms = async (
     schemaGlob: string,
@@ -304,7 +315,9 @@ ${convertedTs[schemaId]}
     const schemaIds = await processSchemaGlob(schemaGlob, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
-    const result = await convertToStaticcms({
+    const result = await (
+      await import('@kickstartds/jsonschema2staticcms')
+    ).convert({
       schemaIds: customSchemaIds,
       ajv,
       schemaClassifier: (schemaId: string) => {
@@ -323,8 +336,8 @@ ${convertedTs[schemaId]}
     return result;
   };
 
-  const toStaticcmsConfig = (elements: CMSResult<IStaticCmsField>) =>
-    configurationStaticcms(elements);
+  const toStaticcmsConfig = async (elements: CMSResult<IStaticCmsField>) =>
+    (await import('@kickstartds/jsonschema2staticcms')).configuration(elements);
 
   return {
     helper: {

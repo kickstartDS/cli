@@ -87,7 +87,7 @@ const run = async (
         await readFile(`${callingPath}/${configurationPath}/config.yml`, 'utf8')
       )) as IStaticCmsConfig;
 
-      const configStringStaticcms = schemaToStaticcmsConfig(
+      const configStringStaticcms = await schemaToStaticcmsConfig(
         elements,
         currentConfig
       );
@@ -97,7 +97,7 @@ const run = async (
         configStringStaticcms
       );
     } else {
-      const configStringStaticcms = schemaToStaticcmsConfig(elements);
+      const configStringStaticcms = await schemaToStaticcmsConfig(elements);
 
       await writeFile(
         `${shell.pwd()}/${configurationPath}/config.yml`,

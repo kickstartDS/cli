@@ -100,7 +100,7 @@ const run = async (
       }
     }
 
-    const configStringStackbit = schemaToStackbitConfig(elements);
+    const configStringStackbit = await schemaToStackbitConfig(elements);
 
     await writeFile(
       `${shell.pwd()}/${configurationPath}/models.json`,
