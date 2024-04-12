@@ -1,16 +1,17 @@
 import winston from 'winston';
-import fg from 'fast-glob';
 import fsExtra from 'fs-extra';
-import { basename, dirname } from 'path';
+import { dirname } from 'path';
+import shell from 'shelljs';
 import chalkTemplate from 'chalk-template';
+import { pascalCase } from 'change-case';
+import { getSchemaName } from '@kickstartds/jsonschema-utils';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
-import { pascalCase } from 'change-case';
 
 const writeFile = fsExtra.writeFile;
 
 const moduleName = 'schema';
-const command = 'types';
+const command = 'layer';
 const requiredCommands: string[] = [];
 
 const {
@@ -26,11 +27,12 @@ const {
 } = taskUtilShell;
 
 const {
-  helper: { generateComponentPropTypes: schemaGenerateComponentPropTypes },
+  helper: { layerComponentPropTypes: schemaLayerComponentPropTypes },
 } = taskUtilSchema;
 
 const run = async (
   componentsPath: string = 'src/components',
+  typesPath: string = 'src/types',
   mergeSchemas: boolean,
   rcOnly: boolean,
   isRevert: boolean,
@@ -48,51 +50,49 @@ const run = async (
     return true;
   };
 
-  const types = async (logger: winston.Logger): Promise<boolean> => {
-    logger.info(chalkTemplate`running the {bold types} subtask`);
+  const layer = async (logger: winston.Logger): Promise<boolean> => {
+    logger.info(chalkTemplate`running the {bold layer} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
-    const customSchemaPaths = await fg(customSchemaGlob);
-
-    const types = await schemaGenerateComponentPropTypes(
+    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
+    const layeredTypes = await schemaLayerComponentPropTypes(
       customSchemaGlob,
       mergeSchemas
     );
 
-    await Promise.all(
-      Object.keys(types).map(async (schemaId) => {
-        const schemaPath = customSchemaPaths.find((schemaPath) =>
-          schemaPath.endsWith(`/${schemaId.split('/').pop()}` || 'NO MATCH')
-        );
-        if (!schemaPath)
-          throw new Error("Couldn't find matching schema path for schema $id");
-        const base = basename(schemaPath, '.json');
-        const dir = dirname(schemaPath);
+    shell.mkdir('-p', `${shell.pwd()}/${typesPath}/`);
 
+    await Promise.all(
+      Object.keys(layeredTypes).map(async (schemaId) => {
         return writeFile(
-          `${dir}/${pascalCase(
-            base.replace(/\.(schema|definitions)$/, '')
-          )}Props.ts`,
-          types[schemaId]
+          `${shell.pwd()}/${typesPath}/${pascalCase(
+            getSchemaName(schemaId)
+          )}Props.d.ts`,
+          layeredTypes[schemaId]
         );
       })
     );
 
+    shell.cp(
+      `-r`,
+      `${shell.pwd()}/${typesPath}`,
+      `${callingPath}/${dirname(typesPath)}/`
+    );
+
     logger.info(
-      chalkTemplate`finished running the {bold types} subtask successfully`
+      chalkTemplate`finished running the {bold layer} subtask successfully`
     );
     return true;
   };
 
-  const typesRevert = async (logger: winston.Logger): Promise<boolean> => {
+  const layerRevert = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold types} subtask`
+      chalkTemplate`{bold reverting} running the {bold layer} subtask`
     );
 
     // TODO implement revert subtask
 
     logger.info(
-      chalkTemplate`{bold reverting} running the {bold types} subtask finished successfully`
+      chalkTemplate`{bold reverting} running the {bold layer} subtask finished successfully`
     );
     return true;
   };
@@ -103,22 +103,22 @@ const run = async (
     run: StepFunction[];
     revert: StepFunction[];
   } = {
-    run: [types],
-    revert: [typesRevert],
+    run: [layer],
+    revert: [layerRevert],
   };
 
-  const typesVariable = 'types-task';
+  const typesVariable = 'layer-task';
 
   const cmdLogger = getLogger(moduleName, 'info', true, false, command).child({
     command,
   });
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`starting: {bold reverting} types command with types variable {bold ${typesVariable}}`
+      chalkTemplate`starting: {bold reverting} layer command with types variable {bold ${typesVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`starting: types command with types variable {bold ${typesVariable}}`
+      chalkTemplate`starting: layer command with types variable {bold ${typesVariable}}`
     );
 
   await taskInit(null, rcOnly, isRevert, shouldCleanup, debugActive);
@@ -126,11 +126,11 @@ const run = async (
 
   if (isRevert)
     cmdLogger.info(
-      chalkTemplate`finished: {bold reverting} types command with types variable {bold ${typesVariable}}`
+      chalkTemplate`finished: {bold reverting} layer command with types variable {bold ${typesVariable}}`
     );
   else
     cmdLogger.info(
-      chalkTemplate`finished: types command with types variable {bold ${typesVariable}}`
+      chalkTemplate`finished: layer command with types variable {bold ${typesVariable}}`
     );
 };
 

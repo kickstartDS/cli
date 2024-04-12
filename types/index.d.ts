@@ -1,4 +1,11 @@
-import { JSONSchema7 } from "json-schema";
+import { type JSONSchema } from 'json-schema-typed/draft-07';
+import { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
+import { UniformElement } from '@kickstartds/jsonschema2uniform';
+import { IStaticCmsConfig } from '@kickstartds/jsonschema2statIccms';
+import { DataModel, ObjectModel, PageModel } from '@stackbit/types';
+import { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
+
+type StaticcmsComponents = IStaticCmsConfig['collections'][number]['fields'];
 
 // TODO add correct namespace
 interface ErrorLogEntry {
@@ -54,16 +61,14 @@ interface DockerUtil {
       command: string[],
       binds: string[],
       envFile: boolean,
-      autoRemove: boolean,
+      autoRemove: boolean
     ) => Promise<void>;
   };
 }
 
 interface ExampleUtil {
   helper: {
-    demo: (
-      outout: string,
-    ) => void;
+    demo: (outout: string) => void;
   };
 }
 
@@ -200,11 +205,59 @@ interface ShellUtil {
   };
 }
 
+interface CMSResult<Component, Template = Component, Global = Component> {
+  components: Component[];
+  templates: Template[];
+  globals: Global[];
+}
+
 interface SchemaUtil {
   helper: {
-    generateComponentPropTypes: (schemas: Record<string, JSONSchema7>) => Promise<Record<string, string>>;
-    dereferenceSchemas: (schemaPaths: string[], callingPath: string, componentsPath: string, schemaDomain: string) => Promise<Record<string, JSONSchema7>>;
-  }
+    generateComponentPropTypes: (
+      schemaGlob: string,
+      mergeAllOf: boolean
+    ) => Promise<Record<string, string>>;
+    layerComponentPropTypes: (
+      schemaGlob: string,
+      mergeAllOf: boolean
+    ) => Promise<Record<string, string>>;
+    dereferenceSchemas: (
+      schemaGlob: string
+    ) => Promise<Record<string, JSONSchema.Interface>>;
+    toStoryblok: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[],
+      components: string[]
+    ) => Promise<CMSResult<IStoryblokBlock>>;
+    toStoryblokConfig: (
+      elements: CMSResult<IStoryblokBlock>
+    ) => Promise<string>;
+    toUniform: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[]
+    ) => Promise<CMSResult<UniformElement>>;
+    toStackbit: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[],
+      components: string[]
+    ) => Promise<CMSResult<ObjectModel, PageModel, DataModel>>;
+    toStackbitConfig: (
+      elements: CMSResult<ObjectModel, PageModel, DataModel>
+    ) => Promise<string>;
+    toStaticcms: (
+      schemaGlob: string,
+      templates: string[],
+      globals: string[],
+      components: string[]
+    ) => Promise<CMSResult<IStaticCmsField>>;
+    toStaticcmsConfig: (
+      elements: CMSResult<IStaticCmsField>,
+      config?: IStaticCmsConfig
+    ) => Promise<string>;
+  };
 }
 
 interface TemplateUtil {

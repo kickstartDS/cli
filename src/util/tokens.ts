@@ -10,7 +10,8 @@ import jsonPointer from 'json-pointer';
 import chalkTemplate from 'chalk-template';
 import { readFile, writeFile } from 'fs';
 import { JSONSchema4, JSONSchema7 } from 'json-schema';
-import { inlineDefinitions } from '@kickstartds/jsonschema-utils/dist/helpers.js';
+import { type JSONSchema } from 'json-schema-typed/draft-07';
+import { inlineReferences } from '@kickstartds/jsonschema-utils';
 import { compile } from 'json-schema-to-typescript';
 import { promisify } from 'util';
 import { traverse as objectTraverse } from 'object-traversal';
@@ -323,7 +324,7 @@ export default (logger: winston.Logger): TokensUtil => {
         `${callingPath}/figma-tokens.schema.json`,
         'utf-8'
       )
-    ) as JSONSchema7;
+    ) as JSONSchema.Interface;
     const figmaTokensJson = JSON.parse(
       await fsReadFilePromise(`${callingPath}/figmaFile.json`, 'utf-8')
     );
@@ -341,9 +342,11 @@ export default (logger: winston.Logger): TokensUtil => {
       shell.exit(1);
     }
 
-    const dereffed = await $RefParser.dereference(figmaTokensSchema);
+    const dereffed = await $RefParser.dereference(
+      figmaTokensSchema as $RefParser.JSONSchema
+    );
     const merged = mergeAllOf(dereffed);
-    inlineDefinitions([figmaTokensSchema]);
+    inlineReferences([figmaTokensSchema]);
     delete merged.definitions;
 
     const types = await compile(merged as JSONSchema4, 'FigmaTokensSchema');
