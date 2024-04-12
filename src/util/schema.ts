@@ -14,22 +14,8 @@ import {
   dereference,
   IClassifierResult,
 } from '@kickstartds/jsonschema-utils';
-// import { createTypes } from '@kickstartds/jsonschema2types';
-import type {
-  IStoryblokBlock,
-  // configuration as configurationStoryblok,
-  // convert as convertToStoryblok,
-} from '@kickstartds/jsonschema2storyblok';
-// import { convert as convertToUniform } from '@kickstartds/jsonschema2uniform';
-// import {
-//   convert as convertToStackbit,
-//   configuration as configurationStackbit,
-// } from '@kickstartds/jsonschema2stackbit';
-import type {
-  // convert as convertToStaticcms,
-  // configuration as configurationStaticcms,
-  IStaticCmsField,
-} from '@kickstartds/jsonschema2staticcms';
+import type { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
+import type { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
 import { pascalCase } from 'change-case';
 import type { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 
