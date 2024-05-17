@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
-import runTask from '../../tasks/cms/stackbit-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const stackbit = new Command('stackbit')
   .description(
@@ -62,18 +62,20 @@ const stackbit = new Command('stackbit')
   .option('--debug', 'show debugging output', false)
   .action((options) =>
     import('./../../tasks/cms/stackbit-task.js').then((runTask) => {
-      runTask.default(
-        options.componentsPath,
-        options.configurationPath,
-        options.updateConfig,
-        options.templates,
-        options.globals,
-        options.components,
-        options.rcOnly,
-        options.revert,
-        options.cleanup,
-        options.debug
-      );
+      runTask
+        .default(
+          options.componentsPath,
+          options.configurationPath,
+          options.updateConfig,
+          options.templates,
+          options.globals,
+          options.components,
+          options.rcOnly,
+          options.revert,
+          options.cleanup,
+          options.debug
+        )
+        .catch(logErrorAndExit);
     })
   );
 

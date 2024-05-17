@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/schema/types-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const types = new Command('types')
   .description(
@@ -36,7 +37,7 @@ const types = new Command('types')
       options.revert,
       options.cleanup,
       options.debug
-    );
+    ).catch(logErrorAndExit);
   });
 
 export default types;

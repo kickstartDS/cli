@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/tokens/compile-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const init = new Command('compile')
   .description(
@@ -36,7 +37,7 @@ const init = new Command('compile')
       options.revert,
       options.cleanup,
       options.debug
-    );
+    ).catch(logErrorAndExit);
   });
 
 export default init;

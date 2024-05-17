@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/tokens/tofigma-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const init = new Command('tofigma')
   .description(
@@ -9,7 +10,7 @@ const init = new Command('tofigma')
   .option(
     '--token-dictionary-path <directory>',
     chalkTemplate`relative path from project root to your token dictionary, default {bold src/token/dictionary}`,
-    'src/token/dictionary',
+    'src/token/dictionary'
   )
   .option(
     '--rc-only',
@@ -24,7 +25,12 @@ const init = new Command('tofigma')
   .option('--cleanup', 'clean up tmp dirs before running', true)
   .option('--debug', 'show debugging output', false)
   .action((options) => {
-    runTask(options.rcOnly, options.revert, options.cleanup, options.debug);
+    runTask(
+      options.rcOnly,
+      options.revert,
+      options.cleanup,
+      options.debug
+    ).catch(logErrorAndExit);
   });
 
 export default init;

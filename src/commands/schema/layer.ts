@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/schema/layer-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const types = new Command('layer')
   .description(
@@ -42,7 +43,7 @@ const types = new Command('layer')
       options.revert,
       options.cleanup,
       options.debug
-    );
+    ).catch(logErrorAndExit);
   });
 
 export default types;

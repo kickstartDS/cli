@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/cms/uniform-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const uniform = new Command('uniform')
   .description(
@@ -48,7 +49,7 @@ const uniform = new Command('uniform')
       options.revert,
       options.cleanup,
       options.debug
-    );
+    ).catch(logErrorAndExit);
   });
 
 export default uniform;

@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/cms/staticcms-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const staticcms = new Command('staticcms')
   .description(
@@ -75,7 +76,7 @@ const staticcms = new Command('staticcms')
       options.revert,
       options.cleanup,
       options.debug
-    );
+    ).catch(logErrorAndExit);
   });
 
 export default staticcms;
