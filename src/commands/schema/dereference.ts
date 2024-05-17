@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/schema/dereference-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const dereference = new Command('dereference')
   .description(
@@ -34,8 +35,8 @@ const dereference = new Command('dereference')
       options.rcOnly,
       options.revert,
       options.cleanup,
-      options.debug,
-    );
+      options.debug
+    ).catch(logErrorAndExit);
   });
 
 export default dereference;

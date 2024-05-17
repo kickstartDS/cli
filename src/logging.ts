@@ -307,3 +307,8 @@ export const getLogger = (
 
   return winston.loggers.get(label);
 };
+
+export const logErrorAndExit = (error: any) => {
+  console.error(error);
+  process.exit(1);
+};

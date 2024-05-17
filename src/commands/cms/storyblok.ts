@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/cms/storyblok-task.js';
+import { logErrorAndExit } from '../../logging.js';
 
 const storyblok = new Command('storyblok')
   .description(
@@ -72,7 +73,7 @@ const storyblok = new Command('storyblok')
       options.revert,
       options.cleanup,
       options.debug
-    );
+    ).catch(logErrorAndExit);
   });
 
 export default storyblok;
