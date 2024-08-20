@@ -1,3 +1,18 @@
+# v3.1.0 (Tue Aug 20 2024)
+
+#### 🚀 Enhancement
+
+- Add cms layering capabilities [#52](https://github.com/kickstartDS/cli/pull/52) ([@julrich](https://github.com/julrich))
+
+#### 🐛 Bug Fix
+
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v3.0.0 (Fri Apr 12 2024)
 
 #### 💥 Breaking Change
