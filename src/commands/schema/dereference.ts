@@ -9,11 +9,12 @@ const dereference = new Command('dereference')
   .option(
     '--components-path <path>',
     chalkTemplate`relative path from project root to your components directory, default {bold ./src/components}`,
-    'src/components',
+    'src/components'
   )
   .option(
-    '--schema-domain <domain>',
-    chalkTemplate`{bold domain} used in your JSON Schema {bold $id} fields, e.g. "schema.mydomain.com"`,
+    '--cms-path <path>',
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`,
+    'src/cms'
   )
   .option(
     '--rc-only',
@@ -30,11 +31,11 @@ const dereference = new Command('dereference')
   .action((options) => {
     runTask(
       options.componentsPath,
-      options.schemaDomain,
+      options.cmsPath,
       options.rcOnly,
       options.revert,
       options.cleanup,
-      options.debug,
+      options.debug
     );
   });
 

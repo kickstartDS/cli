@@ -12,6 +12,11 @@ const types = new Command('layer')
     'src/components'
   )
   .option(
+    '--cms-path <path>',
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`,
+    'src/cms'
+  )
+  .option(
     '--types-path <path>',
     chalkTemplate`relative path from project root to your types directory, default {bold ./src/types}`,
     'src/types'
@@ -36,6 +41,7 @@ const types = new Command('layer')
   .action((options) => {
     runTask(
       options.componentsPath,
+      options.cmsPath,
       options.typesPath,
       options.mergeSchemas,
       options.rcOnly,

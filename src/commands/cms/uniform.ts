@@ -17,6 +17,11 @@ const uniform = new Command('uniform')
     'src/cms'
   )
   .option(
+    '--cms-path <path>',
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`,
+    'src/cms'
+  )
+  .option(
     '--templates <templateNames...>',
     chalkTemplate`components to classify as page templates`,
     ['page', 'blog-post', 'blog-overview', 'settings']
@@ -41,6 +46,7 @@ const uniform = new Command('uniform')
   .action((options) => {
     runTask(
       options.componentsPath,
+      options.cmsPath,
       options.configurationPath,
       options.templates,
       options.globals,

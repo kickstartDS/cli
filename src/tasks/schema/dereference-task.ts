@@ -30,7 +30,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  schemaDomain: string,
+  cmsPath: string = 'src/cms',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -51,9 +51,13 @@ const run = async (
     logger.info(chalkTemplate`running the {bold dereference} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
     const customSchemaPaths = await fg(customSchemaGlob);
 
-    const dereffed = await schemaDereferenceSchemas(customSchemaGlob);
+    const dereffed = await schemaDereferenceSchemas(globs);
 
     logger.info(
       chalkTemplate`dereffed {bold ${

@@ -32,6 +32,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  cmsPath: string = 'src/cms',
   typesPath: string = 'src/types',
   mergeSchemas: boolean,
   rcOnly: boolean,
@@ -54,8 +55,13 @@ const run = async (
     logger.info(chalkTemplate`running the {bold layer} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
+
     const layeredTypes = await schemaLayerComponentPropTypes(
-      customSchemaGlob,
+      globs,
       mergeSchemas
     );
 

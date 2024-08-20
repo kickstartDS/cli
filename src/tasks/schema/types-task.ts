@@ -31,6 +31,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  cmsPath: string = 'src/cms',
   mergeSchemas: boolean,
   rcOnly: boolean,
   isRevert: boolean,
@@ -54,10 +55,12 @@ const run = async (
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
     const customSchemaPaths = await fg(customSchemaGlob);
 
-    const types = await schemaGenerateComponentPropTypes(
-      customSchemaGlob,
-      mergeSchemas
-    );
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
+
+    const types = await schemaGenerateComponentPropTypes(globs, mergeSchemas);
 
     await Promise.all(
       Object.keys(types).map(async (schemaId) => {

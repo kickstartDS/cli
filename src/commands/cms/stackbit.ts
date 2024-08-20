@@ -12,6 +12,11 @@ const stackbit = new Command('stackbit')
     'src/components'
   )
   .option(
+    '--cms-path <path>',
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`,
+    'src/cms'
+  )
+  .option(
     '--configuration-path <path>',
     chalkTemplate`relative path from project root to the folder where your generated configuration should be stored, default {bold ./src/cms}`,
     'src/cms'
@@ -64,6 +69,7 @@ const stackbit = new Command('stackbit')
     import('./../../tasks/cms/stackbit-task.js').then((runTask) => {
       runTask.default(
         options.componentsPath,
+        options.cmsPath,
         options.configurationPath,
         options.updateConfig,
         options.templates,
