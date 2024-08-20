@@ -31,6 +31,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  cmsPath: string,
   mergeSchemas: boolean,
   rcOnly: boolean,
   isRevert: boolean,
@@ -52,17 +53,23 @@ const run = async (
     logger.info(chalkTemplate`running the {bold types} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
-    const customSchemaPaths = await fg(customSchemaGlob);
-
-    const types = await schemaGenerateComponentPropTypes(
-      customSchemaGlob,
-      mergeSchemas
-    );
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
+    const customSchemaPaths = await fg(globs);
+    const types = await schemaGenerateComponentPropTypes(globs, mergeSchemas);
 
     await Promise.all(
       Object.keys(types).map(async (schemaId) => {
-        const schemaPath = customSchemaPaths.find((schemaPath) =>
-          schemaPath.endsWith(`/${schemaId.split('/').pop()}` || 'NO MATCH')
+        const schemaPath = customSchemaPaths.find(
+          (schemaPath) =>
+            schemaPath.endsWith(
+              `/${schemaId.split('/').pop()}` || 'NO MATCH'
+            ) &&
+            (schemaId.startsWith('http://cms.')
+              ? !schemaPath.includes('node_modules')
+              : true)
         );
         if (!schemaPath)
           throw new Error("Couldn't find matching schema path for schema $id");

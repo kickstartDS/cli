@@ -214,18 +214,18 @@ interface CMSResult<Component, Template = Component, Global = Component> {
 interface SchemaUtil {
   helper: {
     generateComponentPropTypes: (
-      schemaGlob: string,
+      schemaGlobs: string[],
       mergeAllOf: boolean
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
-      schemaGlob: string,
+      schemaGlobs: string[],
       mergeAllOf: boolean
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
-      schemaGlob: string
+      schemaGlobs: string[]
     ) => Promise<Record<string, JSONSchema.Interface>>;
     toStoryblok: (
-      schemaGlob: string,
+      schemaGlobs: string[],
       templates: string[],
       globals: string[],
       components: string[]
@@ -234,12 +234,12 @@ interface SchemaUtil {
       elements: CMSResult<IStoryblokBlock>
     ) => Promise<string>;
     toUniform: (
-      schemaGlob: string,
+      schemaGlobs: string[],
       templates: string[],
       globals: string[]
     ) => Promise<CMSResult<UniformElement>>;
     toStackbit: (
-      schemaGlob: string,
+      schemaGlobs: string[],
       templates: string[],
       globals: string[],
       components: string[]
@@ -248,7 +248,7 @@ interface SchemaUtil {
       elements: CMSResult<ObjectModel, PageModel, DataModel>
     ) => Promise<string>;
     toStaticcms: (
-      schemaGlob: string,
+      schemaGlobs: string[],
       templates: string[],
       globals: string[],
       components: string[]

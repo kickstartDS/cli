@@ -12,6 +12,10 @@ const types = new Command('types')
     'src/components'
   )
   .option(
+    '--cms-path <path>',
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
+  )
+  .option(
     '--merge-schemas',
     chalkTemplate`merge allOf declarations in processed {bold JSON Schemas} / {bold component APIs}, default {bold false}`,
     false
@@ -31,6 +35,7 @@ const types = new Command('types')
   .action((options) => {
     runTask(
       options.componentsPath,
+      options.cmsPath,
       options.mergeSchemas,
       options.rcOnly,
       options.revert,
