@@ -32,7 +32,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  cmsPath: string = 'src/cms',
+  cmsPath: string,
   typesPath: string = 'src/types',
   mergeSchemas: boolean,
   rcOnly: boolean,

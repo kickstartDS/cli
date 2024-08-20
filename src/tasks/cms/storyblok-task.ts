@@ -35,7 +35,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  cmsPath: string = 'src/cms',
+  cmsPath: string,
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
   templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],

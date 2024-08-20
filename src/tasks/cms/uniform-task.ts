@@ -30,7 +30,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  cmsPath: string = 'src/cms',
+  cmsPath: string,
   configurationPath: string = 'src/cms',
   templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
   globals: string[] = ['header', 'footer', 'seo'],

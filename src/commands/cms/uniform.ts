@@ -12,13 +12,12 @@ const uniform = new Command('uniform')
     'src/components'
   )
   .option(
-    '--configuration-path <path>',
-    chalkTemplate`relative path from project root to the folder where your generated configuration should be stored, default {bold ./src/cms}`,
-    'src/cms'
+    '--cms-path <path>',
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
   )
   .option(
-    '--cms-path <path>',
-    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`,
+    '--configuration-path <path>',
+    chalkTemplate`relative path from project root to the folder where your generated configuration should be stored, default {bold ./src/cms}`,
     'src/cms'
   )
   .option(

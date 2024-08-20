@@ -13,8 +13,7 @@ const staticcms = new Command('staticcms')
   )
   .option(
     '--cms-path <path>',
-    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`,
-    'src/cms'
+    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
   )
   .option(
     '--configuration-path <path>',

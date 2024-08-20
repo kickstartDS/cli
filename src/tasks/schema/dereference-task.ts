@@ -30,7 +30,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  cmsPath: string = 'src/cms',
+  cmsPath: string,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -55,8 +55,7 @@ const run = async (
     if (cmsPath) {
       globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
     }
-    const customSchemaPaths = await fg(customSchemaGlob);
-
+    const customSchemaPaths = await fg(globs);
     const dereffed = await schemaDereferenceSchemas(globs);
 
     logger.info(
@@ -67,8 +66,14 @@ const run = async (
 
     await Promise.all(
       Object.keys(dereffed).map(async (schemaId) => {
-        const schemaPath = customSchemaPaths.find((schemaPath) =>
-          schemaPath.endsWith(`/${schemaId.split('/').pop()}` || 'NO MATCH')
+        const schemaPath = customSchemaPaths.find(
+          (schemaPath) =>
+            schemaPath.endsWith(
+              `/${schemaId.split('/').pop()}` || 'NO MATCH'
+            ) &&
+            (schemaId.startsWith('http://cms.')
+              ? !schemaPath.includes('node_modules')
+              : true)
         );
         if (!schemaPath)
           throw new Error("Couldn't find matching schema path for schema $id");
