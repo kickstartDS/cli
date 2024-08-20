@@ -35,6 +35,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  cmsPath: string,
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
   templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
@@ -72,8 +73,12 @@ const run = async (
     logger.info(chalkTemplate`running the {bold storyblok} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
     const elements = await schemaToStoryblok(
-      customSchemaGlob,
+      globs,
       templates,
       globals,
       components

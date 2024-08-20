@@ -13,6 +13,7 @@ import {
   shouldLayer,
   dereference,
   IClassifierResult,
+  processSchemaGlobs,
 } from '@kickstartds/jsonschema-utils';
 import type { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import type { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
@@ -25,9 +26,9 @@ const renderImportName = (schemaId: string) =>
 export default (logger: winston.Logger): SchemaUtil => {
   const subCmdLogger = logger.child({ utility: true });
 
-  const dereferenceSchemas = async (schemaGlob: string) => {
+  const dereferenceSchemas = async (schemaGlobs: string[]) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const dereffedSchemas = await dereference(customSchemaIds, ajv);
@@ -74,7 +75,7 @@ export default (logger: winston.Logger): SchemaUtil => {
   // };
 
   const generateComponentPropTypes = async (
-    schemaGlob: string,
+    schemaGlobs: string[],
     mergeAllOf: boolean
   ) => {
     subCmdLogger.info(
@@ -82,7 +83,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     );
 
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv, {
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
     });
@@ -114,7 +115,7 @@ export default (logger: winston.Logger): SchemaUtil => {
   };
 
   const layerComponentPropTypes = async (
-    schemaGlob: string,
+    schemaGlobs: string[],
     mergeAllOf: boolean
   ) => {
     subCmdLogger.info(
@@ -122,7 +123,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     );
 
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv, {
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
     });
@@ -185,13 +186,13 @@ ${convertedTs[schemaId]}
   };
 
   const toStoryblok = async (
-    schemaGlob: string,
+    schemaGlobs: string[],
     templates: string[],
     globals: string[],
     components: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -223,12 +224,12 @@ ${convertedTs[schemaId]}
     (await import('@kickstartds/jsonschema2storyblok')).configuration(elements);
 
   const toUniform = async (
-    schemaGlob: string,
+    schemaGlobs: string[],
     templates: string[],
     globals: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -253,13 +254,13 @@ ${convertedTs[schemaId]}
   };
 
   const toStackbit = async (
-    schemaGlob: string,
+    schemaGlobs: string[],
     templates: string[],
     globals: string[],
     components: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -293,12 +294,12 @@ ${convertedTs[schemaId]}
     (await import('@kickstartds/jsonschema2stackbit')).configuration(elements);
 
   const toStaticcms = async (
-    schemaGlob: string,
+    schemaGlobs: string[],
     templates: string[],
     globals: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlob(schemaGlob, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (

@@ -30,7 +30,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  schemaDomain: string,
+  cmsPath: string,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -51,9 +51,12 @@ const run = async (
     logger.info(chalkTemplate`running the {bold dereference} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
-    const customSchemaPaths = await fg(customSchemaGlob);
-
-    const dereffed = await schemaDereferenceSchemas(customSchemaGlob);
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
+    const customSchemaPaths = await fg(globs);
+    const dereffed = await schemaDereferenceSchemas(globs);
 
     logger.info(
       chalkTemplate`dereffed {bold ${
@@ -63,8 +66,14 @@ const run = async (
 
     await Promise.all(
       Object.keys(dereffed).map(async (schemaId) => {
-        const schemaPath = customSchemaPaths.find((schemaPath) =>
-          schemaPath.endsWith(`/${schemaId.split('/').pop()}` || 'NO MATCH')
+        const schemaPath = customSchemaPaths.find(
+          (schemaPath) =>
+            schemaPath.endsWith(
+              `/${schemaId.split('/').pop()}` || 'NO MATCH'
+            ) &&
+            (schemaId.startsWith('http://cms.')
+              ? !schemaPath.includes('node_modules')
+              : true)
         );
         if (!schemaPath)
           throw new Error("Couldn't find matching schema path for schema $id");

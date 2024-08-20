@@ -36,6 +36,7 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
+  cmsPath: string,
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
   templates: string[] = ['page', 'blog-post'],
@@ -73,8 +74,12 @@ const run = async (
     logger.info(chalkTemplate`running the {bold staticcms} subtask`);
 
     const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
+    const globs = [customSchemaGlob];
+    if (cmsPath) {
+      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    }
     const elements = await schemaToStaticcms(
-      customSchemaGlob,
+      globs,
       templates,
       globals,
       components
