@@ -28,11 +28,11 @@ export default (logger: winston.Logger): SchemaUtil => {
 
   const dereferenceSchemas = async (
     schemaGlobs: string[],
-    loadPageSchema = true
+    defaultPageSchema = true
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
-      loadPageSchema,
+      loadPageSchema: defaultPageSchema,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
