@@ -26,9 +26,14 @@ const renderImportName = (schemaId: string) =>
 export default (logger: winston.Logger): SchemaUtil => {
   const subCmdLogger = logger.child({ utility: true });
 
-  const dereferenceSchemas = async (schemaGlobs: string[]) => {
+  const dereferenceSchemas = async (
+    schemaGlobs: string[],
+    loadPageSchema = true
+  ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      loadPageSchema,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const dereffedSchemas = await dereference(customSchemaIds, ajv);

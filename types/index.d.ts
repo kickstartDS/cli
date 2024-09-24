@@ -222,7 +222,8 @@ interface SchemaUtil {
       mergeAllOf: boolean
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
-      schemaGlobs: string[]
+      schemaGlobs: string[],
+      loadPageSchema: boolean
     ) => Promise<Record<string, JSONSchema.Interface>>;
     toStoryblok: (
       schemaGlobs: string[],
