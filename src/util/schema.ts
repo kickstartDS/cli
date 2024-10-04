@@ -103,13 +103,14 @@ export default (logger: winston.Logger): SchemaUtil => {
           )}Props } from '@kickstartds/${getSchemaModule(
             schemaId
           )}/lib/${getSchemaName(schemaId)}/typing'`
-        : componentsPath.startsWith('node_modules/')
+        : componentsPath.startsWith('node_modules/') &&
+          !schemaId.startsWith('http://cms.')
         ? `import type { ${pascalCase(
             getSchemaName(schemaId)
           )}Props } from '${componentsPath
             .split('/')
-            .slice(1, 2)
-            .join('/')}/${getSchemaName(schemaId)}`
+            .slice(1, 3)
+            .join('/')}/${getSchemaName(schemaId)}'`
         : `import type { ${pascalCase(
             getSchemaName(schemaId)
           )}Props } from '../${getSchemaName(schemaId)}/${pascalCase(
