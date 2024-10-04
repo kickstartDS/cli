@@ -216,7 +216,8 @@ interface SchemaUtil {
     generateComponentPropTypes: (
       schemaGlobs: string[],
       mergeAllOf: boolean,
-      defaultPageSchema: boolean
+      defaultPageSchema: boolean,
+      componentsPath: string
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
       schemaGlobs: string[],

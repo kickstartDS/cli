@@ -9,7 +9,6 @@ import {
   getUniqueSchemaIds,
   isLayering,
   layeredSchemaId,
-  processSchemaGlob,
   shouldLayer,
   dereference,
   IClassifierResult,
@@ -82,7 +81,8 @@ export default (logger: winston.Logger): SchemaUtil => {
   const generateComponentPropTypes = async (
     schemaGlobs: string[],
     mergeAllOf: boolean,
-    defaultPageSchema = true
+    defaultPageSchema = true,
+    componentsPath = 'src/components'
   ) => {
     subCmdLogger.info(
       chalkTemplate`generating component prop types for component schemas`
@@ -103,6 +103,13 @@ export default (logger: winston.Logger): SchemaUtil => {
           )}Props } from '@kickstartds/${getSchemaModule(
             schemaId
           )}/lib/${getSchemaName(schemaId)}/typing'`
+        : componentsPath.startsWith('node_modules/')
+        ? `import type { ${pascalCase(
+            getSchemaName(schemaId)
+          )}Props } from '${componentsPath
+            .split('/')
+            .slice(1, 2)
+            .join('/')}/${getSchemaName(schemaId)}`
         : `import type { ${pascalCase(
             getSchemaName(schemaId)
           )}Props } from '../${getSchemaName(schemaId)}/${pascalCase(

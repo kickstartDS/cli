@@ -62,7 +62,8 @@ const run = async (
     const types = await schemaGenerateComponentPropTypes(
       globs,
       mergeSchemas,
-      defaultPageSchema
+      defaultPageSchema,
+      componentsPath
     );
 
     await Promise.all(
