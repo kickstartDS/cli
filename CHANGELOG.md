@@ -1,3 +1,14 @@
+# v3.2.0 (Fri Oct 04 2024)
+
+#### 🚀 Enhancement
+
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v3.1.1 (Fri Oct 04 2024)
 
 #### 🐛 Bug Fix
