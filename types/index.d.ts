@@ -215,14 +215,17 @@ interface SchemaUtil {
   helper: {
     generateComponentPropTypes: (
       schemaGlobs: string[],
-      mergeAllOf: boolean
+      mergeAllOf: boolean,
+      defaultPageSchema: boolean
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
       schemaGlobs: string[],
-      mergeAllOf: boolean
+      mergeAllOf: boolean,
+      defaultPageSchema: boolean
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
-      schemaGlobs: string[]
+      schemaGlobs: string[],
+      defaultPageSchema: boolean
     ) => Promise<Record<string, JSONSchema.Interface>>;
     toStoryblok: (
       schemaGlobs: string[],

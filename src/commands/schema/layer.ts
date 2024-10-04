@@ -26,6 +26,10 @@ const types = new Command('layer')
     false
   )
   .option(
+    '--no-default-page-schema',
+    chalkTemplate`disable load of default page schema, default {bold false}`
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -43,6 +47,7 @@ const types = new Command('layer')
       options.cmsPath,
       options.typesPath,
       options.mergeSchemas,
+      options.defaultPageSchema,
       options.rcOnly,
       options.revert,
       options.cleanup,

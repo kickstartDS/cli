@@ -31,6 +31,7 @@ const {
 const run = async (
   componentsPath: string = 'src/components',
   cmsPath: string,
+  defaultPageSchema: boolean = true,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -56,7 +57,7 @@ const run = async (
       globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
     }
     const customSchemaPaths = await fg(globs);
-    const dereffed = await schemaDereferenceSchemas(globs);
+    const dereffed = await schemaDereferenceSchemas(globs, defaultPageSchema);
 
     logger.info(
       chalkTemplate`dereffed {bold ${

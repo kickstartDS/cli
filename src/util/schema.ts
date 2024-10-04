@@ -26,9 +26,14 @@ const renderImportName = (schemaId: string) =>
 export default (logger: winston.Logger): SchemaUtil => {
   const subCmdLogger = logger.child({ utility: true });
 
-  const dereferenceSchemas = async (schemaGlobs: string[]) => {
+  const dereferenceSchemas = async (
+    schemaGlobs: string[],
+    defaultPageSchema = true
+  ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      loadPageSchema: defaultPageSchema,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const dereffedSchemas = await dereference(customSchemaIds, ajv);
@@ -76,7 +81,8 @@ export default (logger: winston.Logger): SchemaUtil => {
 
   const generateComponentPropTypes = async (
     schemaGlobs: string[],
-    mergeAllOf: boolean
+    mergeAllOf: boolean,
+    defaultPageSchema = true
   ) => {
     subCmdLogger.info(
       chalkTemplate`generating component prop types for component schemas`
@@ -86,6 +92,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
+      loadPageSchema: defaultPageSchema,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -116,7 +123,8 @@ export default (logger: winston.Logger): SchemaUtil => {
 
   const layerComponentPropTypes = async (
     schemaGlobs: string[],
-    mergeAllOf: boolean
+    mergeAllOf: boolean,
+    defaultPageSchema = true
   ) => {
     subCmdLogger.info(
       chalkTemplate`layering component prop types for component schemas`
@@ -126,6 +134,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
+      loadPageSchema: defaultPageSchema,
     });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')

@@ -16,6 +16,10 @@ const dereference = new Command('dereference')
     chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
   )
   .option(
+    '--no-default-page-schema',
+    chalkTemplate`disable load of default page schema, default {bold false}`
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-dereferencerc.json}, skip prompts`,
     true
@@ -31,6 +35,7 @@ const dereference = new Command('dereference')
     runTask(
       options.componentsPath,
       options.cmsPath,
+      options.defaultPageSchema,
       options.rcOnly,
       options.revert,
       options.cleanup,
