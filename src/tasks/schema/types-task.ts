@@ -33,6 +33,7 @@ const run = async (
   componentsPath: string = 'src/components',
   cmsPath: string,
   mergeSchemas: boolean,
+  defaultPageSchema: boolean = true,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
