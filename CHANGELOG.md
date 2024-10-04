@@ -1,3 +1,19 @@
+# v3.1.1 (Fri Oct 04 2024)
+
+#### 🐛 Bug Fix
+
+- Add option to toggle default page [#54](https://github.com/kickstartDS/cli/pull/54) ([@julrich](https://github.com/julrich))
+
+#### ⚠️ Pushed to `main`
+
+- fix(schema): generate types for intermediary components ([@julrich](https://github.com/julrich))
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v3.1.0 (Tue Aug 20 2024)
 
 #### 🚀 Enhancement
