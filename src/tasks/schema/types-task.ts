@@ -58,7 +58,12 @@ const run = async (
       globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
     }
     const customSchemaPaths = await fg(globs);
-    const types = await schemaGenerateComponentPropTypes(globs, mergeSchemas);
+    const types = await schemaGenerateComponentPropTypes(
+      globs,
+      mergeSchemas,
+      defaultPageSchema,
+      componentsPath
+    );
 
     await Promise.all(
       Object.keys(types).map(async (schemaId) => {
