@@ -36,6 +36,7 @@ const run = async (
   typesPath: string = 'src/types',
   mergeSchemas: boolean,
   defaultPageSchema: boolean = true,
+  layerKickstartdsComponents: boolean = true,
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -64,7 +65,8 @@ const run = async (
     const layeredTypes = await schemaLayerComponentPropTypes(
       globs,
       mergeSchemas,
-      defaultPageSchema
+      defaultPageSchema,
+      layerKickstartdsComponents
     );
 
     shell.mkdir('-p', `${shell.pwd()}/${typesPath}/`);

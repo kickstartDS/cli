@@ -30,6 +30,11 @@ const types = new Command('layer')
     chalkTemplate`disable load of default page schema, default {bold false}`
   )
   .option(
+    '--layer-kickstartds-components',
+    chalkTemplate`whether kickstartDS base components should be layered`,
+    true
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -48,6 +53,7 @@ const types = new Command('layer')
       options.typesPath,
       options.mergeSchemas,
       options.defaultPageSchema,
+      options.layerKickstartdsComponents,
       options.rcOnly,
       options.revert,
       options.cleanup,
