@@ -27,11 +27,13 @@ export default (logger: winston.Logger): SchemaUtil => {
 
   const dereferenceSchemas = async (
     schemaGlobs: string[],
-    defaultPageSchema = true
+    defaultPageSchema = true,
+    layerKickstartdsComponents = true
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -82,6 +84,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     schemaGlobs: string[],
     mergeAllOf: boolean,
     defaultPageSchema = true,
+    layerKickstartdsComponents = true,
     componentsPath = 'src/components'
   ) => {
     subCmdLogger.info(
@@ -93,6 +96,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
       loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -132,7 +136,8 @@ export default (logger: winston.Logger): SchemaUtil => {
   const layerComponentPropTypes = async (
     schemaGlobs: string[],
     mergeAllOf: boolean,
-    defaultPageSchema = true
+    defaultPageSchema = true,
+    layerKickstartdsComponents = true
   ) => {
     subCmdLogger.info(
       chalkTemplate`layering component prop types for component schemas`
@@ -143,6 +148,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
       loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
     });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')
