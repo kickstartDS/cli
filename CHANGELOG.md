@@ -1,3 +1,19 @@
+# v3.3.0 (Fri Feb 28 2025)
+
+#### 🚀 Enhancement
+
+- Add naming option for generated TypeScript component interfaces [#58](https://github.com/kickstartDS/cli/pull/58) ([@julrich](https://github.com/julrich))
+- Add ref layering option switch to schema tasks [#57](https://github.com/kickstartDS/cli/pull/57) ([@julrich](https://github.com/julrich))
+
+#### 🐛 Bug Fix
+
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v3.2.0 (Fri Oct 04 2024)
 
 #### 🚀 Enhancement
