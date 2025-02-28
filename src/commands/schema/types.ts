@@ -25,6 +25,16 @@ const types = new Command('types')
     chalkTemplate`disable load of default page schema, default {bold false}`
   )
   .option(
+    '--layer-kickstartds-components',
+    chalkTemplate`whether kickstartDS base components should be layered`,
+    true
+  )
+  .option(
+    '--type-naming <naming>',
+    chalkTemplate`whether types should be named by "title" or "id"`,
+    'title'
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -42,6 +52,8 @@ const types = new Command('types')
       options.cmsPath,
       options.mergeSchemas,
       options.defaultPageSchema,
+      options.layerKickstartdsComponents,
+      options.typeNaming,
       options.rcOnly,
       options.revert,
       options.cleanup,

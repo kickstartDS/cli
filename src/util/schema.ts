@@ -18,6 +18,8 @@ import type { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import type { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
 import { pascalCase } from 'change-case';
 import type { DataModel, ObjectModel, PageModel } from '@stackbit/types';
+import { defaultTitleFunction } from '@kickstartds/jsonschema2types';
+import { JSONSchema4 } from 'json-schema';
 
 const renderImportName = (schemaId: string) =>
   `${pascalCase(getSchemaName(schemaId))}Props`;
@@ -27,11 +29,13 @@ export default (logger: winston.Logger): SchemaUtil => {
 
   const dereferenceSchemas = async (
     schemaGlobs: string[],
-    defaultPageSchema = true
+    defaultPageSchema = true,
+    layerKickstartdsComponents = true
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -82,6 +86,8 @@ export default (logger: winston.Logger): SchemaUtil => {
     schemaGlobs: string[],
     mergeAllOf: boolean,
     defaultPageSchema = true,
+    layerKickstartdsComponents = true,
+    typeNaming = 'title',
     componentsPath = 'src/components'
   ) => {
     subCmdLogger.info(
@@ -93,6 +99,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
       loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -117,13 +124,18 @@ export default (logger: winston.Logger): SchemaUtil => {
             getSchemaName(schemaId)
           )}Props'`;
 
+    const idTitleFunction = (schema: JSONSchema4): string =>
+      `${pascalCase(getSchemaName(schema.$id))}Props`;
+
     const convertedTs = await (
       await import('@kickstartds/jsonschema2types')
     ).createTypes(
       customSchemaIds,
       renderImportName,
       renderImportStatement,
-      ajv
+      ajv,
+      {},
+      typeNaming === 'id' ? idTitleFunction : defaultTitleFunction
     );
 
     return convertedTs;
@@ -132,7 +144,8 @@ export default (logger: winston.Logger): SchemaUtil => {
   const layerComponentPropTypes = async (
     schemaGlobs: string[],
     mergeAllOf: boolean,
-    defaultPageSchema = true
+    defaultPageSchema = true,
+    layerKickstartdsComponents = true
   ) => {
     subCmdLogger.info(
       chalkTemplate`layering component prop types for component schemas`
@@ -143,6 +156,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       typeResolution: false,
       mergeAllOf: mergeAllOf,
       loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
     });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')

@@ -20,6 +20,11 @@ const dereference = new Command('dereference')
     chalkTemplate`disable load of default page schema, default {bold false}`
   )
   .option(
+    '--layer-kickstartds-components',
+    chalkTemplate`whether kickstartDS base components should be layered`,
+    true
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-dereferencerc.json}, skip prompts`,
     true
@@ -36,6 +41,7 @@ const dereference = new Command('dereference')
       options.componentsPath,
       options.cmsPath,
       options.defaultPageSchema,
+      options.layerKickstartdsComponents,
       options.rcOnly,
       options.revert,
       options.cleanup,
