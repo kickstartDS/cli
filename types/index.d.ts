@@ -218,6 +218,7 @@ interface SchemaUtil {
       mergeAllOf: boolean,
       defaultPageSchema: boolean,
       layerRefs: boolean,
+      typeNaming: string,
       componentsPath: string
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (

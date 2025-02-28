@@ -30,6 +30,11 @@ const types = new Command('types')
     true
   )
   .option(
+    '--type-naming <naming>',
+    chalkTemplate`whether types should be named by "title" or "id"`,
+    'title'
+  )
+  .option(
     '--rc-only',
     chalkTemplate`only read configuration from {bold .schema-typesrc.json}, skip prompts`,
     true
@@ -48,6 +53,7 @@ const types = new Command('types')
       options.mergeSchemas,
       options.defaultPageSchema,
       options.layerKickstartdsComponents,
+      options.typeNaming,
       options.rcOnly,
       options.revert,
       options.cleanup,

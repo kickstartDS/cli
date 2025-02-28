@@ -35,6 +35,7 @@ const run = async (
   mergeSchemas: boolean,
   defaultPageSchema: boolean = true,
   layerKickstartdsComponents: boolean = true,
+  typeNaming: string = 'title',
   rcOnly: boolean,
   isRevert: boolean,
   shouldCleanup: boolean,
@@ -65,6 +66,7 @@ const run = async (
       mergeSchemas,
       defaultPageSchema,
       layerKickstartdsComponents,
+      typeNaming,
       componentsPath
     );
 
