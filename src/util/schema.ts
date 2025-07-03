@@ -11,6 +11,7 @@ import {
   layeredSchemaId,
   shouldLayer,
   dereference,
+  getSchemaDefaults,
   IClassifierResult,
   processSchemaGlobs,
 } from '@kickstartds/jsonschema-utils';
@@ -20,6 +21,7 @@ import { pascalCase } from 'change-case';
 import type { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 import { defaultTitleFunction } from '@kickstartds/jsonschema2types';
 import { JSONSchema4 } from 'json-schema';
+import { type JSONSchema } from 'json-schema-typed/draft-07';
 
 const renderImportName = (schemaId: string) =>
   `${pascalCase(getSchemaName(schemaId))}Props`;
@@ -216,6 +218,31 @@ ${convertedTs[schemaId]}
     return convertedTs;
   };
 
+  const createDefaultObjects = async (
+    schemaGlobs: string[],
+    defaultPageSchema = true,
+    layerKickstartdsComponents = true
+  ) => {
+    const ajv = getSchemaRegistry();
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
+    });
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+
+    const defaultObjects: Record<string, unknown> = {};
+    for (const schemaId of customSchemaIds) {
+      defaultObjects[schemaId] = await getSchemaDefaults(schemaId, ajv);
+    }
+
+    subCmdLogger.info(
+      chalkTemplate`creating {bold ${
+        Object.keys(defaultObjects).length
+      } default objects}`
+    );
+    return defaultObjects;
+  };
+
   const toStoryblok = async (
     schemaGlobs: string[],
     templates: string[],
@@ -362,6 +389,7 @@ ${convertedTs[schemaId]}
       dereferenceSchemas,
       generateComponentPropTypes,
       layerComponentPropTypes,
+      createDefaultObjects,
       toStoryblok,
       toStoryblokConfig,
       toUniform,

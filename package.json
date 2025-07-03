@@ -101,7 +101,7 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@kickstartds/eslint-config": "^1.2.0",
     "@kickstartds/style-dictionary": "^4.0.2",
-    "@kickstartds/jsonschema-utils": "^3.0.11",
+    "@kickstartds/jsonschema-utils": "^3.5.0",
     "@kickstartds/jsonschema2staticcms": "^2.9.15",
     "@kickstartds/jsonschema2stackbit": "^1.3.14",
     "@kickstartds/jsonschema2storyblok": "^1.5.20",

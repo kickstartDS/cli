@@ -232,6 +232,11 @@ interface SchemaUtil {
       defaultPageSchema: boolean,
       layerRefs: boolean
     ) => Promise<Record<string, JSONSchema.Interface>>;
+    createDefaultObjects: (
+      schemaGlobs: string[],
+      defaultPageSchema: boolean,
+      layerRefs: boolean
+    ) => Promise<Record<string, unknown>>;
     toStoryblok: (
       schemaGlobs: string[],
       templates: string[],
