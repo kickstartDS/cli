@@ -5,6 +5,7 @@ import chalkTemplate from 'chalk-template';
 import createTask from '../task.js';
 import { StepFunction } from '../../../types/index.js';
 import fsExtra from 'fs-extra';
+import { pascalCase } from 'change-case';
 
 const writeFile = fsExtra.writeFile;
 
@@ -87,8 +88,10 @@ const run = async (
         const dir = dirname(schemaPath);
 
         return writeFile(
-          `${dir}/${base}.defaults.json`,
-          JSON.stringify(defaults[schemaId], null, 2)
+          `${dir}/${pascalCase(
+            base.replace(/\.(schema|definitions)$/, '')
+          )}Defaults.ts`,
+          defaults[schemaId]
         );
       })
     );

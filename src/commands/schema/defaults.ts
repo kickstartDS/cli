@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import chalkTemplate from 'chalk-template';
 import runTask from '../../tasks/schema/defaults-task.js';
 
-const dereference = new Command('defaults')
+const defaults = new Command('defaults')
   .description(
     chalkTemplate`Creates default objects for {bold JSON Schema} component definitions`
   )
@@ -26,12 +26,12 @@ const dereference = new Command('defaults')
   )
   .option(
     '--rc-only',
-    chalkTemplate`only read configuration from {bold .schema-dereferencerc.json}, skip prompts`,
+    chalkTemplate`only read configuration from {bold .schema-defaultsrc.json}, skip prompts`,
     true
   )
   .option(
     '--revert',
-    chalkTemplate`revert command defined by {bold .schema-dereferencerc.json}, implies {bold --rc-only}`,
+    chalkTemplate`revert command defined by {bold .schema-defaultsrc.json}, implies {bold --rc-only}`,
     false
   )
   .option('--cleanup', 'clean up tmp dirs before running', true)
@@ -49,4 +49,4 @@ const dereference = new Command('defaults')
     );
   });
 
-export default dereference;
+export default defaults;

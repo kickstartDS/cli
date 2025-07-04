@@ -21,7 +21,6 @@ import { pascalCase } from 'change-case';
 import type { DataModel, ObjectModel, PageModel } from '@stackbit/types';
 import { defaultTitleFunction } from '@kickstartds/jsonschema2types';
 import { JSONSchema4 } from 'json-schema';
-import { type JSONSchema } from 'json-schema-typed/draft-07';
 
 const renderImportName = (schemaId: string) =>
   `${pascalCase(getSchemaName(schemaId))}Props`;
@@ -228,11 +227,34 @@ ${convertedTs[schemaId]}
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
     });
+    const kdsSchemaIds = schemaIds.filter((schemaId) =>
+      schemaId.includes('schema.kickstartds.com')
+    );
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const defaultObjects: Record<string, unknown> = {};
     for (const schemaId of customSchemaIds) {
       defaultObjects[schemaId] = await getSchemaDefaults(schemaId, ajv);
+    }
+
+    const getImportName = (schemaId: string) => {
+      const layeredId = isLayering(schemaId, kdsSchemaIds)
+        ? layeredSchemaId(schemaId, kdsSchemaIds)
+        : schemaId;
+      return `${pascalCase(getSchemaName(layeredId))}Props`;
+    };
+
+    for (const schemaId of Object.keys(defaultObjects)) {
+      defaultObjects[schemaId] = `import { DeepPartial } from "../helpers";
+import { ${getImportName(schemaId)} } from "./${getImportName(schemaId)}";
+
+const defaults: DeepPartial<${getImportName(schemaId)}> = ${JSON.stringify(
+        defaultObjects[schemaId],
+        null,
+        2
+      )};
+
+export default defaults;`;
     }
 
     subCmdLogger.info(
