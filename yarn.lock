@@ -921,38 +921,10 @@
     mkdirp "^1.0.4"
     prettier "^2.6.2"
 
-"@kickstartds/jsonschema-utils@3.0.11":
-  version "3.0.11"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-3.0.11.tgz#c98a1e42fe1548d2e069e60d813d3960f287a6b0"
-  integrity sha512-miE3/MJDpbItVKcpeG9xnPgzDtmB/1sL7I5h1pU9BGVa4su1vLeOBAtl+vneOFYQkxOwvKzuHeZaJiCWS8nIww==
-  dependencies:
-    "@bcherny/json-schema-ref-parser" "10.0.5-fork"
-    ajv "^8.12.0"
-    change-case "^5.0.2"
-    directed-graph-typed "~1.52.0"
-    fast-glob "^3.2.12"
-    import-meta-resolve "~3.0.0"
-    json-schema-traverse "^1.0.0"
-    jsonpointer "~5.0.1"
-
-"@kickstartds/jsonschema-utils@3.4.3":
-  version "3.4.3"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-3.4.3.tgz#b16025fb7f4e76c843d33cd159e49b71c4b12640"
-  integrity sha512-2rdTBz1psnSngP1fjy50GWy9jms0z4L7egmWhcqSkXsJesccblsWsUC+2i2Dg+0WIVsB+SjMLIxteLr+5Kyhcw==
-  dependencies:
-    "@bcherny/json-schema-ref-parser" "10.0.5-fork"
-    ajv "^8.12.0"
-    change-case "^5.0.2"
-    directed-graph-typed "~1.52.0"
-    fast-glob "^3.2.12"
-    import-meta-resolve "~3.0.0"
-    json-schema-traverse "^1.0.0"
-    jsonpointer "~5.0.1"
-
-"@kickstartds/jsonschema-utils@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-3.5.0.tgz#01791974464bb9b19e6b412c8c7dee24121e8ac4"
-  integrity sha512-iVAvqiRlYyM5df1/fcVTBEDRArJW9TFsHo4vp+3Btx4RALwVvkivCFudhkbNYuE2qkpp6sCPAnhVg5Df6Em9VQ==
+"@kickstartds/jsonschema-utils@3.6.1", "@kickstartds/jsonschema-utils@^3.6.1":
+  version "3.6.1"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-3.6.1.tgz#b692e56bfeae8c8bf8961ba3f86e358a811da198"
+  integrity sha512-Ke5adEzH0s5XXYJmBLGIIGBXAl0rWHaiOoFE0LmZUD1S8rTgS7VN5hoW6OWj35uXcWRVwC0sdkPFnKsVCxM+rQ==
   dependencies:
     "@bcherny/json-schema-ref-parser" "10.0.5-fork"
     "@kickstartds/cambria" "1.0.5"
@@ -964,51 +936,52 @@
     json-schema-traverse "^1.0.0"
     jsonpointer "~5.0.1"
 
-"@kickstartds/jsonschema2stackbit@^1.3.14":
-  version "1.3.14"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2stackbit/-/jsonschema2stackbit-1.3.14.tgz#d3f27bfa02b1354847d9aa246cf64293f6f8d298"
-  integrity sha512-f8LZZspPHpZjYuoe1bRNIZa1o5LlZHlT/eD5FVgM+f1mt05VM3BzwqzvX8eRNahXIkaET1PBH5I672xjLuoxpg==
+"@kickstartds/jsonschema2stackbit@^1.7.4":
+  version "1.7.4"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2stackbit/-/jsonschema2stackbit-1.7.4.tgz#bd43e7932c4b8e207e85af40b82caa52f3efccfb"
+  integrity sha512-IKZCckXqOZeAj3xvm01t0KNOdxCA/kdlkaT1keXIzHglzvBEACu5JjaGaU0/OfswVJ8tfUOh9rqEb3RsIfN0Lg==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.0.11"
+    "@kickstartds/jsonschema-utils" "3.6.1"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
+    pluralize-esm "~9.0.5"
 
-"@kickstartds/jsonschema2staticcms@^2.9.15":
-  version "2.9.15"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2staticcms/-/jsonschema2staticcms-2.9.15.tgz#94ea3e37e7f0cd831d694723de3232e7396a21cb"
-  integrity sha512-r5WxqcwTZpJTmN0ZvKs4J5cLch7MA0ZOycPngd3lFCNmJ3CnyaN7pg6rlosypp6aNqNkGnC+XeNjOscY/3xtlg==
+"@kickstartds/jsonschema2staticcms@^2.9.35":
+  version "2.9.35"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2staticcms/-/jsonschema2staticcms-2.9.35.tgz#0872a8a7d441cb88230fc88a6b573f4477261200"
+  integrity sha512-uJUZXVVl+ZPwYgNfFwAW6lHQcmjyyttDMpC6CS9WE1Y3CyBMANT12UKkfrLbfEcj8LJNlUdS/mJBOoF8moT8Yw==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.0.11"
+    "@kickstartds/jsonschema-utils" "3.6.1"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
     pluralize "^8.0.0"
 
-"@kickstartds/jsonschema2storyblok@^1.5.20":
-  version "1.5.20"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.5.20.tgz#f167c01c7b76adde5b61c29a5705922c2ddeb2cc"
-  integrity sha512-aEJV7wZMTYms6VGMSqPdNno3M7zJT+ApV9cGMjJWdSg6EjWh3Tusgz/u0X0Xp11UmR172Ds7NtgfbzO5T4TjFg==
+"@kickstartds/jsonschema2storyblok@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.6.5.tgz#f8e376df999a732d4bfb6a270a01afbe2cfba16f"
+  integrity sha512-h+AHseOHkiU95LZ+qxlw2d66yJm/nH4iU+mXgG9QGsRZrQjchFmEgGtj2/xXMJWl9d0ZCsWDuTBfr9/R8jE0dQ==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.0.11"
+    "@kickstartds/jsonschema-utils" "3.6.1"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
     uuid "~9.0.0"
 
-"@kickstartds/jsonschema2types@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.2.0.tgz#0f1d67d11679996f1fc24bb46cc8d3267f204d5f"
-  integrity sha512-xAiSwFzMr7kae59a3EXzkn9Iznm7Khp3rXm9oA29IaXKT/lC0rq9JPepwtxsr/AjkwY+YyKrq+Kxsl8pdT1QWA==
+"@kickstartds/jsonschema2types@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.2.3.tgz#a4580b772648682d1c07c37af5be7aabf38ee891"
+  integrity sha512-Dp41eGa4jkyahkB0NPYroixStSP/+f/01r5FuDIxdJK3ljU7FWTJGuYPNcToPN0gZxSHgaWASirFrAKUD5TgUg==
   dependencies:
     "@kickstartds/json-schema-to-typescript" "~13.1.20"
-    "@kickstartds/jsonschema-utils" "3.4.3"
+    "@kickstartds/jsonschema-utils" "3.6.1"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
 
-"@kickstartds/jsonschema2uniform@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2uniform/-/jsonschema2uniform-1.4.2.tgz#83e0944c3966ae534d0e9949c9b8452acc513ee4"
-  integrity sha512-j5PxO2KSg0lUN999Hb6INvUsIZGr757db+dWDgRSIP0GteYwzwVG1kpI/fmhY6xOLLQGevRdi+oe2eYvYdgeRQ==
+"@kickstartds/jsonschema2uniform@^1.4.22":
+  version "1.4.22"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2uniform/-/jsonschema2uniform-1.4.22.tgz#59c14e21f1b720add603ee457fc1a30c751f6737"
+  integrity sha512-SuPgC+PN2IaOJq7zugyXne2zUyJ5e4TLyClbYMBQAxrWnboRDEc8QzcxR7Pf9WyHuAKaO8w2F35c5tEN8hAWAA==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.0.11"
+    "@kickstartds/jsonschema-utils" "3.6.1"
     ajv "^8.12.0"
     change-case "^5.0.2"
 
@@ -6183,6 +6156,11 @@ pkg-conf@^2.1.0:
   dependencies:
     find-up "^2.0.0"
     load-json-file "^4.0.0"
+
+pluralize-esm@~9.0.5:
+  version "9.0.5"
+  resolved "https://registry.npmjs.org/pluralize-esm/-/pluralize-esm-9.0.5.tgz#002d75789f5d1ea695adebac56f5b94cd4f1aeab"
+  integrity sha512-Kb2dcpMsIutFw2hYrN0EhsAXOUJTd6FVMIxvNAkZCMQLVt9NGZqQczvGpYDxNWCZeCWLHUPxQIBudWzt1h7VVA==
 
 pluralize@^8.0.0:
   version "8.0.0"

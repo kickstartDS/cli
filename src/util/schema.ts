@@ -272,7 +272,9 @@ export default defaults;`;
     components: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -309,7 +311,9 @@ export default defaults;`;
     globals: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -340,7 +344,9 @@ export default defaults;`;
     components: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -379,7 +385,9 @@ export default defaults;`;
     globals: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
