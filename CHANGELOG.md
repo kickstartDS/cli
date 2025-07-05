@@ -1,3 +1,18 @@
+# v3.4.0 (Sat Jul 05 2025)
+
+#### 🚀 Enhancement
+
+- Add task to create default objects for schemas [#60](https://github.com/kickstartDS/cli/pull/60) ([@julrich](https://github.com/julrich))
+
+#### 🐛 Bug Fix
+
+
+#### Authors: 1
+
+- Jonas Ulrich ([@julrich](https://github.com/julrich))
+
+---
+
 # v3.3.0 (Fri Feb 28 2025)
 
 #### 🚀 Enhancement
