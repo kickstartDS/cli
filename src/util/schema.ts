@@ -11,6 +11,7 @@ import {
   layeredSchemaId,
   shouldLayer,
   dereference,
+  getSchemaDefaults,
   IClassifierResult,
   processSchemaGlobs,
 } from '@kickstartds/jsonschema-utils';
@@ -216,6 +217,54 @@ ${convertedTs[schemaId]}
     return convertedTs;
   };
 
+  const createDefaultObjects = async (
+    schemaGlobs: string[],
+    defaultPageSchema = true,
+    layerKickstartdsComponents = true
+  ) => {
+    const ajv = getSchemaRegistry();
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      loadPageSchema: defaultPageSchema,
+      layerRefs: layerKickstartdsComponents,
+    });
+    const kdsSchemaIds = schemaIds.filter((schemaId) =>
+      schemaId.includes('schema.kickstartds.com')
+    );
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+
+    const defaultObjects: Record<string, unknown> = {};
+    for (const schemaId of customSchemaIds) {
+      defaultObjects[schemaId] = await getSchemaDefaults(schemaId, ajv);
+    }
+
+    const getImportName = (schemaId: string) => {
+      const layeredId = isLayering(schemaId, kdsSchemaIds)
+        ? layeredSchemaId(schemaId, kdsSchemaIds)
+        : schemaId;
+      return `${pascalCase(getSchemaName(layeredId))}Props`;
+    };
+
+    for (const schemaId of Object.keys(defaultObjects)) {
+      defaultObjects[schemaId] = `import { DeepPartial } from "../helpers";
+import { ${getImportName(schemaId)} } from "./${getImportName(schemaId)}";
+
+const defaults: DeepPartial<${getImportName(schemaId)}> = ${JSON.stringify(
+        defaultObjects[schemaId],
+        null,
+        2
+      )};
+
+export default defaults;`;
+    }
+
+    subCmdLogger.info(
+      chalkTemplate`creating {bold ${
+        Object.keys(defaultObjects).length
+      } default objects}`
+    );
+    return defaultObjects;
+  };
+
   const toStoryblok = async (
     schemaGlobs: string[],
     templates: string[],
@@ -223,7 +272,9 @@ ${convertedTs[schemaId]}
     components: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -260,7 +311,9 @@ ${convertedTs[schemaId]}
     globals: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -291,7 +344,9 @@ ${convertedTs[schemaId]}
     components: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -330,7 +385,9 @@ ${convertedTs[schemaId]}
     globals: string[]
   ) => {
     const ajv = getSchemaRegistry();
-    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv);
+    const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      hideCmsFields: true,
+    });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const result = await (
@@ -362,6 +419,7 @@ ${convertedTs[schemaId]}
       dereferenceSchemas,
       generateComponentPropTypes,
       layerComponentPropTypes,
+      createDefaultObjects,
       toStoryblok,
       toStoryblokConfig,
       toUniform,
