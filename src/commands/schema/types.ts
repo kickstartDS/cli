@@ -12,8 +12,14 @@ const types = new Command('types')
     'src/components'
   )
   .option(
-    '--cms-path <path>',
-    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
+    '--schema-paths <paths...>',
+    chalkTemplate`paths to your JSON Schema component definitions, default {bold ./src/components}`,
+    ['src/components']
+  )
+  .option(
+    '--layer-order <order...>',
+    chalkTemplate`order of layers in processing, default {bold ['cms', 'schema']}`,
+    ['cms', 'schema']
   )
   .option(
     '--merge-schemas',
@@ -49,7 +55,8 @@ const types = new Command('types')
   .action((options) => {
     runTask(
       options.componentsPath,
-      options.cmsPath,
+      options.schemaPaths,
+      options.layerOrder,
       options.mergeSchemas,
       options.defaultPageSchema,
       options.layerKickstartdsComponents,

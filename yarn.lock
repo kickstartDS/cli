@@ -921,10 +921,10 @@
     mkdirp "^1.0.4"
     prettier "^2.6.2"
 
-"@kickstartds/jsonschema-utils@3.6.1", "@kickstartds/jsonschema-utils@^3.6.1":
-  version "3.6.1"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-3.6.1.tgz#b692e56bfeae8c8bf8961ba3f86e358a811da198"
-  integrity sha512-Ke5adEzH0s5XXYJmBLGIIGBXAl0rWHaiOoFE0LmZUD1S8rTgS7VN5hoW6OWj35uXcWRVwC0sdkPFnKsVCxM+rQ==
+"@kickstartds/jsonschema-utils@3.7.0", "@kickstartds/jsonschema-utils@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema-utils/-/jsonschema-utils-3.7.0.tgz#95ffd90cc808d6ea5010436b6e3327f170e637bf"
+  integrity sha512-fgzLDl6ALF81Oi4e3Jw8a+NyspTfyqmierdde3sOWHrmP+me1j7D3I9if4qeXVx5vTsw5tbEKQpbow2GWSNnww==
   dependencies:
     "@bcherny/json-schema-ref-parser" "10.0.5-fork"
     "@kickstartds/cambria" "1.0.5"
@@ -936,52 +936,52 @@
     json-schema-traverse "^1.0.0"
     jsonpointer "~5.0.1"
 
-"@kickstartds/jsonschema2stackbit@^1.7.4":
-  version "1.7.4"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2stackbit/-/jsonschema2stackbit-1.7.4.tgz#bd43e7932c4b8e207e85af40b82caa52f3efccfb"
-  integrity sha512-IKZCckXqOZeAj3xvm01t0KNOdxCA/kdlkaT1keXIzHglzvBEACu5JjaGaU0/OfswVJ8tfUOh9rqEb3RsIfN0Lg==
+"@kickstartds/jsonschema2stackbit@^1.7.6":
+  version "1.7.6"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2stackbit/-/jsonschema2stackbit-1.7.6.tgz#730975e3bde05cc3e56cd53ec60429f65942c93e"
+  integrity sha512-UyXuUZe00G5rDUloTmSgPxXmSUKOrC8BiRObH8hi0c2opfLk6lKxCcviTTQHurgQir9oVv6G3DOAGy130Zgy7A==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.6.1"
+    "@kickstartds/jsonschema-utils" "3.7.0"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
     pluralize-esm "~9.0.5"
 
-"@kickstartds/jsonschema2staticcms@^2.9.35":
-  version "2.9.35"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2staticcms/-/jsonschema2staticcms-2.9.35.tgz#0872a8a7d441cb88230fc88a6b573f4477261200"
-  integrity sha512-uJUZXVVl+ZPwYgNfFwAW6lHQcmjyyttDMpC6CS9WE1Y3CyBMANT12UKkfrLbfEcj8LJNlUdS/mJBOoF8moT8Yw==
+"@kickstartds/jsonschema2staticcms@^2.9.37":
+  version "2.9.37"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2staticcms/-/jsonschema2staticcms-2.9.37.tgz#024cb5d3af98f5d508a68937337a3c1346f5cc63"
+  integrity sha512-SvSTlChxKJk0SkdV9bILshaYMjJ90zyBO0HRPDTOISxFiDGPNOowXpJPIXugOTVzIpesZbtOiBI0AszVGdbpLw==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.6.1"
+    "@kickstartds/jsonschema-utils" "3.7.0"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
     pluralize "^8.0.0"
 
-"@kickstartds/jsonschema2storyblok@^1.6.5":
-  version "1.6.5"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.6.5.tgz#f8e376df999a732d4bfb6a270a01afbe2cfba16f"
-  integrity sha512-h+AHseOHkiU95LZ+qxlw2d66yJm/nH4iU+mXgG9QGsRZrQjchFmEgGtj2/xXMJWl9d0ZCsWDuTBfr9/R8jE0dQ==
+"@kickstartds/jsonschema2storyblok@^1.6.7":
+  version "1.6.7"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2storyblok/-/jsonschema2storyblok-1.6.7.tgz#90314bfb873aefae508975f103985befc564324d"
+  integrity sha512-IGOVt7VK7dEw7epnXc8qWM1WZ+ezuDZ0+EwmQ7oWxmbzCFmbCRjB4vmjLvDoU6WUQDdBP/oLUfV0tO9bBxgUDA==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.6.1"
+    "@kickstartds/jsonschema-utils" "3.7.0"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
     uuid "~9.0.0"
 
-"@kickstartds/jsonschema2types@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.2.3.tgz#a4580b772648682d1c07c37af5be7aabf38ee891"
-  integrity sha512-Dp41eGa4jkyahkB0NPYroixStSP/+f/01r5FuDIxdJK3ljU7FWTJGuYPNcToPN0gZxSHgaWASirFrAKUD5TgUg==
+"@kickstartds/jsonschema2types@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2types/-/jsonschema2types-1.2.5.tgz#6ad9feee3a8b66f61293c34a213a7b3f63467c42"
+  integrity sha512-JItd6ZKK6FsW4vS1EFoQRdElyi99EXAZgsWs1tZEXdo1pzm77aYuCvPgXzeTE0qvRyyjoikTYJO5Z2ocah4s0A==
   dependencies:
     "@kickstartds/json-schema-to-typescript" "~13.1.20"
-    "@kickstartds/jsonschema-utils" "3.6.1"
+    "@kickstartds/jsonschema-utils" "3.7.0"
     ajv "^8.12.0"
     object-traversal "^1.0.1"
 
-"@kickstartds/jsonschema2uniform@^1.4.22":
-  version "1.4.22"
-  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2uniform/-/jsonschema2uniform-1.4.22.tgz#59c14e21f1b720add603ee457fc1a30c751f6737"
-  integrity sha512-SuPgC+PN2IaOJq7zugyXne2zUyJ5e4TLyClbYMBQAxrWnboRDEc8QzcxR7Pf9WyHuAKaO8w2F35c5tEN8hAWAA==
+"@kickstartds/jsonschema2uniform@^1.4.24":
+  version "1.4.24"
+  resolved "https://registry.npmjs.org/@kickstartds/jsonschema2uniform/-/jsonschema2uniform-1.4.24.tgz#957a976dca7c500e8063c179d1ba5343f3432e29"
+  integrity sha512-RKkCpRMst3D+PBPwPiQhEBxyhknhdCMKUvEUpLJACEfzcQhKIa+61gzavymgNaVf7RUKGY8yOQ+NKsIdYk58qQ==
   dependencies:
-    "@kickstartds/jsonschema-utils" "3.6.1"
+    "@kickstartds/jsonschema-utils" "3.7.0"
     ajv "^8.12.0"
     change-case "^5.0.2"
 
