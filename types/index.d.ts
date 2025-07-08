@@ -219,29 +219,34 @@ interface SchemaUtil {
       defaultPageSchema: boolean,
       layerRefs: boolean,
       typeNaming: string,
-      componentsPath: string
+      componentsPath: string,
+      layerOrder: string[]
     ) => Promise<Record<string, string>>;
     layerComponentPropTypes: (
       schemaGlobs: string[],
       mergeAllOf: boolean,
       defaultPageSchema: boolean,
-      layerRefs: boolean
+      layerRefs: boolean,
+      layerOrder: string[]
     ) => Promise<Record<string, string>>;
     dereferenceSchemas: (
       schemaGlobs: string[],
       defaultPageSchema: boolean,
-      layerRefs: boolean
+      layerRefs: boolean,
+      layerOrder: string[]
     ) => Promise<Record<string, JSONSchema.Interface>>;
     createDefaultObjects: (
       schemaGlobs: string[],
       defaultPageSchema: boolean,
-      layerRefs: boolean
+      layerRefs: boolean,
+      layerOrder: string[]
     ) => Promise<Record<string, unknown>>;
     toStoryblok: (
       schemaGlobs: string[],
       templates: string[],
       globals: string[],
-      components: string[]
+      components: string[],
+      layerOrder: string[]
     ) => Promise<CMSResult<IStoryblokBlock>>;
     toStoryblokConfig: (
       elements: CMSResult<IStoryblokBlock>
@@ -249,13 +254,15 @@ interface SchemaUtil {
     toUniform: (
       schemaGlobs: string[],
       templates: string[],
-      globals: string[]
+      globals: string[],
+      layerOrder: string[]
     ) => Promise<CMSResult<UniformElement>>;
     toStackbit: (
       schemaGlobs: string[],
       templates: string[],
       globals: string[],
-      components: string[]
+      components: string[],
+      layerOrder: string[]
     ) => Promise<CMSResult<ObjectModel, PageModel, DataModel>>;
     toStackbitConfig: (
       elements: CMSResult<ObjectModel, PageModel, DataModel>
@@ -264,7 +271,8 @@ interface SchemaUtil {
       schemaGlobs: string[],
       templates: string[],
       globals: string[],
-      components: string[]
+      components: string[],
+      layerOrder: string[]
     ) => Promise<CMSResult<IStaticCmsField>>;
     toStaticcmsConfig: (
       elements: CMSResult<IStaticCmsField>,

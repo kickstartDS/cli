@@ -29,8 +29,8 @@ const {
 } = taskUtilSchema;
 
 const run = async (
-  componentsPath: string = 'src/components',
-  cmsPath: string,
+  schemaPaths: string[] = ['src/components'],
+  layerOrder: string[] = ['cms', 'schema'],
   defaultPageSchema: boolean = true,
   layerKickstartdsComponents: boolean = true,
   rcOnly: boolean,
@@ -52,16 +52,19 @@ const run = async (
   const dereference = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold dereference} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
-    const globs = [customSchemaGlob];
-    if (cmsPath) {
-      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    const globs = [];
+    for (const schemaPath of schemaPaths) {
+      globs.push(
+        `${callingPath}/${schemaPath}/**/*.(schema|definitions|interface).json`
+      );
     }
+
     const customSchemaPaths = await fg(globs);
     const dereffed = await schemaDereferenceSchemas(
       globs,
       defaultPageSchema,
-      layerKickstartdsComponents
+      layerKickstartdsComponents,
+      [...layerOrder, 'kickstartds']
     );
 
     logger.info(

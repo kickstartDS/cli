@@ -7,13 +7,14 @@ const staticcms = new Command('staticcms')
     chalkTemplate`Generates {bold Static CMS} configuration from your {bold JSON Schema} component definitions`
   )
   .option(
-    '--components-path <path>',
-    chalkTemplate`relative path from project root to your components directory, default {bold ./src/components}`,
-    'src/components'
+    '--schema-paths <paths...>',
+    chalkTemplate`paths to your JSON Schema component definitions, default {bold ./src/components}`,
+    ['src/components']
   )
   .option(
-    '--cms-path <path>',
-    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
+    '--layer-order <order...>',
+    chalkTemplate`order of layers in processing, default {bold ['cms', 'schema']}`,
+    ['cms', 'schema']
   )
   .option(
     '--configuration-path <path>',
@@ -69,8 +70,8 @@ const staticcms = new Command('staticcms')
   .option('--debug', 'show debugging output', false)
   .action((options) => {
     runTask(
-      options.componentsPath,
-      options.cmsPath,
+      options.schemaPaths,
+      options.layerOrder,
       options.configurationPath,
       options.updateConfig,
       options.templates,

@@ -31,8 +31,8 @@ const {
 } = taskUtilSchema;
 
 const run = async (
-  componentsPath: string = 'src/components',
-  cmsPath: string,
+  schemaPaths: string[] = ['src/components'],
+  layerOrder: string[] = ['cms', 'schema'],
   typesPath: string = 'src/types',
   mergeSchemas: boolean,
   defaultPageSchema: boolean = true,
@@ -56,17 +56,19 @@ const run = async (
   const layer = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold layer} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
-    const globs = [customSchemaGlob];
-    if (cmsPath) {
-      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    const globs = [];
+    for (const schemaPath of schemaPaths) {
+      globs.push(
+        `${callingPath}/${schemaPath}/**/*.(schema|definitions|interface).json`
+      );
     }
 
     const layeredTypes = await schemaLayerComponentPropTypes(
       globs,
       mergeSchemas,
       defaultPageSchema,
-      layerKickstartdsComponents
+      layerKickstartdsComponents,
+      [...layerOrder, 'kickstartds']
     );
 
     shell.mkdir('-p', `${shell.pwd()}/${typesPath}/`);

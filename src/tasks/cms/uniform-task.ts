@@ -29,8 +29,8 @@ const {
 } = taskUtilSchema;
 
 const run = async (
-  componentsPath: string = 'src/components',
-  cmsPath: string,
+  schemaPaths: string[] = ['src/components'],
+  layerOrder: string[] = ['cms', 'schema'],
   configurationPath: string = 'src/cms',
   templates: string[] = ['page', 'blog-post', 'blog-overview', 'settings'],
   globals: string[] = ['header', 'footer', 'seo'],
@@ -53,16 +53,21 @@ const run = async (
   const uniform = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold uniform} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions).json`;
-    const globs = [customSchemaGlob];
-    if (cmsPath) {
-      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    const globs = [];
+    for (const schemaPath of schemaPaths) {
+      globs.push(
+        `${callingPath}/${schemaPath}/**/*.(schema|definitions|interface).json`
+      );
     }
+
     const {
       components: uniformComponents,
       templates: uniformTemplates,
       globals: uniformGlobals,
-    } = await schemaToUniform(globs, templates, globals);
+    } = await schemaToUniform(globs, templates, globals, [
+      ...layerOrder,
+      'kickstartds',
+    ]);
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);
 
