@@ -31,12 +31,14 @@ export default (logger: winston.Logger): SchemaUtil => {
   const dereferenceSchemas = async (
     schemaGlobs: string[],
     defaultPageSchema = true,
-    layerKickstartdsComponents = true
+    layerKickstartdsComponents = true,
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
+      layerOrder,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
