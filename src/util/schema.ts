@@ -173,12 +173,14 @@ export default (logger: winston.Logger): SchemaUtil => {
       (schemaId) => !customSchemaIds.includes(schemaId)
     );
     const layeredSchemaIds = customSchemaIds.filter((schemaId) =>
-      kdsSchemaIds.some((kdsSchemaId) => shouldLayer(schemaId, kdsSchemaId))
+      kdsSchemaIds.some((kdsSchemaId) =>
+        shouldLayer(schemaId, kdsSchemaId, layerOrder)
+      )
     );
 
     const renderImportStatement = (schemaId: string) => {
-      const layeredId = isLayering(schemaId, kdsSchemaIds)
-        ? layeredSchemaId(schemaId, kdsSchemaIds)
+      const layeredId = isLayering(schemaId, kdsSchemaIds, layerOrder)
+        ? layeredSchemaId(schemaId, kdsSchemaIds, layerOrder)
         : schemaId;
       // TODO remove, this is a hack needed because of "broken" conventions
       // in this case of automatic interface schema generation
@@ -205,8 +207,8 @@ export default (logger: winston.Logger): SchemaUtil => {
       ajv
     );
     for (const schemaId of Object.keys(convertedTs)) {
-      const layeredId = isLayering(schemaId, kdsSchemaIds)
-        ? layeredSchemaId(schemaId, kdsSchemaIds)
+      const layeredId = isLayering(schemaId, kdsSchemaIds, layerOrder)
+        ? layeredSchemaId(schemaId, kdsSchemaIds, layerOrder)
         : schemaId;
 
       const content = `declare module "@kickstartds/${getSchemaModule(
@@ -246,8 +248,8 @@ ${convertedTs[schemaId]}
     }
 
     const getImportName = (schemaId: string) => {
-      const layeredId = isLayering(schemaId, kdsSchemaIds)
-        ? layeredSchemaId(schemaId, kdsSchemaIds)
+      const layeredId = isLayering(schemaId, kdsSchemaIds, layerOrder)
+        ? layeredSchemaId(schemaId, kdsSchemaIds, layerOrder)
         : schemaId;
       return `${pascalCase(getSchemaName(layeredId))}Props`;
     };
