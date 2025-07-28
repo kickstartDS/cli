@@ -14,6 +14,8 @@ import {
   getSchemaDefaults,
   IClassifierResult,
   processSchemaGlobs,
+  getTopLayerSchemas,
+  getSchemasForIds,
 } from '@kickstartds/jsonschema-utils';
 import type { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import type { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
@@ -106,7 +108,19 @@ export default (logger: winston.Logger): SchemaUtil => {
       layerRefs: layerKickstartdsComponents,
       layerOrder,
     });
-    const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const schemas = getSchemasForIds(schemaIds, ajv);
+    const topLayerSchemas = getTopLayerSchemas(schemas, layerOrder);
+    const topLayerSchemaIds = [];
+    for (const schema of topLayerSchemas) {
+      if (schema.$id) {
+        topLayerSchemaIds.push(schema.$id);
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`Schema ${schema.title} has no $id, skipping`
+        );
+      }
+    }
+    // const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const renderImportStatement = (schemaId: string) =>
       schemaId.includes('schema.kickstartds.com')
@@ -135,7 +149,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     const convertedTs = await (
       await import('@kickstartds/jsonschema2types')
     ).createTypes(
-      customSchemaIds,
+      topLayerSchemaIds,
       renderImportName,
       renderImportStatement,
       ajv,
