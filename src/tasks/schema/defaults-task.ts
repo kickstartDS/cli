@@ -80,13 +80,9 @@ const run = async (
           (schemaPath) =>
             schemaPath.endsWith(
               `/${schemaId.split('/').pop()}` || 'NO MATCH'
-            ) &&
-            (schemaId.startsWith('http://cms.')
-              ? !schemaPath.includes('node_modules')
-              : true)
+            ) && !schemaPath.includes('node_modules')
         );
-        if (!schemaPath)
-          throw new Error("Couldn't find matching schema path for schema $id");
+        if (!schemaPath) return true;
         const base = basename(schemaPath, '.json');
         const dir = dirname(schemaPath);
 

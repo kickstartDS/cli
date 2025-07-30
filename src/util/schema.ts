@@ -41,10 +41,23 @@ export default (logger: winston.Logger): SchemaUtil => {
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
       layerOrder,
+      typeResolution: false,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const customSchemas = getSchemasForIds(customSchemaIds, ajv);
+    const topLayerSchemas = getTopLayerSchemas(customSchemas, layerOrder);
+    const topLayerSchemaIds = [];
+    for (const schema of topLayerSchemas) {
+      if (schema.$id) {
+        topLayerSchemaIds.push(schema.$id);
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`Schema ${schema.title} has no $id, skipping`
+        );
+      }
+    }
 
-    const dereffedSchemas = await dereference(customSchemaIds, ajv);
+    const dereffedSchemas = await dereference(topLayerSchemaIds, ajv);
 
     subCmdLogger.info(
       chalkTemplate`dereferencing {bold ${
@@ -108,7 +121,8 @@ export default (logger: winston.Logger): SchemaUtil => {
       layerRefs: layerKickstartdsComponents,
       layerOrder,
     });
-    const schemas = getSchemasForIds(schemaIds, ajv);
+    const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const schemas = getSchemasForIds(customSchemaIds, ajv);
     const topLayerSchemas = getTopLayerSchemas(schemas, layerOrder);
     const topLayerSchemaIds = [];
     for (const schema of topLayerSchemas) {
@@ -120,7 +134,6 @@ export default (logger: winston.Logger): SchemaUtil => {
         );
       }
     }
-    // const customSchemaIds = getCustomSchemaIds(schemaIds);
 
     const renderImportStatement = (schemaId: string) =>
       schemaId.includes('schema.kickstartds.com')
@@ -250,11 +263,24 @@ ${convertedTs[schemaId]}
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
       layerOrder,
+      typeResolution: false,
     });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')
     );
     const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const customSchemas = getSchemasForIds(customSchemaIds, ajv);
+    const topLayerSchemas = getTopLayerSchemas(customSchemas, layerOrder);
+    const topLayerSchemaIds = [];
+    for (const schema of topLayerSchemas) {
+      if (schema.$id) {
+        topLayerSchemaIds.push(schema.$id);
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`Schema ${schema.title} has no $id, skipping`
+        );
+      }
+    }
 
     const defaultObjects: Record<string, unknown> = {};
     for (const schemaId of customSchemaIds) {
@@ -268,7 +294,7 @@ ${convertedTs[schemaId]}
       return `${pascalCase(getSchemaName(layeredId))}Props`;
     };
 
-    for (const schemaId of Object.keys(defaultObjects)) {
+    for (const schemaId of topLayerSchemaIds) {
       defaultObjects[schemaId] = `import { DeepPartial } from "../helpers";
 import { ${getImportName(schemaId)} } from "./${getImportName(schemaId)}";
 
@@ -298,6 +324,7 @@ export default defaults;`;
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      typeResolution: false,
       hideCmsFields: true,
       layerOrder,
     });
