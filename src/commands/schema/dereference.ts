@@ -7,13 +7,14 @@ const dereference = new Command('dereference')
     chalkTemplate`Dereferences {bold JSON Schema} component definitions, (mainly) inlining all $ref references in the process`
   )
   .option(
-    '--components-path <path>',
-    chalkTemplate`relative path from project root to your components directory, default {bold ./src/components}`,
-    'src/components'
+    '--schema-paths <paths...>',
+    chalkTemplate`paths to your JSON Schema component definitions, default {bold ./src/components}`,
+    ['src/components']
   )
   .option(
-    '--cms-path <path>',
-    chalkTemplate`relative path from project root to your cms specific components directory, default {bold ./src/components}`
+    '--layer-order <order...>',
+    chalkTemplate`order of layers in processing, default {bold ['cms', 'schema']}`,
+    ['cms', 'schema']
   )
   .option(
     '--no-default-page-schema',
@@ -38,8 +39,8 @@ const dereference = new Command('dereference')
   .option('--debug', 'show debugging output', false)
   .action((options) => {
     runTask(
-      options.componentsPath,
-      options.cmsPath,
+      options.schemaPaths,
+      options.layerOrder,
       options.defaultPageSchema,
       options.layerKickstartdsComponents,
       options.rcOnly,

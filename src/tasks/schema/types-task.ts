@@ -31,7 +31,8 @@ const {
 
 const run = async (
   componentsPath: string = 'src/components',
-  cmsPath: string,
+  schemaPaths: string[] = ['src/components'],
+  layerOrder: string[] = ['cms', 'schema'],
   mergeSchemas: boolean,
   defaultPageSchema: boolean = true,
   layerKickstartdsComponents: boolean = true,
@@ -55,11 +56,13 @@ const run = async (
   const types = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold types} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
-    const globs = [customSchemaGlob];
-    if (cmsPath) {
-      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    const globs = [];
+    for (const schemaPath of schemaPaths) {
+      globs.push(
+        `${callingPath}/${schemaPath}/**/*.(schema|definitions|interface).json`
+      );
     }
+
     const customSchemaPaths = await fg(globs);
     const types = await schemaGenerateComponentPropTypes(
       globs,
@@ -67,7 +70,8 @@ const run = async (
       defaultPageSchema,
       layerKickstartdsComponents,
       typeNaming,
-      componentsPath
+      componentsPath,
+      [...layerOrder, 'kickstartds']
     );
 
     await Promise.all(
@@ -76,13 +80,9 @@ const run = async (
           (schemaPath) =>
             schemaPath.endsWith(
               `/${schemaId.split('/').pop()}` || 'NO MATCH'
-            ) &&
-            (schemaId.startsWith('http://cms.')
-              ? !schemaPath.includes('node_modules')
-              : true)
+            ) && !schemaPath.includes('node_modules')
         );
-        if (!schemaPath)
-          throw new Error("Couldn't find matching schema path for schema $id");
+        if (!schemaPath) return true;
         const base = basename(schemaPath, '.json');
         const dir = dirname(schemaPath);
 

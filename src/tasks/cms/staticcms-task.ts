@@ -35,8 +35,8 @@ const {
 } = taskUtilSchema;
 
 const run = async (
-  componentsPath: string = 'src/components',
-  cmsPath: string,
+  schemaPaths: string[] = ['src/components'],
+  layerOrder: string[] = ['cms', 'schema'],
   configurationPath: string = 'src/cms',
   updateConfig: boolean = true,
   templates: string[] = ['page', 'blog-post'],
@@ -73,16 +73,19 @@ const run = async (
   const staticcms = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold staticcms} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.(schema|definitions|interface).json`;
-    const globs = [customSchemaGlob];
-    if (cmsPath) {
-      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    const globs = [];
+    for (const schemaPath of schemaPaths) {
+      globs.push(
+        `${callingPath}/${schemaPath}/**/*.(schema|definitions|interface).json`
+      );
     }
+
     const elements = await schemaToStaticcms(
       globs,
       templates,
       globals,
-      components
+      components,
+      [...layerOrder, 'kickstartds']
     );
 
     shell.mkdir('-p', `${shell.pwd()}/${configurationPath}/`);

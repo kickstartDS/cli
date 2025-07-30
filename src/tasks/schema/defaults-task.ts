@@ -30,8 +30,8 @@ const {
 } = taskUtilSchema;
 
 const run = async (
-  componentsPath: string = 'src/components',
-  cmsPath: string,
+  schemaPaths: string[] = ['src/components'],
+  layerOrder: string[] = ['cms', 'schema'],
   defaultPageSchema: boolean = true,
   layerKickstartdsComponents: boolean = true,
   rcOnly: boolean,
@@ -53,16 +53,19 @@ const run = async (
   const defaults = async (logger: winston.Logger): Promise<boolean> => {
     logger.info(chalkTemplate`running the {bold defaults} subtask`);
 
-    const customSchemaGlob = `${callingPath}/${componentsPath}/**/*.schema.json`;
-    const globs = [customSchemaGlob];
-    if (cmsPath) {
-      globs.push(`${callingPath}/${cmsPath}/**/*.schema.json`);
+    const globs = [];
+    for (const schemaPath of schemaPaths) {
+      globs.push(
+        `${callingPath}/${schemaPath}/**/*.(schema|definitions|interface).json`
+      );
     }
+
     const customSchemaPaths = await fg(globs);
     const defaults = await schemaCreateDefaultObjects(
       globs,
       defaultPageSchema,
-      layerKickstartdsComponents
+      layerKickstartdsComponents,
+      [...layerOrder, 'kickstartds']
     );
 
     logger.info(
@@ -77,13 +80,9 @@ const run = async (
           (schemaPath) =>
             schemaPath.endsWith(
               `/${schemaId.split('/').pop()}` || 'NO MATCH'
-            ) &&
-            (schemaId.startsWith('http://cms.')
-              ? !schemaPath.includes('node_modules')
-              : true)
+            ) && !schemaPath.includes('node_modules')
         );
-        if (!schemaPath)
-          throw new Error("Couldn't find matching schema path for schema $id");
+        if (!schemaPath) return true;
         const base = basename(schemaPath, '.json');
         const dir = dirname(schemaPath);
 

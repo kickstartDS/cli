@@ -14,6 +14,8 @@ import {
   getSchemaDefaults,
   IClassifierResult,
   processSchemaGlobs,
+  getTopLayerSchemas,
+  getSchemasForIds,
 } from '@kickstartds/jsonschema-utils';
 import type { IStoryblokBlock } from '@kickstartds/jsonschema2storyblok';
 import type { IStaticCmsField } from '@kickstartds/jsonschema2staticcms';
@@ -31,16 +33,31 @@ export default (logger: winston.Logger): SchemaUtil => {
   const dereferenceSchemas = async (
     schemaGlobs: string[],
     defaultPageSchema = true,
-    layerKickstartdsComponents = true
+    layerKickstartdsComponents = true,
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
+      layerOrder,
+      typeResolution: false,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const customSchemas = getSchemasForIds(customSchemaIds, ajv);
+    const topLayerSchemas = getTopLayerSchemas(customSchemas, layerOrder);
+    const topLayerSchemaIds = [];
+    for (const schema of topLayerSchemas) {
+      if (schema.$id) {
+        topLayerSchemaIds.push(schema.$id);
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`Schema ${schema.title} has no $id, skipping`
+        );
+      }
+    }
 
-    const dereffedSchemas = await dereference(customSchemaIds, ajv);
+    const dereffedSchemas = await dereference(topLayerSchemaIds, ajv);
 
     subCmdLogger.info(
       chalkTemplate`dereferencing {bold ${
@@ -89,7 +106,8 @@ export default (logger: winston.Logger): SchemaUtil => {
     defaultPageSchema = true,
     layerKickstartdsComponents = true,
     typeNaming = 'title',
-    componentsPath = 'src/components'
+    componentsPath = 'src/components',
+    layerOrder: string[]
   ) => {
     subCmdLogger.info(
       chalkTemplate`generating component prop types for component schemas`
@@ -101,8 +119,21 @@ export default (logger: winston.Logger): SchemaUtil => {
       mergeAllOf: mergeAllOf,
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
+      layerOrder,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const schemas = getSchemasForIds(customSchemaIds, ajv);
+    const topLayerSchemas = getTopLayerSchemas(schemas, layerOrder);
+    const topLayerSchemaIds = [];
+    for (const schema of topLayerSchemas) {
+      if (schema.$id) {
+        topLayerSchemaIds.push(schema.$id);
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`Schema ${schema.title} has no $id, skipping`
+        );
+      }
+    }
 
     const renderImportStatement = (schemaId: string) =>
       schemaId.includes('schema.kickstartds.com')
@@ -131,7 +162,7 @@ export default (logger: winston.Logger): SchemaUtil => {
     const convertedTs = await (
       await import('@kickstartds/jsonschema2types')
     ).createTypes(
-      customSchemaIds,
+      topLayerSchemaIds,
       renderImportName,
       renderImportStatement,
       ajv,
@@ -146,7 +177,8 @@ export default (logger: winston.Logger): SchemaUtil => {
     schemaGlobs: string[],
     mergeAllOf: boolean,
     defaultPageSchema = true,
-    layerKickstartdsComponents = true
+    layerKickstartdsComponents = true,
+    layerOrder: string[]
   ) => {
     subCmdLogger.info(
       chalkTemplate`layering component prop types for component schemas`
@@ -158,6 +190,7 @@ export default (logger: winston.Logger): SchemaUtil => {
       mergeAllOf: mergeAllOf,
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
+      layerOrder,
     });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')
@@ -167,12 +200,14 @@ export default (logger: winston.Logger): SchemaUtil => {
       (schemaId) => !customSchemaIds.includes(schemaId)
     );
     const layeredSchemaIds = customSchemaIds.filter((schemaId) =>
-      kdsSchemaIds.some((kdsSchemaId) => shouldLayer(schemaId, kdsSchemaId))
+      kdsSchemaIds.some((kdsSchemaId) =>
+        shouldLayer(schemaId, kdsSchemaId, layerOrder)
+      )
     );
 
     const renderImportStatement = (schemaId: string) => {
-      const layeredId = isLayering(schemaId, kdsSchemaIds)
-        ? layeredSchemaId(schemaId, kdsSchemaIds)
+      const layeredId = isLayering(schemaId, kdsSchemaIds, layerOrder)
+        ? layeredSchemaId(schemaId, kdsSchemaIds, layerOrder)
         : schemaId;
       // TODO remove, this is a hack needed because of "broken" conventions
       // in this case of automatic interface schema generation
@@ -199,8 +234,8 @@ export default (logger: winston.Logger): SchemaUtil => {
       ajv
     );
     for (const schemaId of Object.keys(convertedTs)) {
-      const layeredId = isLayering(schemaId, kdsSchemaIds)
-        ? layeredSchemaId(schemaId, kdsSchemaIds)
+      const layeredId = isLayering(schemaId, kdsSchemaIds, layerOrder)
+        ? layeredSchemaId(schemaId, kdsSchemaIds, layerOrder)
         : schemaId;
 
       const content = `declare module "@kickstartds/${getSchemaModule(
@@ -220,31 +255,46 @@ ${convertedTs[schemaId]}
   const createDefaultObjects = async (
     schemaGlobs: string[],
     defaultPageSchema = true,
-    layerKickstartdsComponents = true
+    layerKickstartdsComponents = true,
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       loadPageSchema: defaultPageSchema,
       layerRefs: layerKickstartdsComponents,
+      layerOrder,
+      typeResolution: false,
     });
     const kdsSchemaIds = schemaIds.filter((schemaId) =>
       schemaId.includes('schema.kickstartds.com')
     );
     const customSchemaIds = getCustomSchemaIds(schemaIds);
+    const customSchemas = getSchemasForIds(customSchemaIds, ajv);
+    const topLayerSchemas = getTopLayerSchemas(customSchemas, layerOrder);
+    const topLayerSchemaIds = [];
+    for (const schema of topLayerSchemas) {
+      if (schema.$id) {
+        topLayerSchemaIds.push(schema.$id);
+      } else {
+        subCmdLogger.warn(
+          chalkTemplate`Schema ${schema.title} has no $id, skipping`
+        );
+      }
+    }
 
     const defaultObjects: Record<string, unknown> = {};
-    for (const schemaId of customSchemaIds) {
+    for (const schemaId of topLayerSchemaIds) {
       defaultObjects[schemaId] = await getSchemaDefaults(schemaId, ajv);
     }
 
     const getImportName = (schemaId: string) => {
-      const layeredId = isLayering(schemaId, kdsSchemaIds)
-        ? layeredSchemaId(schemaId, kdsSchemaIds)
+      const layeredId = isLayering(schemaId, kdsSchemaIds, layerOrder)
+        ? layeredSchemaId(schemaId, kdsSchemaIds, layerOrder)
         : schemaId;
       return `${pascalCase(getSchemaName(layeredId))}Props`;
     };
 
-    for (const schemaId of Object.keys(defaultObjects)) {
+    for (const schemaId of topLayerSchemaIds) {
       defaultObjects[schemaId] = `import { DeepPartial } from "../helpers";
 import { ${getImportName(schemaId)} } from "./${getImportName(schemaId)}";
 
@@ -269,11 +319,14 @@ export default defaults;`;
     schemaGlobs: string[],
     templates: string[],
     globals: string[],
-    components: string[]
+    components: string[],
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
+      typeResolution: false,
       hideCmsFields: true,
+      layerOrder,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -308,11 +361,13 @@ export default defaults;`;
   const toUniform = async (
     schemaGlobs: string[],
     templates: string[],
-    globals: string[]
+    globals: string[],
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       hideCmsFields: true,
+      layerOrder,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -341,11 +396,13 @@ export default defaults;`;
     schemaGlobs: string[],
     templates: string[],
     globals: string[],
-    components: string[]
+    components: string[],
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       hideCmsFields: true,
+      layerOrder,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
@@ -382,11 +439,13 @@ export default defaults;`;
   const toStaticcms = async (
     schemaGlobs: string[],
     templates: string[],
-    globals: string[]
+    globals: string[],
+    layerOrder: string[]
   ) => {
     const ajv = getSchemaRegistry();
     const schemaIds = await processSchemaGlobs(schemaGlobs, ajv, {
       hideCmsFields: true,
+      layerOrder,
     });
     const customSchemaIds = getCustomSchemaIds(schemaIds);
 
