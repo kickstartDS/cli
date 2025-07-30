@@ -283,7 +283,7 @@ ${convertedTs[schemaId]}
     }
 
     const defaultObjects: Record<string, unknown> = {};
-    for (const schemaId of customSchemaIds) {
+    for (const schemaId of topLayerSchemaIds) {
       defaultObjects[schemaId] = await getSchemaDefaults(schemaId, ajv);
     }
 
